@@ -97,6 +97,7 @@
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
 
     const SUPABASE_URL = 'https://zfqhfrxvpbnzzrixjaxf.supabase.co';
+    const AUTH_REDIRECT_URL = 'https://ismaeel2462-wq.github.io/jako-store21/';
     const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_vosls4-Y9pRqG9W8mCDghQ__ybC9tOv';
     const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
@@ -255,19 +256,19 @@
     }
     document.querySelectorAll('[data-auth-tab]').forEach(b=>b.addEventListener('click',()=>setAuthTab(b.dataset.authTab)));
     $('authForm').addEventListener('submit',async e=>{
-      e.preventDefault();const tab=document.querySelector('[data-auth-tab].active').dataset.authTab,button=$('authSubmit'),email=$('authEmail').value.trim();setBusy(button,true);
+      e.preventDefault();const tab=document.querySelector('[data-auth-tab].active').dataset.authTab,button=$('authSubmit'),email=$('authEmail')?.value.trim()||'';setBusy(button,true);
       try{
         if(tab==='login'){
           const {error}=await supabase.auth.signInWithPassword({email,password:$('authPassword').value});if(error)throw error;closeModal('authModal');toast('مرحباً بعودتك','success');
         }else if(tab==='signup'){
-          const full_name=$('authName').value.trim();const {data,error}=await supabase.auth.signUp({email,password:$('authPassword').value,options:{data:{full_name},emailRedirectTo:window.location.href.split('#')[0]}});if(error)throw error;
-          $('authMessage').innerHTML=`<div class="notice">تم إرسال رسالة التحقق إلى بريدك الإلكتروني. افتح الرسالة واضغط رابط التأكيد للعودة إلى المتجر.${data.session?' تم تسجيل دخولك.':''}</div>`;if(data.session)closeModal('authModal');
+          const full_name=$('authName').value.trim();const {data,error}=await supabase.auth.signUp({email,password:$('authPassword').value,options:{data:{full_name},emailRedirectTo:AUTH_REDIRECT_URL}});if(error)throw error;
+          if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0){$('authMessage').innerHTML='<div class="notice">يبدو أن هذا البريد لديه حساب بالفعل. جرّب تسجيل الدخول أو استعادة كلمة المرور.</div>';return;} $('authMessage').innerHTML=`<div class="notice">تم إرسال رسالة التحقق إلى بريدك الإلكتروني. افتح الرسالة واضغط رابط التأكيد للعودة إلى المتجر.${data.session?' تم تسجيل دخولك.':''}</div>`;if(data.session)closeModal('authModal');
         }else if(window.location.hash.includes('type=recovery')){
           const password=$('authPassword').value,confirmPassword=$('authPasswordConfirm').value;if(password.length<8)throw new Error('كلمة المرور يجب ألا تقل عن 8 أحرف');if(password!==confirmPassword)throw new Error('كلمتا المرور غير متطابقتين');const {error}=await supabase.auth.updateUser({password});if(error)throw error;history.replaceState(null,'',window.location.pathname+window.location.search);closeModal('authModal');toast('تم تحديث كلمة المرور بنجاح','success');
         }else{
-          const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:window.location.href.split('#')[0]});if(error)throw error;$('authMessage').innerHTML='<div class="notice">تم إرسال رابط استعادة كلمة المرور إن كان البريد مسجلاً. افحص صندوق الوارد والرسائل غير المرغوبة.</div>';
+          const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:AUTH_REDIRECT_URL});if(error)throw error;$('authMessage').innerHTML='<div class="notice">تم إرسال رابط استعادة كلمة المرور إن كان البريد مسجلاً. افحص صندوق الوارد والرسائل غير المرغوبة.</div>';
         }
-      }catch(err){toast(err.message||'تعذر إكمال العملية','error');}finally{setBusy(button,false);}
+      }catch(err){const raw=String(err?.message||'');let message=raw||'تعذر إكمال العملية';if(err?.code==='invalid_credentials'||raw.toLowerCase().includes('invalid login credentials'))message='البريد الإلكتروني أو كلمة المرور غير صحيحة. إن كان لديك حساب ولم تتذكر كلمة المرور، استخدم استعادة كلمة المرور.';else if(err?.code==='email_not_confirmed'||raw.toLowerCase().includes('email not confirmed'))message='يرجى تأكيد بريدك الإلكتروني من الرسالة التي وصلتك قبل تسجيل الدخول.';else if(err?.code==='user_already_exists'||raw.toLowerCase().includes('user already registered'))message='هذا البريد مسجل مسبقاً. سجّل الدخول أو استخدم استعادة كلمة المرور.';else if(err?.code==='weak_password')message='كلمة المرور ضعيفة. استخدم 8 أحرف على الأقل.';else if(raw.toLowerCase().includes('redirect')&&raw.toLowerCase().includes('not allowed'))message='رابط العودة غير مضاف إلى إعدادات Supabase. أضف رابط المتجر إلى قائمة Redirect URLs.';$('authMessage').innerHTML=`<div class="notice">${escapeHTML(message)}</div>`;toast(message,'error');}finally{setBusy(button,false);}
     });
     $('authBtn').onclick=()=>currentUser?showPage('account'):openAuth('login');$('footerLogin').onclick=()=>openAuth('login');$('signoutBtn').onclick=async()=>{const {error}=await supabase.auth.signOut();if(error)toast(error.message,'error');else toast('تم تسجيل الخروج','success');};
     async function handleAuthState(){
