@@ -152,7 +152,7 @@
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
 
     const SUPABASE_URL = 'https://zfqhfrxvpbnzzrixjaxf.supabase.co';
-    const AUTH_REDIRECT_URL = 'https://jako-store21.sako569910.workers.dev/';
+    const AUTH_REDIRECT_URL = 'https://ismaeel2462-wq.github.io/jako-store21/';
     const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_vosls4-Y9pRqG9W8mCDghQ__ybC9tOv';
     const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
@@ -362,21 +362,63 @@ openModal('productModal');
       $('placeOrderBtn').onclick=placeOrder;openModal('checkoutModal');
     }
     async function placeOrder(){
-      if(checkoutBusy)return;const btn=$('placeOrderBtn'), paymentId=$('checkoutPayment')?.value;if(!paymentId)return toast('اختر طريقة دفع مفعّلة','error');checkoutBusy=true;setBusy(btn,true,'جارٍ إرسال الطلب');
+      if(checkoutBusy)return;
+      const btn=$('placeOrderBtn'),paymentId=$('checkoutPayment')?.value;
+      if(!paymentId)return toast('اختر طريقة دفع مفعّلة','error');
+      checkoutBusy=true;setBusy(btn,true,'جارٍ إرسال الطلب');
+      const cartSnapshot=cart.map(x=>({...x,fields:{...(x.fields||{})}}));
       try{
-        const items=cart.map(x=>({variant_id:x.variant_id,quantity:x.quantity,fields:x.fields||{}}));
-        const {data,error}=await supabase.rpc('place_order',{p_items:items,p_payment_method_id:paymentId,p_customer_note:$('checkoutNote').value.trim()});
+        const items=cartSnapshot.map(x=>({variant_id:x.variant_id,quantity:x.quantity,fields:x.fields}));
+        const {data:orderId,error}=await supabase.rpc('place_order',{p_items:items,p_payment_method_id:paymentId,p_customer_note:$('checkoutNote').value.trim()});
         if(error)throw error;
-        const orderId=data;cart=[];updateCartCount();closeModal('checkoutModal');
-        const {data:order}=await supabase.from('orders').select('*,payment_methods(name,instructions,account_name,account_number,image_url),order_items(*)').eq('id',orderId).single();
-        renderOrderReceipt(order);toast('تم تسجيل طلبك بنجاح','success');
+        const {data:order,error:readError}=await supabase.from('orders').select('*,payment_methods(name,instructions,account_name,account_number,image_url),order_items(*)').eq('id',orderId).single();
+        if(readError)console.warn('Order saved, but receipt details could not be loaded:',readError);
+        cart=[];updateCartCount();closeModal('checkoutModal');
+        renderOrderReceipt(order||{id:orderId,order_number:orderId,order_items:cartSnapshot,payment_methods:payments.find(p=>p.id===paymentId)||{}},cartSnapshot);
+        toast('تم تسجيل طلبك بنجاح','success');
       }catch(err){console.error(err);toast(err.message||'تعذر إرسال الطلب. حاول مجدداً.','error');}
       finally{checkoutBusy=false;setBusy(btn,false);}
     }
-    function renderOrderReceipt(order){
-      if(!order)return;const pm=order.payment_methods||{};
-      $('checkoutContent').innerHTML=`<div style="text-align:center;padding:13px 0"><div style="font-size:43px">✅</div><h3 style="margin:5px 0">تم استلام طلبك</h3><p class="muted small">رقم الطلب: <strong>${escapeHTML(order.order_number||order.id)}</strong></p></div><div class="panel"><strong>${escapeHTML(pm.name||'طريقة الدفع')}</strong><p class="muted small" style="line-height:1.9">${escapeHTML(pm.instructions||'يرجى اتباع تعليمات الدفع والتواصل مع الدعم عند الحاجة.')}</p>${pm.account_name?`<p class="small">اسم الحساب: ${escapeHTML(pm.account_name)}</p>`:''}${pm.account_number?`<p class="small">رقم الحساب: <strong>${escapeHTML(pm.account_number)}</strong></p>`:''}${pm.image_url?`<img src="${escapeHTML(pm.image_url)}" style="width:150px;border-radius:12px" alt="QR">`:''}</div><div class="form-actions"><button class="primary" id="receiptDone">عرض طلباتي</button><button class="secondary" id="copyOrder">نسخ رقم الطلب</button></div>`;
-      $('receiptDone').onclick=()=>{closeModal('checkoutModal');showPage('orders');};$('copyOrder').onclick=()=>navigator.clipboard?.writeText(order.order_number||order.id).then(()=>toast('تم نسخ رقم الطلب','success')).catch(()=>toast(order.order_number||order.id));openModal('checkoutModal');
+    function orderWhatsappMessage(order,fallbackItems=[]){
+      const orderNumber=order.order_number||order.id||'—';
+      const orderItems=Array.isArray(order.order_items)&&order.order_items.length?order.order_items:fallbackItems;
+      const lines=orderItems.map((item,index)=>{
+        const title=item.product_title||item.product?.title||'منتج';
+        const variant=item.variant_title||item.title||'';
+        const quantity=Number(item.quantity)||1;
+        const fields=item.fields&&typeof item.fields==='object'
+          ? Object.entries(item.fields).map(([key,value])=>`${key}: ${value}`).join('، ')
+          : '';
+        return `${index+1}) ${title}${variant?' - '+variant:''} × ${quantity}${fields?'\n   بيانات العميل: '+fields:''}`;
+      });
+      const payment=order.payment_methods?.name||'غير محددة';
+      const total=Number(order.total_syp);
+      return [
+        'مرحباً، أؤكد طلبي من JAKO STORE.',
+        `رقم الطلب: ${orderNumber}`,
+        'تفاصيل الطلب:',
+        ...(lines.length?lines:['تفاصيل المنتجات غير متاحة حالياً.']),
+        `طريقة الدفع: ${payment}`,
+        `الإجمالي: ${Number.isFinite(total)&&total>0?money(total):'يظهر في تفاصيل الطلب'}`,
+        'يرجى تأكيد استلام الطلب وإفادتي بالخطوات التالية.'
+      ].join('\n');
+    }
+    function openOrderWhatsapp(order,fallbackItems=[]){
+      const phone=String(settings.support_whatsapp||'').replace(/\D/g,'');
+      if(!phone){toast('لم يحدد المتجر رقم واتساب الدعم. أضفه من لوحة الإدارة ثم أعد المحاولة.','error');return;}
+      if(phone.length<8||phone.length>15){toast('رقم واتساب الدعم غير صحيح. راجعه من إعدادات المتجر.','error');return;}
+      const message=orderWhatsappMessage(order,fallbackItems);
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`,'_blank','noopener');
+    }
+    function renderOrderReceipt(order,fallbackItems=[]){
+      if(!order)return;
+      const pm=order.payment_methods||{};
+      const orderNumber=order.order_number||order.id;
+      $('checkoutContent').innerHTML=`<div style="text-align:center;padding:13px 0"><div style="font-size:43px">✅</div><h3 style="margin:5px 0">تم استلام طلبك</h3><p class="muted small">رقم الطلب: <strong>${escapeHTML(orderNumber)}</strong></p></div><div class="panel"><strong>${escapeHTML(pm.name||'طريقة الدفع')}</strong><p class="muted small" style="line-height:1.9">${escapeHTML(pm.instructions||'يرجى اتباع تعليمات الدفع والتواصل مع الدعم عند الحاجة.')}</p>${pm.account_name?`<p class="small">اسم الحساب: ${escapeHTML(pm.account_name)}</p>`:''}${pm.account_number?`<p class="small">رقم الحساب: <strong>${escapeHTML(pm.account_number)}</strong></p>`:''}${pm.image_url?`<img src="${escapeHTML(pm.image_url)}" style="width:150px;border-radius:12px" alt="QR">`:''}</div><div class="form-actions"><button class="primary" id="sendOrderWhatsapp">إرسال تفاصيل الطلب عبر واتساب</button><button class="secondary" id="receiptDone">عرض طلباتي</button><button class="secondary" id="copyOrder">نسخ رقم الطلب</button></div><p class="muted small">سيتم فتح واتساب برسالة جاهزة. راجع الرسالة واضغط إرسال لإتمام التواصل مع الدعم.</p>`;
+      $('sendOrderWhatsapp').onclick=()=>openOrderWhatsapp(order,fallbackItems);
+      $('receiptDone').onclick=()=>{closeModal('checkoutModal');showPage('orders');};
+      $('copyOrder').onclick=()=>navigator.clipboard?.writeText(orderNumber).then(()=>toast('تم نسخ رقم الطلب','success')).catch(()=>toast(orderNumber));
+      openModal('checkoutModal');
     }
 
     function openAuth(tab='login'){setAuthTab(tab);openModal('authModal');}
