@@ -23,25 +23,6 @@
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.overlay.open{display:flex}.modal{width:min(620px,100%);max-height:min(88vh,850px);overflow:auto;background:#17171f;border:1px solid rgba(255,255,255,.12);border-radius:23px;box-shadow:0 30px 100px rgba(0,0,0,.6);padding:22px;animation:modalIn .2s ease}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:15px}.modal-head h3{font-size:17px;margin:0}.close-btn{width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:#22222b;color:white;font-size:19px}.modal-art{height:170px;border-radius:17px;overflow:hidden;position:relative;background:radial-gradient(circle,rgba(255,138,24,.23),transparent 65%),#22202a;display:grid;place-items:center;font-size:56px;margin-bottom:16px}.modal-art img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}.variant-list{display:grid;gap:8px;margin:12px 0}.variant-option{border:1px solid var(--line);border-radius:13px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#111117;cursor:pointer}.variant-option.selected{border-color:var(--orange);background:rgba(255,138,24,.09)}.variant-option strong{font-size:12px}.variant-option small{font-size:10px;color:var(--muted)}.variant-price{color:var(--orange2);font-weight:900;font-size:12px;white-space:nowrap}.quantity-row{display:flex;align-items:center;gap:10px;margin:12px 0}.qty-btn{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--surface3);color:white}.quantity-row input{width:55px;text-align:center}.cart-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.cart-row strong{font-size:12px}.cart-row small{display:block;color:var(--muted);font-size:10px}.cart-row .remove{border:0;background:none;color:#ff7b83;font-size:11px}.cart-total{display:flex;justify-content:space-between;align-items:center;padding:17px 0;font-weight:900}.toast-wrap{position:fixed;z-index:99;left:20px;bottom:20px;display:grid;gap:8px}.toast{background:#22222c;color:#fff;border:1px solid var(--line);padding:12px 16px;border-radius:13px;box-shadow:var(--shadow);font-size:12px;animation:toastIn .25s ease;max-width:min(390px,calc(100vw - 40px))}.toast.error{border-color:rgba(255,91,101,.4)}.toast.success{border-color:rgba(32,199,122,.4)}.loader{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.25);border-top-color:#111;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}.spin-light{border-color:rgba(255,255,255,.2);border-top-color:white}
     @keyframes spin{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0) rotate(-12deg)}50%{transform:translateY(-13px) rotate(-8deg)}}@keyframes glow{to{transform:translate(40px,25px) scale(1.15);opacity:.65}}@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}@keyframes toastIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
     @media(max-width:960px){.navlinks{display:none}.hero-visual{left:1%;opacity:.6}.products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.container{width:min(100% - 24px,1180px)}.nav{height:68px}.brand-name{font-size:17px}.brand-mark{width:39px;height:39px}.nav-actions .primary{display:none}.hero-shell{min-height:420px}.hero-content{padding:42px 25px 85px}.hero-content h1{font-size:37px}.hero-visual{width:220px;height:230px;left:-28px;top:43%;opacity:.35}.hero-device{width:110px;height:150px;font-size:55px}.orb{width:170px;height:170px}.chip-a,.chip-b,.chip-c{font-size:18px;padding:8px 10px}.hero-dots{right:25px}.hero-controls{left:15px}.categories{grid-template-columns:1fr}.category-card{padding:17px}.products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-art{height:125px}.product-body{padding:11px}.product-body h3{font-size:12px}.product-desc{font-size:10px}.product-foot .primary{padding:8px 9px}.product-type{font-size:9px}.features{grid-template-columns:1fr}.promo-strip{padding:20px}.promo-strip h3{font-size:15px}.footer-grid{grid-template-columns:1fr 1fr}.footer-grid>div:first-child{grid-column:1/-1}.copyright{display:block;line-height:2}.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}.stats-grid{gap:8px}.stat{padding:13px}.stat strong{font-size:21px}.page-title{align-items:flex-start;flex-direction:column}.panel{padding:15px}.modal{padding:16px}.topline{font-size:10px}.topline .container span:last-child{display:none}}
- /* JAKO STORE - Homepage Banner */
-.hero-shell{
-  height:clamp(190px,27vw,330px);
-  min-height:0;
-  background-size:cover!important;
-  background-position:center!important;
-}
-.hero-shell:before{display:none}
-.hero-shell:after{
-  background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(0,0,0,.04));
-}
-.hero-visual{display:none}
-.hero-content{padding:35px 42px}
-@media(max-width:680px){
-  .hero-shell{height:205px;min-height:0}
-  .hero-content{padding:22px 20px}
-  .hero h1{font-size:27px;margin:10px 0}
-  .hero p{font-size:11px;margin-bottom:12px}
-}
   </style>
 </head>
 <body>
@@ -205,7 +186,7 @@
     function renderHero(){
       const slides=banners.length?banners.map((b,i)=>({...b,emoji:['🎮','💎','⚡'][i%3],eyebrow:'✦ عروض JAKO STORE'})):heroDefaults;
       const s=slides[heroIndex%slides.length];$('heroTitle').innerHTML=escapeHTML(s.title).replace(/\n/g,'<br>');$('heroSubtitle').textContent=s.subtitle||'';$('heroEyebrow').textContent=s.eyebrow||'✦ JAKO STORE';$('heroEmoji').textContent=s.emoji||'🎮';
-shell.style.background=s.image_url?`linear-gradient(90deg,rgba(0,0,0,.35),rgba(0,0,0,.04)),url("${String(s.image_url).replace(/"/g,'%22')}") center/cover`:''; 
+      const shell=$('heroShell');shell.style.background=s.image_url?`linear-gradient(90deg,rgba(24,16,11,.96),rgba(20,17,22,.78)),url("${String(s.image_url).replace(/"/g,'%22')}") center/cover`:'';
       $('heroDots').innerHTML=slides.map((_,i)=>`<button class="hero-dot ${i===heroIndex?'active':''}" data-hero="${i}" aria-label="الشريحة ${i+1}"></button>`).join('');$('heroDots').querySelectorAll('[data-hero]').forEach(b=>b.addEventListener('click',()=>{heroIndex=Number(b.dataset.hero);renderHero();restartHeroTimer();}));
       $('heroAction').textContent=(s.action_label||'اكتشف المنتجات')+'　←';$('heroAction').onclick=()=>{const url=s.action_url||'#all';if(url.startsWith('#'))showPage(url.slice(1));else window.open(url,'_blank','noopener');};
       window.__jakoHeroSlides=slides;
@@ -247,127 +228,24 @@ shell.style.background=s.image_url?`linear-gradient(90deg,rgba(0,0,0,.35),rgba(0
       const {data,error}=await supabase.from('payment_methods').select('*').eq('is_active',true).order('sort_order');if(error){toast('تعذر تحميل طرق الدفع','error');return;}payments=data||[];
       $('checkoutContent').innerHTML=`<div class="notice">أنت على وشك إرسال طلبك. راجع طريقة الدفع والتعليمات الظاهرة بعد اختيارها.</div><div class="form-field"><label>طريقة الدفع</label><select class="field" id="checkoutPayment">${payments.map(p=>`<option value="${p.id}">${escapeHTML(p.name)}</option>`).join('')}</select></div>${payments.length?'':'<div class="notice">لم يضف المتجر طرق دفع فعّالة بعد. يرجى العودة لاحقاً.</div>'}<div class="form-field" style="margin-top:12px"><label>ملاحظة للطلب (اختياري)</label><textarea class="field textarea" id="checkoutNote" maxlength="1000" placeholder="أي معلومات إضافية"></textarea></div><div class="cart-total"><span>الإجمالي</span><span>${money(cart.reduce((n,x)=>n+x.price_syp*x.quantity,0))}</span></div><button class="primary" id="placeOrderBtn" style="width:100%" ${payments.length?'':'disabled'}>تأكيد وإرسال الطلب</button>`;
       $('placeOrderBtn').onclick=placeOrder;openModal('checkoutModal');
-   async function placeOrder(){
-  if(checkoutBusy)return;
-
-  const btn=$('placeOrderBtn');
-  const paymentId=$('checkoutPayment')?.value;
-
-  if(!paymentId)return toast('اختر طريقة دفع مفعّلة','error');
-
-  checkoutBusy=true;
-  setBusy(btn,true,'جارٍ إرسال الطلب');
-
-  try{
-    const items=cart.map(x=>({
-      variant_id:x.variant_id,
-      quantity:x.quantity,
-      fields:x.fields||{}
-    }));
-
-    const {data,error}=await supabase.rpc('place_order',{
-      p_items:items,
-      p_payment_method_id:paymentId,
-      p_customer_note:$('checkoutNote').value.trim()
-    });
-
-    if(error)throw error;
-
-    const {data:order,error:orderError}=await supabase
-      .from('orders')
-      .select('*,payment_methods(name,instructions,account_name,account_number,image_url),order_items(*)')
-      .eq('id',data)
-      .single();
-
-    if(orderError)throw orderError;
-
-    cart=[];
-    updateCartCount();
-    closeModal('checkoutModal');
-
-    renderOrderReceipt(order);
-    toast('تم تسجيل طلبك بنجاح','success');
-
-  }catch(err){
-    console.error(err);
-    toast(err.message||'تعذر إرسال الطلب. حاول مجدداً.','error');
-  }finally{
-    checkoutBusy=false;
-    setBusy(btn,false);
-  }
-}
+    }
+    async function placeOrder(){
+      if(checkoutBusy)return;const btn=$('placeOrderBtn'), paymentId=$('checkoutPayment')?.value;if(!paymentId)return toast('اختر طريقة دفع مفعّلة','error');checkoutBusy=true;setBusy(btn,true,'جارٍ إرسال الطلب');
+      try{
+        const items=cart.map(x=>({variant_id:x.variant_id,quantity:x.quantity,fields:x.fields||{}}));
+        const {data,error}=await supabase.rpc('place_order',{p_items:items,p_payment_method_id:paymentId,p_customer_note:$('checkoutNote').value.trim()});
+        if(error)throw error;
+        const orderId=data;cart=[];updateCartCount();closeModal('checkoutModal');
+        const {data:order}=await supabase.from('orders').select('*,payment_methods(name,instructions,account_name,account_number,image_url),order_items(*)').eq('id',orderId).single();
+        renderOrderReceipt(order);toast('تم تسجيل طلبك بنجاح','success');
+      }catch(err){console.error(err);toast(err.message||'تعذر إرسال الطلب. حاول مجدداً.','error');}
+      finally{checkoutBusy=false;setBusy(btn,false);}
+    }
     function renderOrderReceipt(order){
-  if(!order)return;
-
-  const pm=order.payment_methods||{};
-  const phone=String(settings.support_whatsapp||'963982704754').replace(/\D/g,'');
-  const orderNumber=order.order_number||order.id;
-
-  const items=(order.order_items||[]).map(i=>
-    `• ${i.product_title||'منتج'} - ${i.variant_title||''} × ${i.quantity}`
-  ).join('\n');
-
-  const message=[
-    'مرحباً، أريد متابعة طلبي من JAKO STORE',
-    '',
-    `رقم الطلب: ${orderNumber}`,
-    'تفاصيل الطلب:',
-    items||'يرجى مراجعة تفاصيل الطلب',
-    '',
-    `الإجمالي: ${money(order.total_syp)}`
-  ].join('\n');
-
-  const waUrl=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-  $('checkoutContent').innerHTML=`
-    <div style="text-align:center;padding:13px 0">
-      <div style="font-size:43px">✅</div>
-      <h3 style="margin:5px 0">تم استلام طلبك</h3>
-      <p class="muted small">رقم الطلب: <strong>${escapeHTML(orderNumber)}</strong></p>
-    </div>
-
-    <div class="panel">
-      <strong>${escapeHTML(pm.name||'طريقة الدفع')}</strong>
-      <p class="muted small" style="line-height:1.9">
-        ${escapeHTML(pm.instructions||'يرجى اتباع تعليمات الدفع والتواصل مع الدعم عند الحاجة.')}
-      </p>
-
-      ${pm.account_name?`<p class="small">اسم الحساب: ${escapeHTML(pm.account_name)}</p>`:''}
-      ${pm.account_number?`<p class="small">رقم الحساب: <strong>${escapeHTML(pm.account_number)}</strong></p>`:''}
-
-      ${pm.image_url?`
-        <img src="${escapeHTML(pm.image_url)}"
-          style="width:min(230px,100%);height:auto;display:block;margin:12px auto;background:#fff;padding:8px;border-radius:12px"
-          alt="QR">
-      `:''}
-    </div>
-
-    <div class="form-actions" style="display:grid;gap:10px">
-      <button class="primary" id="sendOrderWhatsApp">
-        إرسال تفاصيل الطلب عبر واتساب
-      </button>
-      <button class="secondary" id="receiptDone">عرض طلباتي</button>
-      <button class="secondary" id="copyOrder">نسخ رقم الطلب</button>
-    </div>
-  `;
-
-  $('sendOrderWhatsApp').onclick=()=>{
-    window.open(waUrl,'_blank','noopener,noreferrer');
-  };
-
-  $('receiptDone').onclick=()=>{
-    closeModal('checkoutModal');
-    showPage('orders');
-  };
-
-  $('copyOrder').onclick=()=>{
-    navigator.clipboard?.writeText(orderNumber)
-      .then(()=>toast('تم نسخ رقم الطلب','success'))
-      .catch(()=>toast(orderNumber));
-  };
-
-  openModal('checkoutModal');
-}
+      if(!order)return;const pm=order.payment_methods||{};
+      $('checkoutContent').innerHTML=`<div style="text-align:center;padding:13px 0"><div style="font-size:43px">✅</div><h3 style="margin:5px 0">تم استلام طلبك</h3><p class="muted small">رقم الطلب: <strong>${escapeHTML(order.order_number||order.id)}</strong></p></div><div class="panel"><strong>${escapeHTML(pm.name||'طريقة الدفع')}</strong><p class="muted small" style="line-height:1.9">${escapeHTML(pm.instructions||'يرجى اتباع تعليمات الدفع والتواصل مع الدعم عند الحاجة.')}</p>${pm.account_name?`<p class="small">اسم الحساب: ${escapeHTML(pm.account_name)}</p>`:''}${pm.account_number?`<p class="small">رقم الحساب: <strong>${escapeHTML(pm.account_number)}</strong></p>`:''}${pm.image_url?`<img src="${escapeHTML(pm.image_url)}" style="width:150px;border-radius:12px" alt="QR">`:''}</div><div class="form-actions"><button class="primary" id="receiptDone">عرض طلباتي</button><button class="secondary" id="copyOrder">نسخ رقم الطلب</button></div>`;
+      $('receiptDone').onclick=()=>{closeModal('checkoutModal');showPage('orders');};$('copyOrder').onclick=()=>navigator.clipboard?.writeText(order.order_number||order.id).then(()=>toast('تم نسخ رقم الطلب','success')).catch(()=>toast(order.order_number||order.id));openModal('checkoutModal');
+    }
 
     function openAuth(tab='login'){setAuthTab(tab);openModal('authModal');}
     function setAuthTab(tab){document.querySelectorAll('[data-auth-tab]').forEach(b=>b.classList.toggle('active',b.dataset.authTab===tab));const fields=$('authFields'),submit=$('authSubmit');$('authMessage').innerHTML='';
