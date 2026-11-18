@@ -234,6 +234,7 @@ window.addEventListener('popstate',()=>{
       $('addToCart').onclick=addCurrentToCart;
 openModal('productModal');
 }
+    function renderCustomerFields(fields){
       const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الحساب</h4><div class="form-grid">${fields.map(f=>`<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'') }" ${f.required===false?'':'required'}></div>`).join('')}</div>`;}
     function updateSelectedPrice(){if(!selectedVariant)return;$('selectedPrice').textContent=money(Number(selectedVariant.price_syp||0)*productModalQty);}
     function addCurrentToCart(){
