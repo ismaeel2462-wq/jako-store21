@@ -232,7 +232,10 @@ window.addEventListener('popstate',()=>{
       $('variantOptions').querySelectorAll('[data-variant]').forEach(el=>el.addEventListener('click',()=>{selectedVariant=currentVariants.find(v=>v.id===el.dataset.variant);$('variantOptions').querySelectorAll('.variant-option').forEach(n=>n.classList.toggle('selected',n===el));updateSelectedPrice();}));
       $('qtyMinus').onclick=()=>{productModalQty=Math.max(1,productModalQty-1);$('productQty').value=productModalQty;updateSelectedPrice();};$('qtyPlus').onclick=()=>{productModalQty=Math.min(1000,productModalQty+1);$('productQty').value=productModalQty;updateSelectedPrice();};$('productQty').onchange=()=>{productModalQty=Math.min(1000,Math.max(1,Number($('productQty').value)||1));$('productQty').value=productModalQty;updateSelectedPrice();};
       $('addToCart').onclick=addCurrentToCart;
-    function renderCustomerFields(fields){const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الحساب</h4><div class="form-grid">${fields.map(f=>`<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'') }" ${f.required===false?'':'required'}></div>`).join('')}</div>`;}
+openModal('productModal');
+}
+function renderCustomerFields(fields){
+      function renderCustomerFields(fields){const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الحساب</h4><div class="form-grid">${fields.map(f=>`<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'') }" ${f.required===false?'':'required'}></div>`).join('')}</div>`;}
     function updateSelectedPrice(){if(!selectedVariant)return;$('selectedPrice').textContent=money(Number(selectedVariant.price_syp||0)*productModalQty);}
     function addCurrentToCart(){
       if(!selectedVariant||!currentProduct)return toast('اختر باقة متاحة أولاً','error');
