@@ -253,8 +253,33 @@ openModal('productModal');
     async function openCheckout(){
       if(!currentUser){openAuth('login');toast('سجّل الدخول قبل إرسال الطلب');return;}
       if(!cart.length)return toast('السلة فارغة','error');
-      const {data,error}=await supabase.from('payment_methods').select('*').eq('is_active',true).order('sort_order');if(error){toast('تعذر تحميل طرق الدفع','error');return;}payments=data||[];
-      $('checkoutContent').innerHTML=`<div class="notice">أنت على وشك إرسال طلبك. راجع طريقة الدفع والتعليمات الظاهرة بعد اختيارها.</div><div class="form-field"><label>طريقة الدفع</label><select class="field" id="checkoutPayment">${payments.map(p=>`<option value="${p.id}">${escapeHTML(p.name)}</option>`).join('')}</select></div>${payments.length?'':'<div class="notice">لم يضف المتجر طرق دفع فعّالة بعد. يرجى العودة لاحقاً.</div>'}<div class="form-field" style="margin-top:12px"><label>ملاحظة للطلب (اختياري)</label><textarea class="field textarea" id="checkoutNote" maxlength="1000" placeholder="أي معلومات إضافية"></textarea></div><div class="cart-total"><span>الإجمالي</span><span>${money(cart.reduce((n,x)=>n+x.price_syp*x.quantity,0))}</span></div><button class="primary" id="placeOrderBtn" style="width:100%" ${payments.length?'':'disabled'}>تأكيد وإرسال الطلب</button>`;
+      const cartProductIds=[...new Set(cart.map(x=>x.product_id).filter(Boolean))];
+      if(cartProductIds.length!==new Set(cart.map(x=>x.product_id)).size){toast('تعذر تحديد أحد منتجات السلة. أزل المنتج وأضفه مجدداً.','error');return;}
+      const [payResult,productResult]=await Promise.all([
+        supabase.from('payment_methods').select('*').eq('is_active',true).order('sort_order'),
+        supabase.from('products').select('id,title,is_active,payment_method_ids').in('id',cartProductIds)
+      ]);
+      if(payResult.error){toast('تعذر تحميل طرق الدفع','error');return;}
+      if(productResult.error){toast('تعذر التحقق من طرق الدفع المتاحة للمنتجات','error');return;}
+      const activePayments=payResult.data||[];
+      const productMap=new Map((productResult.data||[]).map(p=>[p.id,p]));
+      if(cartProductIds.some(id=>!productMap.has(id))){toast('أحد المنتجات في السلة لم يعد متاحاً. حدّث السلة وحاول مجدداً.','error');return;}
+      const cartProducts=cartProductIds.map(id=>productMap.get(id));
+      if(cartProducts.some(p=>!p.is_active)){toast('أحد المنتجات في السلة لم يعد متاحاً للشراء.','error');return;}
+      if(cartProducts.some(p=>(p.title||'').trim().toLowerCase()==='ichancy')){
+        toast('هذا المنتج غير متاح للطلب عبر المتجر حالياً.','error');return;
+      }
+      let allowedPaymentIds=null;
+      for(const product of cartProducts){
+        const productPaymentIds=product.payment_method_ids===null
+          ? activePayments.map(method=>method.id)
+          : (Array.isArray(product.payment_method_ids)?product.payment_method_ids:[]);
+        if(allowedPaymentIds===null){allowedPaymentIds=new Set(productPaymentIds);}
+        else{for(const id of allowedPaymentIds){if(!productPaymentIds.includes(id))allowedPaymentIds.delete(id);}}
+      }
+      payments=activePayments.filter(method=>allowedPaymentIds?.has(method.id));
+      const hasPayments=payments.length>0;
+      $('checkoutContent').innerHTML=`<div class="notice">أنت على وشك إرسال طلبك. تظهر هنا فقط طرق الدفع المتاحة لجميع المنتجات في سلتك.</div>${hasPayments?`<div class="form-field"><label>طريقة الدفع</label><select class="field" id="checkoutPayment">${payments.map(p=>`<option value="${p.id}">${escapeHTML(p.name)}</option>`).join('')}</select></div>`:'<div class="notice">لا توجد طريقة دفع مشتركة بين المنتجات الموجودة في السلة. ارجع إلى السلة أو تواصل مع الدعم.</div>'}<div class="form-field" style="margin-top:12px"><label>ملاحظة للطلب (اختياري)</label><textarea class="field textarea" id="checkoutNote" maxlength="1000" placeholder="أي معلومات إضافية"></textarea></div><div class="cart-total"><span>الإجمالي</span><span>${money(cart.reduce((n,x)=>n+x.price_syp*x.quantity,0))}</span></div><button class="primary" id="placeOrderBtn" style="width:100%" ${hasPayments?'':'disabled'}>تأكيد وإرسال الطلب</button>`;
       $('placeOrderBtn').onclick=placeOrder;openModal('checkoutModal');
     }
     async function placeOrder(){
