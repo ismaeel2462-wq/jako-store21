@@ -23,6 +23,9 @@
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.overlay.open{display:flex}.modal{width:min(620px,100%);max-height:min(88vh,850px);overflow:auto;background:#17171f;border:1px solid rgba(255,255,255,.12);border-radius:23px;box-shadow:0 30px 100px rgba(0,0,0,.6);padding:22px;animation:modalIn .2s ease}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:15px}.modal-head h3{font-size:17px;margin:0}.close-btn{width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:#22222b;color:white;font-size:19px}.modal-art{height:170px;border-radius:17px;overflow:hidden;position:relative;background:radial-gradient(circle,rgba(255,138,24,.23),transparent 65%),#22202a;display:grid;place-items:center;font-size:56px;margin-bottom:16px}.modal-art img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}.variant-list{display:grid;gap:8px;margin:12px 0}.variant-option{border:1px solid var(--line);border-radius:13px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#111117;cursor:pointer}.variant-option.selected{border-color:var(--orange);background:rgba(255,138,24,.09)}.variant-option strong{font-size:12px}.variant-option small{font-size:10px;color:var(--muted)}.variant-price{color:var(--orange2);font-weight:900;font-size:12px;white-space:nowrap}.quantity-row{display:flex;align-items:center;gap:10px;margin:12px 0}.qty-btn{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--surface3);color:white}.quantity-row input{width:55px;text-align:center}.cart-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.cart-row strong{font-size:12px}.cart-row small{display:block;color:var(--muted);font-size:10px}.cart-row .remove{border:0;background:none;color:#ff7b83;font-size:11px}.cart-total{display:flex;justify-content:space-between;align-items:center;padding:17px 0;font-weight:900}.toast-wrap{position:fixed;z-index:99;left:20px;bottom:20px;display:grid;gap:8px}.toast{background:#22222c;color:#fff;border:1px solid var(--line);padding:12px 16px;border-radius:13px;box-shadow:var(--shadow);font-size:12px;animation:toastIn .25s ease;max-width:min(390px,calc(100vw - 40px))}.toast.error{border-color:rgba(255,91,101,.4)}.toast.success{border-color:rgba(32,199,122,.4)}.loader{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.25);border-top-color:#111;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}.spin-light{border-color:rgba(255,255,255,.2);border-top-color:white}
     @keyframes spin{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0) rotate(-12deg)}50%{transform:translateY(-13px) rotate(-8deg)}}@keyframes glow{to{transform:translate(40px,25px) scale(1.15);opacity:.65}}@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}@keyframes toastIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
     @media(max-width:960px){.navlinks{display:none}.hero-visual{left:1%;opacity:.6}.products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.container{width:min(100% - 24px,1180px)}.nav{height:68px}.brand-name{font-size:17px}.brand-mark{width:39px;height:39px}.nav-actions .primary{display:none}.hero-shell{min-height:420px}.hero-content{padding:42px 25px 85px}.hero-content h1{font-size:37px}.hero-visual{width:220px;height:230px;left:-28px;top:43%;opacity:.35}.hero-device{width:110px;height:150px;font-size:55px}.orb{width:170px;height:170px}.chip-a,.chip-b,.chip-c{font-size:18px;padding:8px 10px}.hero-dots{right:25px}.hero-controls{left:15px}.categories{grid-template-columns:1fr}.category-card{padding:17px}.products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-art{height:125px}.product-body{padding:11px}.product-body h3{font-size:12px}.product-desc{font-size:10px}.product-foot .primary{padding:8px 9px}.product-type{font-size:9px}.features{grid-template-columns:1fr}.promo-strip{padding:20px}.promo-strip h3{font-size:15px}.footer-grid{grid-template-columns:1fr 1fr}.footer-grid>div:first-child{grid-column:1/-1}.copyright{display:block;line-height:2}.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}.stats-grid{gap:8px}.stat{padding:13px}.stat strong{font-size:21px}.page-title{align-items:flex-start;flex-direction:column}.panel{padding:15px}.modal{padding:16px}.topline{font-size:10px}.topline .container span:last-child{display:none}}
+
+    .pubg-promo{margin-top:14px}.pubg-promo .primary{white-space:nowrap}
+    .pubg-card-grid{margin-top:16px}.pubg-card-cover{height:178px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,rgba(255,138,24,.22),transparent 62%),linear-gradient(135deg,#24202c,#14141c)}.pubg-card-cover img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}.pubg-card-cover .pubg-fallback{font-size:58px}.pubg-status{position:absolute;top:11px;right:11px;z-index:2}.pubg-specs{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.pubg-spec{font-size:10px;color:#ddd;background:var(--surface3);padding:5px 8px;border-radius:9px}.pubg-price-usd{display:inline-block;color:var(--muted);font-size:10px;margin-right:5px}.pubg-main-image{height:260px;border-radius:15px;overflow:hidden;background:linear-gradient(135deg,#28232e,#121219);display:grid;place-items:center;margin-bottom:10px}.pubg-main-image img{width:100%;height:100%;object-fit:contain}.pubg-main-image .pubg-fallback{font-size:68px}.pubg-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:10px 0 16px}.pubg-gallery button{padding:0;height:70px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#101016}.pubg-gallery button.active{border-color:var(--orange)}.pubg-gallery img{width:100%;height:100%;object-fit:cover}.pubg-description{white-space:pre-wrap;line-height:1.9;color:#d6d6df;font-size:12px}.pubg-admin-thumb{width:46px;height:36px;border-radius:8px;object-fit:cover;vertical-align:middle;margin-left:7px}
   </style>
 </head>
 <body>
@@ -31,7 +34,7 @@
     <div class="container nav">
       <a class="brand" href="#home" aria-label="JAKO STORE"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a>
       <nav class="navlinks" aria-label="القائمة الرئيسية">
-        <button class="active" data-page="home">الرئيسية</button><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="orders">طلباتي</button>
+        <button class="active" data-page="home">الرئيسية</button><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="pubg-accounts">حسابات ببجي</button><button data-page="orders">طلباتي</button>
       </nav>
       <div class="nav-actions">
         <button class="icon-btn" id="cartBtn" aria-label="السلة">🛒<span class="cart-count" id="cartCount">0</span></button>
@@ -62,6 +65,7 @@
         </section>
         <section class="section"><div class="section-head"><div><div class="section-kicker">مختارة لك</div><h2>منتجات مميزة</h2><p>اكتشف المنتجات والباقات المتاحة حالياً</p></div><button class="text-link" data-page="all">عرض الكل ←</button></div><div id="featuredGrid" class="products-grid"><div class="empty-state"><div class="empty-icon">✨</div>يتم تحميل المنتجات...</div></div></section>
         <div class="promo-strip"><div><h3>تجربة شحن أسهل، وطلبات أوضح</h3><p>تابع حالة طلبك واحتفظ بسجل مشترياتك من حسابك.</p></div><div class="promo-icon">🚀</div></div>
+        <div class="promo-strip pubg-promo"><div><h3>حسابات PUBG Mobile</h3><p>استعرض الحسابات المعروضة وصورها ومستواها وتصنيفها وسعرها.</p></div><button class="primary" data-page="pubg-accounts">تصفح الحسابات ←</button></div>
         <div class="features"><div class="feature"><div class="feature-icon">🔒</div><div><strong>حسابك وطلباتك بأمان</strong><span>كل مستخدم يرى بياناته فقط</span></div></div><div class="feature"><div class="feature-icon">⚡</div><div><strong>طلب بخطوات واضحة</strong><span>اختر الباقة وأرسل طلبك بسهولة</span></div></div><div class="feature"><div class="feature-icon">🎧</div><div><strong>دعم ومتابعة</strong><span>تابع الطلب وتواصل مع الدعم</span></div></div></div>
       </div>
     </section>
@@ -71,22 +75,48 @@
     <section id="page-gift-cards" class="page"><div class="container"><div class="page-title"><div><h1>البطاقات الرقمية 🎁</h1><p>بطاقات ورصيد رقمي جاهز</p></div></div><div class="toolbar"><div class="searchbox"><input id="cardsSearch" placeholder="ابحث عن بطاقة..." autocomplete="off"></div></div><div class="products-grid" id="giftCardsGrid"></div></div></section>
     <section id="page-all" class="page"><div class="container"><div class="page-title"><div><h1>جميع المنتجات</h1><p>تصفّح كل ما هو متاح في المتجر</p></div></div><div class="toolbar"><div class="searchbox"><input id="allSearch" placeholder="ابحث عن منتج..." autocomplete="off"></div></div><div class="products-grid" id="allGrid"></div></div></section>
 
+    <section id="page-pubg-accounts" class="page"><div class="container"><div class="page-title"><div><h1>حسابات PUBG Mobile 🎮</h1><p>حسابات معروضة مع الصور والتفاصيل والسعر. الاستفسار عبر واتساب للحسابات المتاحة فقط.</p></div><button class="secondary" id="refreshPubgAccounts">تحديث ↻</button></div><div class="notice">هذا قسم عرض واستفسار مستقل عن سلة المشتريات وطرق الدفع. تحقّق من سياسات اللعبة وشروط نقل الحساب قبل إتمام أي اتفاق.</div><div id="pubgAccountsGrid" class="products-grid pubg-card-grid"><div class="empty-state"><div class="empty-icon">🎮</div>يتم تحميل الحسابات...</div></div></div></section>
+
     <section id="page-orders" class="page"><div class="container"><div class="page-title"><div><h1>طلباتي</h1><p>سجل الطلبات ومتابعة حالتها</p></div><button class="secondary" id="refreshOrders">تحديث ↻</button></div><div id="ordersContent"></div></div></section>
     <section id="page-account" class="page"><div class="container"><div class="page-title"><div><h1>حسابي</h1><p>إدارة معلوماتك الشخصية</p></div></div><div class="panel" id="accountContent"></div></div></section>
     <section id="page-admin" class="page"><div class="container"><div class="page-title"><div><h1>لوحة الإدارة ⚙</h1><p>إدارة المنتجات والباقات والطلبات وبيانات المتجر</p></div><span class="status completed">مدير موثّق</span></div>
       <div class="stats-grid" id="adminStats"><div class="stat"><span>المنتجات</span><strong>—</strong></div><div class="stat"><span>الطلبات</span><strong>—</strong></div><div class="stat"><span>المستخدمون</span><strong>—</strong></div><div class="stat"><span>بانتظار المعالجة</span><strong>—</strong></div></div>
-      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button></div>
+      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button></div>
       <div id="adminTab-products" class="admin-tab"><div class="panel"><div class="section-head"><div><h2>المنتجات</h2><p>أضف الألعاب والتطبيقات والبطاقات ثم أضف باقات كل منتج</p></div><button class="primary" id="addProductBtn">＋ منتج جديد</button></div><div class="table-wrap"><table><thead><tr><th>المنتج</th><th>الفئة</th><th>النوع</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="adminProductsRows"><tr><td colspan="5" class="muted">تحميل...</td></tr></tbody></table></div></div><div class="panel" style="margin-top:14px"><h3>إدارة الباقات</h3><div class="form-grid"><div class="form-field"><label>اختر المنتج</label><select class="field" id="variantProduct"></select></div><div class="form-field"><label>اسم الباقة</label><input class="field" id="variantTitle" placeholder="مثال: 60 جوهرة"></div><div class="form-field"><label>السعر بالليرة السورية</label><input class="field" type="number" min="0" step="1" id="variantSyp"></div><div class="form-field"><label>السعر بالدولار (اختياري)</label><input class="field" type="number" min="0" step="0.01" id="variantUsd"></div><div class="form-field"><label>المخزون (اتركه فارغاً للمخزون غير المحدود)</label><input class="field" type="number" min="0" step="1" id="variantStock"></div><div class="form-field"><label>ملاحظة الباقة (اختياري)</label><input class="field" id="variantDescription"></div></div><div class="form-actions"><button class="primary" id="saveVariantBtn">إضافة الباقة</button></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>الباقة</th><th>السعر SYP</th><th>السعر USD</th><th>المخزون</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminVariantsRows"><tr><td colspan="6" class="muted">اختر منتجاً لعرض باقاته</td></tr></tbody></table></div></div></div>
       <div id="adminTab-orders" class="admin-tab hidden"><div class="panel"><h3>كل الطلبات</h3><div class="table-wrap"><table><thead><tr><th>رقم الطلب</th><th>العميل</th><th>المنتجات</th><th>الإجمالي</th><th>الحالة</th><th>التاريخ</th><th>تحديث الحالة</th></tr></thead><tbody id="adminOrdersRows"></tbody></table></div></div></div>
       <div id="adminTab-payments" class="admin-tab hidden"><div class="panel"><div class="section-head"><div><h2>طرق الدفع</h2><p>أدخل معلومات التحويل التي ستظهر للعميل عند إتمام الطلب</p></div></div><div class="form-grid"><div class="form-field"><label>اسم طريقة الدفع</label><input class="field" id="payName" placeholder="شام كاش / Google Play / واتساب"></div><div class="form-field"><label>اسم صاحب الحساب</label><input class="field" id="payAccountName"></div><div class="form-field"><label>رقم الحساب أو المعرف</label><input class="field" id="payAccountNumber"></div><div class="form-field"><label>رابط صورة QR (اختياري)</label><input class="field" id="payImage"></div><div class="form-field full"><label>تعليمات الدفع</label><textarea class="field textarea" id="payInstructions" placeholder="اكتب تعليمات التحويل وإرسال إثبات الدفع"></textarea></div><div class="form-field"><label class="check-row"><input type="checkbox" id="payActive" checked> تفعيل طريقة الدفع</label></div></div><div class="form-actions"><button class="primary" id="savePaymentBtn">إضافة طريقة الدفع</button></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>الطريقة</th><th>الحساب</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminPaymentsRows"></tbody></table></div></div></div>
       <div id="adminTab-banners" class="admin-tab hidden"><div class="panel"><h3>إضافة بنر للواجهة</h3><div class="form-grid"><div class="form-field"><label>العنوان</label><input class="field" id="bannerTitle"></div><div class="form-field"><label>النص المختصر</label><input class="field" id="bannerSubtitle"></div><div class="form-field"><label>رابط الصورة</label><input class="field" id="bannerImage"></div><div class="form-field"><label>نص الزر</label><input class="field" id="bannerActionLabel" value="اكتشف الآن"></div><div class="form-field"><label>رابط الزر</label><input class="field" id="bannerActionUrl" value="#all"></div><div class="form-field"><label class="check-row"><input type="checkbox" id="bannerActive" checked> تفعيل البنر</label></div></div><div class="form-actions"><button class="primary" id="saveBannerBtn">حفظ البنر</button></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>العنوان</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminBannersRows"></tbody></table></div></div></div>
       <div id="adminTab-settings" class="admin-tab hidden"><div class="panel"><h3>إعدادات المتجر</h3><div class="form-grid"><div class="form-field"><label>اسم المتجر</label><input class="field" id="settingStoreName"></div><div class="form-field"><label>وصف المتجر</label><input class="field" id="settingTagline"></div><div class="form-field"><label>رقم واتساب الدعم (مع رمز الدولة، دون +)</label><input class="field" id="settingWhatsapp" placeholder="مثال: 9639xxxxxxxx"></div><div class="form-field"><label>العملة الأساسية</label><input class="field" id="settingCurrency" value="SYP" disabled></div><div class="form-field"><label>سعر الدولار في السوق الموازية (تلقائي)</label><input class="field" id="settingMarketRate" value="بانتظار أول تحديث" disabled></div><div class="form-field"><label>آخر تحديث لسعر الصرف</label><input class="field" id="settingMarketUpdatedAt" value="لم يتم التحديث بعد" disabled></div><div class="form-field"><label>هامش الربح (%)</label><input class="field" id="settingMarginPercent" type="number" min="0" max="100" step="0.1" value="0" inputmode="decimal"><p class="muted small">يُضاف إلى السعر المحوّل من الدولار. القيمة الافتراضية 0%، ويمكن تعديلها.</p></div></div><div class="form-actions"><button class="primary" id="saveSettingsBtn">حفظ الإعدادات</button></div><div class="notice">يُحدّث المتجر سعر الدولار من السوق الموازية تلقائياً كل ساعة. تُحتسب أسعار الليرة من سعر الباقة بالدولار مع هامش الربح، ولا يظهر سعر الصرف للزبون. الباقات التي لا تملك سعراً بالدولار لا تتغير.</div></div></div>
+      <div id="adminTab-pubg" class="admin-tab hidden">
+        <div class="panel">
+          <div class="section-head"><div><h2>إدارة حسابات PUBG Mobile</h2><p>أضف الحسابات وعدّل صورها وتفاصيلها وسعرها وحالتها. هذه الحسابات لا تدخل في سلة المتجر.</p></div></div>
+          <form id="adminPubgForm">
+            <div class="form-grid">
+              <div class="form-field"><label for="pubgAdminTitle">عنوان الحساب *</label><input class="field" id="pubgAdminTitle" required maxlength="120" placeholder="مثال: حساب مستوى 75 - ملابس نادرة"></div>
+              <div class="form-field"><label for="pubgAdminPriceUsd">السعر بالدولار *</label><input class="field" id="pubgAdminPriceUsd" type="number" min="0.01" step="0.01" required inputmode="decimal" placeholder="مثال: 120"></div>
+              <div class="form-field"><label for="pubgAdminLevel">المستوى</label><input class="field" id="pubgAdminLevel" type="number" min="0" step="1" value="0"></div>
+              <div class="form-field"><label for="pubgAdminRank">التصنيف / الرتبة</label><input class="field" id="pubgAdminRank" maxlength="80" placeholder="مثال: Ace Master"></div>
+              <div class="form-field"><label for="pubgAdminRareOutfits">عدد الملابس النادرة</label><input class="field" id="pubgAdminRareOutfits" type="number" min="0" step="1" value="0"></div>
+              <div class="form-field"><label for="pubgAdminUpgradedWeapons">عدد الأسلحة المطوّرة</label><input class="field" id="pubgAdminUpgradedWeapons" type="number" min="0" step="1" value="0"></div>
+              <div class="form-field full"><label for="pubgAdminDescription">الوصف والتفاصيل</label><textarea class="field textarea" id="pubgAdminDescription" placeholder="اكتب تفاصيل الحساب والمميزات"></textarea></div>
+              <div class="form-field full"><label for="pubgAdminImage">رابط صورة الغلاف الرئيسية *</label><input class="field" id="pubgAdminImage" type="url" required placeholder="https://example.com/account-cover.jpg"></div>
+              <div class="form-field full"><label for="pubgAdminGallery">روابط الصور الإضافية (رابط في كل سطر)</label><textarea class="field textarea" id="pubgAdminGallery" placeholder="https://example.com/image-2.jpg&#10;https://example.com/image-3.jpg"></textarea></div>
+              <div class="form-field"><label for="pubgAdminStatus">حالة الحساب</label><select class="field" id="pubgAdminStatus"><option value="available">متاح</option><option value="reserved">محجوز</option><option value="sold">مباع</option></select></div>
+              <div class="form-field"><label class="check-row"><input type="checkbox" id="pubgAdminActive" checked> إظهار الحساب في المتجر</label></div>
+            </div>
+            <div class="notice">استخدم روابط صور مباشرة تبدأ بـ https:// أو http://. ارفع الصور إلى مساحة تخزين موثوقة ثم ضع روابطها هنا. لا تضع بيانات تسجيل الدخول أو كلمات مرور الحساب.</div>
+            <div class="form-actions"><button class="primary" id="pubgAdminSaveBtn" type="submit">إضافة الحساب</button><button class="secondary" id="pubgAdminResetBtn" type="button">تفريغ الحقول</button></div>
+          </form>
+        </div>
+        <div class="panel" style="margin-top:14px"><h3>الحسابات المضافة</h3><div class="table-wrap"><table><thead><tr><th>الحساب</th><th>السعر USD</th><th>الحالة</th><th>الظهور</th><th>الإجراءات</th></tr></thead><tbody id="adminPubgRows"><tr><td colspan="5" class="muted">تحميل...</td></tr></tbody></table></div></div>
+      </div>
     </div></section>
   </main>
 
-  <footer><div class="container"><div class="footer-grid"><div><a class="brand" href="#home"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a><p>متجرك الرقمي للألعاب والتطبيقات والبطاقات. تجربة واضحة، حسابات آمنة، ومتابعة سهلة لطلباتك.</p></div><div><h4>روابط سريعة</h4><div class="footer-links"><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="orders">طلباتي</button></div></div><div><h4>حسابك</h4><div class="footer-links"><button data-page="account">الملف الشخصي</button><button id="footerLogin">تسجيل الدخول</button><button id="footerSupport">تواصل مع الدعم</button></div></div></div><div class="copyright"><span>© <span id="year"></span> JAKO STORE — جميع الحقوق محفوظة</span><span>صُمم لعالمك الرقمي ✦</span></div></div></footer>
+  <footer><div class="container"><div class="footer-grid"><div><a class="brand" href="#home"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a><p>متجرك الرقمي للألعاب والتطبيقات والبطاقات. تجربة واضحة، حسابات آمنة، ومتابعة سهلة لطلباتك.</p></div><div><h4>روابط سريعة</h4><div class="footer-links"><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="pubg-accounts">حسابات PUBG</button><button data-page="orders">طلباتي</button></div></div><div><h4>حسابك</h4><div class="footer-links"><button data-page="account">الملف الشخصي</button><button id="footerLogin">تسجيل الدخول</button><button id="footerSupport">تواصل مع الدعم</button></div></div></div><div class="copyright"><span>© <span id="year"></span> JAKO STORE — جميع الحقوق محفوظة</span><span>صُمم لعالمك الرقمي ✦</span></div></div></footer>
 
   <div class="overlay" id="productModal"><div class="modal"><div class="modal-head"><h3 id="productModalTitle">تفاصيل المنتج</h3><button class="secondary" data-close="productModal" style="padding:7px 13px">رجوع ←</button></div><div id="productModalContent"></div></div></div>
+  <div class="overlay" id="pubgAccountModal"><div class="modal"><div class="modal-head"><h3 id="pubgModalTitle">تفاصيل حساب PUBG</h3><button class="secondary" data-close="pubgAccountModal" style="padding:7px 13px">رجوع ←</button></div><div id="pubgModalContent"></div></div></div>
   <div class="overlay" id="cartModal"><div class="modal"><div class="modal-head"><h3>سلة المشتريات 🛒</h3><button class="close-btn" data-close="cartModal">×</button></div><div id="cartContent"></div></div></div>
   <div class="overlay" id="authModal"><div class="modal"><div class="modal-head"><h3>حساب JAKO STORE</h3><button class="close-btn" data-close="authModal">×</button></div><div class="auth-tabs"><button class="active" data-auth-tab="login">تسجيل الدخول</button><button data-auth-tab="signup">إنشاء حساب</button><button data-auth-tab="reset">استعادة كلمة المرور</button></div><form id="authForm"><div id="authFields"></div><div class="form-actions"><button class="primary" id="authSubmit" type="submit">تسجيل الدخول</button></div></form><div id="authMessage"></div></div></div>
   <div class="overlay" id="checkoutModal"><div class="modal"><div class="modal-head"><h3>إتمام الطلب</h3><button class="close-btn" data-close="checkoutModal">×</button></div><div id="checkoutContent"></div></div></div>
@@ -119,7 +149,7 @@
     let categories = [], products = [], payments = [], adminPaymentMethods = [], banners = [], settings = {};
     let cart = JSON.parse(localStorage.getItem('jako_cart') || '[]');
     let currentProduct = null, currentVariants = [], selectedVariant = null, productModalQty = 1;
-    let editingProductId = null, editingVariantId = null, editingPaymentId = null, editingBannerId = null, heroIndex = 0, heroTimer = null, checkoutBusy = false;
+    let editingProductId = null, editingVariantId = null, editingPaymentId = null, editingBannerId = null, editingPubgAccountId = null, pubgAccounts = [], heroIndex = 0, heroTimer = null, checkoutBusy = false;
 
     function toast(message, type='info') {
       const node = document.createElement('div'); node.className = `toast ${type}`; node.textContent = message; $('toasts').appendChild(node);
@@ -157,7 +187,7 @@ window.addEventListener('popstate',()=>{
   }
 });
     function showPage(page) {
-      if (!['home','games','applications','gift-cards','all','orders','account','admin'].includes(page)) page='home';
+      if (!['home','games','applications','gift-cards','all','pubg-accounts','orders','account','admin'].includes(page)) page='home';
       if (page==='admin' && !isAdmin) { toast('هذه الصفحة مخصصة للإدارة فقط','error'); page='home'; }
       if (page==='orders' && !currentUser) { openAuth('login'); toast('سجّل الدخول لعرض طلباتك'); return; }
       if (page==='account' && !currentUser) { openAuth('login'); return; }
@@ -165,9 +195,9 @@ window.addEventListener('popstate',()=>{
       const target=$(`page-${page}`); if(target) target.classList.add('active');
       document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
       window.scrollTo({top:0,behavior:'smooth'});
-      const pageTitles={home:'الرئيسية',games:'الألعاب',applications:'التطبيقات','gift-cards':'البطاقات الرقمية',all:'جميع المنتجات',orders:'طلباتي',account:'حسابي',admin:'لوحة الإدارة'};
+      const pageTitles={home:'الرئيسية',games:'الألعاب',applications:'التطبيقات','gift-cards':'البطاقات الرقمية',all:'جميع المنتجات','pubg-accounts':'حسابات PUBG',orders:'طلباتي',account:'حسابي',admin:'لوحة الإدارة'};
       document.title=`${pageTitles[page]||'المتجر'} | JAKO STORE`;
-      if(page==='orders') loadOrders(); if(page==='account') renderAccount(); if(page==='admin') loadAdmin();
+      if(page==='orders') loadOrders(); if(page==='account') renderAccount(); if(page==='admin') loadAdmin(); if(page==='pubg-accounts') loadPubgAccounts();
     }
     document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>showPage(el.dataset.page)));
     document.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',()=>closeModal(el.dataset.close)));
@@ -208,6 +238,7 @@ window.addEventListener('popstate',()=>{
       renderAllProducts();renderHero();
       if(settings.store_name){document.title=`${settings.store_name} | متجرك الرقمي`;document.querySelectorAll('.brand-name').forEach(x=>x.innerHTML=`${escapeHTML(settings.store_name).replace('STORE','<span>STORE</span>')}`);}
       if(settings.store_tagline){const f=document.querySelector('footer .footer-grid p');if(f)f.textContent=settings.store_tagline;}
+      await loadPubgAccounts();
     }
     function renderHero(){
       const slides=banners.length?banners.map((b,i)=>({...b,emoji:['🎮','💎','⚡'][i%3],eyebrow:'✦ عروض JAKO STORE'})):heroDefaults;
@@ -341,7 +372,7 @@ openModal('productModal');
     async function renderAccount(){const root=$('accountContent');if(!currentUser){root.innerHTML='<div class="notice">سجّل الدخول لعرض ملفك الشخصي.</div>';return;}const {data:profile}=await supabase.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();root.innerHTML=`<div class="form-grid"><div class="form-field"><label>الاسم الكامل</label><input class="field" id="profileName" value="${escapeHTML(profile?.full_name||currentUser.user_metadata?.full_name||'')}"></div><div class="form-field"><label>البريد الإلكتروني</label><input class="field" value="${escapeHTML(currentUser.email||'')}" disabled></div><div class="form-field"><label>رقم الهاتف</label><input class="field" id="profilePhone" value="${escapeHTML(profile?.phone||'')}"></div></div><div class="form-actions"><button class="primary" id="saveProfile">حفظ التعديلات</button><button class="secondary" id="changePassword">تغيير كلمة المرور</button></div>`;$('saveProfile').onclick=async()=>{const {error}=await supabase.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',currentUser.id);if(error)toast(error.message,'error');else toast('تم تحديث الملف الشخصي','success');};$('changePassword').onclick=async()=>{const password=prompt('أدخل كلمة المرور الجديدة (8 أحرف على الأقل):');if(!password)return;if(password.length<8)return toast('كلمة المرور قصيرة جداً','error');const {error}=await supabase.auth.updateUser({password});if(error)toast(error.message,'error');else toast('تم تحديث كلمة المرور','success');};}
 
     function adminOnly(){if(!isAdmin){toast('ليس لديك صلاحية الإدارة','error');return false;}return true;}
-    async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings()]);}
+    async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings(),loadAdminPubgAccounts()]);}
     async function loadAdminStats(){const [p,o,u,pending]=await Promise.all([supabase.from('products').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}),supabase.from('profiles').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}).in('status',['pending','awaiting_payment'])]);$('adminStats').innerHTML=[['المنتجات',p.count],['الطلبات',o.count],['المستخدمون',u.count],['بانتظار المعالجة',pending.count]].map(([a,b])=>`<div class="stat"><span>${a}</span><strong>${b??'—'}</strong></div>`).join('');}
     function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));$(`adminTab-${tab}`).classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});}
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>setAdminTab(b.dataset.adminTab));
@@ -371,6 +402,105 @@ openModal('productModal');
     async function loadAdminSettings(){const {data,error}=await supabase.from('site_settings').select('*');if(error)return;const s=Object.fromEntries((data||[]).map(x=>[x.setting_key,x.setting_value]));$('settingStoreName').value=s.store_name||'JAKO STORE';$('settingTagline').value=s.store_tagline||'';$('settingWhatsapp').value=s.support_whatsapp||'';$('settingCurrency').value=s.currency||'SYP';$('settingMarginPercent').value=Number(s.usd_syp_margin_percent??0);const marketRate=Number(s.usd_syp_market_rate);$('settingMarketRate').value=Number.isFinite(marketRate)&&marketRate>0?`${marketRate.toLocaleString('en-US',{maximumFractionDigits:2})} ل.س لكل دولار`:'بانتظار أول تحديث';const updatedAt=s.usd_syp_market_updated_at;$('settingMarketUpdatedAt').value=updatedAt&&!Number.isNaN(Date.parse(updatedAt))?new Date(updatedAt).toLocaleString('ar-SY'):'لم يتم التحديث بعد';}
     $('saveSettingsBtn').onclick=async()=>{const marginRaw=$('settingMarginPercent').value;const margin=marginRaw===''?0:Number(marginRaw);if(!Number.isFinite(margin)||margin<0||margin>100)return toast('أدخل هامش ربح بين 0 و100 بالمئة','error');const rows=[['store_name',$('settingStoreName').value.trim()],['store_tagline',$('settingTagline').value.trim()],['support_whatsapp',$('settingWhatsapp').value.trim()],['usd_syp_margin_percent',margin]];for(const [setting_key,setting_value] of rows){const {error}=await supabase.from('site_settings').upsert({setting_key,setting_value},{onConflict:'setting_key'});if(error){toast(error.message,'error');return;}}toast('تم حفظ إعدادات المتجر. سيُعاد احتساب الأسعار عند التحديث الدوري التالي.','success');await loadStoreData();await loadAdminSettings();};
 
+    // PUBG accounts are a separate catalogue: they never enter the store cart or order flow.
+    const pubgStatusNames = {available:'متاح',reserved:'محجوز',sold:'مباع'};
+    function safeHttpUrl(value=''){
+      const raw=String(value||'').trim();
+      return /^https?:\/\/[^\s"'<>]+$/i.test(raw) ? raw : '';
+    }
+    function pubgCurrentRate(){const n=Number(settings.usd_syp_market_rate);return Number.isFinite(n)&&n>0?n:0;}
+    function pubgCurrentMargin(){const n=Number(settings.usd_syp_margin_percent??0);return Number.isFinite(n)&&n>=0&&n<=100?n:0;}
+    function pubgPriceSyp(account){const rate=pubgCurrentRate();return rate>0?Math.round(Number(account.price_usd)*rate*(1+pubgCurrentMargin()/100)):null;}
+    function pubgStatusClass(status){return status==='available'?'completed':status==='reserved'?'processing':'rejected';}
+    function pubgPriceMarkup(account){
+      const syp=pubgPriceSyp(account);
+      return syp===null
+        ? `<div class="price-line">${money(account.price_usd,'$')} <small>· سعر الليرة غير متوفر حالياً</small></div>`
+        : `<div class="price-line">${money(syp)} <small>· ${money(account.price_usd,'$')}</small></div>`;
+    }
+    async function loadPubgAccounts(){
+      const root=$('pubgAccountsGrid');if(!root)return;
+      const {data,error}=await supabase.from('pubg_accounts').select('*').eq('is_active',true).order('created_at',{ascending:false});
+      if(error){root.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div>تعذر تحميل حسابات PUBG حالياً. حاول التحديث لاحقاً.</div>';console.warn('pubg accounts',error);return;}
+      pubgAccounts=data||[];renderPubgAccounts();
+    }
+    function renderPubgAccounts(){
+      const root=$('pubgAccountsGrid');if(!root)return;
+      if(!pubgAccounts.length){root.innerHTML='<div class="empty-state"><div class="empty-icon">🎮</div>لا توجد حسابات معروضة حالياً.</div>';return;}
+      root.innerHTML=pubgAccounts.map(a=>{
+        const image=safeHttpUrl(a.image_url);
+        const specs=[a.level>0?`المستوى ${Number(a.level)}`:'',a.rank?`التصنيف ${escapeHTML(a.rank)}`:'',`ملابس نادرة ${Number(a.rare_outfits)||0}`,`أسلحة مطوّرة ${Number(a.upgraded_weapons)||0}`].filter(Boolean);
+        return `<article class="product-card"><div class="pubg-card-cover">${image?`<img src="${escapeHTML(image)}" alt="${escapeHTML(a.title)}" loading="lazy" onerror="this.remove()">`:'<span class="pubg-fallback">🎮</span>'}<span class="status pubg-status ${pubgStatusClass(a.status)}">${pubgStatusNames[a.status]||'غير محدد'}</span></div><div class="product-body"><h3>${escapeHTML(a.title)}</h3><p class="product-desc">${escapeHTML(a.description||'تفاصيل الحساب متاحة عند فتح البطاقة.')}</p><div class="pubg-specs">${specs.map(x=>`<span class="pubg-spec">${x}</span>`).join('')}</div>${pubgPriceMarkup(a)}<div class="product-foot"><span class="product-type">PUBG Mobile</span><button class="primary" data-pubg-details="${a.id}">التفاصيل</button></div></div></article>`;
+      }).join('');
+      root.querySelectorAll('[data-pubg-details]').forEach(b=>b.addEventListener('click',()=>openPubgAccount(b.dataset.pubgDetails)));
+    }
+    function openPubgAccount(id){
+      const a=pubgAccounts.find(x=>x.id===id);if(!a)return;
+      $('pubgModalTitle').textContent=a.title;
+      const photos=[a.image_url,...(Array.isArray(a.gallery_urls)?a.gallery_urls:[])].map(safeHttpUrl).filter(Boolean);
+      const specs=[['المستوى',Number(a.level)||0],['التصنيف',a.rank||'غير محدد'],['الملابس النادرة',Number(a.rare_outfits)||0],['الأسلحة المطوّرة',Number(a.upgraded_weapons)||0]];
+      const statusText=pubgStatusNames[a.status]||'غير محدد';
+      $('pubgModalContent').innerHTML=`<div class="pubg-main-image" id="pubgModalMainImage">${photos.length?`<img src="${escapeHTML(photos[0])}" alt="${escapeHTML(a.title)}">`:'<span class="pubg-fallback">🎮</span>'}</div>${photos.length>1?`<div class="pubg-gallery">${photos.map((url,i)=>`<button type="button" class="${i===0?'active':''}" data-pubg-photo="${i}" aria-label="الصورة ${i+1}"><img src="${escapeHTML(url)}" alt=""></button>`).join('')}</div>`:''}<div class="pubg-specs">${specs.map(([k,v])=>`<span class="pubg-spec">${k}: ${escapeHTML(v)}</span>`).join('')}<span class="status ${pubgStatusClass(a.status)}">${statusText}</span></div><p class="pubg-description">${escapeHTML(a.description||'لا توجد تفاصيل إضافية.')}</p><div style="margin-top:15px">${pubgPriceMarkup(a)}</div>${a.status==='available'?'<button class="primary" id="pubgWhatsappBtn" style="width:100%;margin-top:14px">استفسر عبر واتساب</button>':`<div class="notice">${a.status==='reserved'?'هذا الحساب محجوز حالياً ولا يستقبل استفسارات جديدة.':'هذا الحساب مباع ولم يعد متاحاً.'}</div>`}<p class="muted small" style="margin-top:12px">قسم عرض واستفسار مستقل؛ لا يتم شراء هذا الحساب عبر سلة المتجر أو طرق الدفع المعتادة. تحقّق من شروط اللعبة قبل أي نقل أو اتفاق.</p>`;
+      $('pubgModalContent').querySelectorAll('[data-pubg-photo]').forEach(b=>b.addEventListener('click',()=>{
+        const idx=Number(b.dataset.pubgPhoto),url=photos[idx];if(!url)return;
+        $('pubgModalMainImage').innerHTML=`<img src="${escapeHTML(url)}" alt="${escapeHTML(a.title)}">`;
+        $('pubgModalContent').querySelectorAll('[data-pubg-photo]').forEach(x=>x.classList.toggle('active',x===b));
+      }));
+      const whatsapp=$('pubgWhatsappBtn');if(whatsapp)whatsapp.onclick=()=>{
+        const phone=String(settings.support_whatsapp||'').replace(/\D/g,'');
+        if(!phone){toast('لم يحدد المتجر رقم واتساب للاستفسار بعد','error');return;}
+        const message=`مرحباً، أود الاستفسار عن حساب PUBG Mobile: ${a.title}. هل يمكن تزويدي بالتفاصيل؟`;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`,'_blank','noopener');
+      };
+      openModal('pubgAccountModal');
+    }
+    $('refreshPubgAccounts').onclick=loadPubgAccounts;
+
+    function resetPubgAdminForm(){
+      editingPubgAccountId=null;$('adminPubgForm').reset();$('pubgAdminLevel').value=0;$('pubgAdminRareOutfits').value=0;$('pubgAdminUpgradedWeapons').value=0;$('pubgAdminStatus').value='available';$('pubgAdminActive').checked=true;$('pubgAdminSaveBtn').textContent='إضافة الحساب';
+    }
+    $('pubgAdminResetBtn').onclick=resetPubgAdminForm;
+    async function loadAdminPubgAccounts(){
+      if(!adminOnly())return;
+      const {data,error}=await supabase.from('pubg_accounts').select('*').order('created_at',{ascending:false});
+      if(error){$('adminPubgRows').innerHTML='<tr><td colspan="5">تعذر تحميل الحسابات</td></tr>';toast('تعذر تحميل قائمة حسابات PUBG','error');return;}
+      const rows=data||[];
+      $('adminPubgRows').innerHTML=rows.length?rows.map(a=>`<tr><td>${safeHttpUrl(a.image_url)?`<img class="pubg-admin-thumb" src="${escapeHTML(safeHttpUrl(a.image_url))}" alt="">`:''}<strong>${escapeHTML(a.title)}</strong></td><td>${money(a.price_usd,'$')}</td><td><span class="status ${pubgStatusClass(a.status)}">${pubgStatusNames[a.status]||a.status}</span></td><td><span class="status ${a.is_active?'completed':'rejected'}">${a.is_active?'ظاهر':'مخفي'}</span></td><td><button class="text-link" data-pubg-edit="${a.id}">تعديل</button> · <button class="text-link" data-pubg-toggle="${a.id}" data-active="${a.is_active}">${a.is_active?'إخفاء':'إظهار'}</button> · <button class="text-link" data-pubg-delete="${a.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="5" class="muted">لم تتم إضافة حسابات بعد.</td></tr>';
+      $('adminPubgRows').querySelectorAll('[data-pubg-edit]').forEach(b=>b.onclick=()=>{
+        const a=rows.find(x=>x.id===b.dataset.pubgEdit);if(!a)return;
+        editingPubgAccountId=a.id;$('pubgAdminTitle').value=a.title||'';$('pubgAdminDescription').value=a.description||'';$('pubgAdminLevel').value=a.level??0;$('pubgAdminRank').value=a.rank||'';$('pubgAdminRareOutfits').value=a.rare_outfits??0;$('pubgAdminUpgradedWeapons').value=a.upgraded_weapons??0;$('pubgAdminPriceUsd').value=a.price_usd??'';$('pubgAdminImage').value=a.image_url||'';$('pubgAdminGallery').value=(a.gallery_urls||[]).join('\n');$('pubgAdminStatus').value=a.status||'available';$('pubgAdminActive').checked=!!a.is_active;$('pubgAdminSaveBtn').textContent='حفظ التعديلات';$('pubgAdminTitle').focus();
+      });
+      $('adminPubgRows').querySelectorAll('[data-pubg-toggle]').forEach(b=>b.onclick=async()=>{
+        const {error}=await supabase.from('pubg_accounts').update({is_active:b.dataset.active!=='true',updated_at:new Date().toISOString()}).eq('id',b.dataset.pubgToggle);
+        if(error)toast(error.message,'error');else{toast('تم تحديث ظهور الحساب','success');await loadAdminPubgAccounts();await loadPubgAccounts();}
+      });
+      $('adminPubgRows').querySelectorAll('[data-pubg-delete]').forEach(b=>b.onclick=async()=>{
+        if(!confirm('هل تريد حذف هذا الحساب نهائياً؟'))return;
+        const {error}=await supabase.from('pubg_accounts').delete().eq('id',b.dataset.pubgDelete);
+        if(error)toast(error.message,'error');else{toast('تم حذف الحساب','success');await loadAdminPubgAccounts();await loadPubgAccounts();}
+      });
+    }
+    $('adminPubgForm').onsubmit=async e=>{
+      e.preventDefault();if(!adminOnly())return;
+      const title=$('pubgAdminTitle').value.trim(),price=Number($('pubgAdminPriceUsd').value),image=safeHttpUrl($('pubgAdminImage').value);
+      if(!title)return toast('أدخل عنوان الحساب','error');
+      if(!Number.isFinite(price)||price<=0)return toast('أدخل سعراً صحيحاً بالدولار','error');
+      if(!image)return toast('أدخل رابط صورة رئيسية صحيحاً يبدأ بـ http:// أو https://','error');
+      const rawGallery=$('pubgAdminGallery').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+      const gallery=rawGallery.map(safeHttpUrl);
+      if(gallery.some(x=>!x))return toast('تأكد من أن كل روابط الصور الإضافية تبدأ بـ http:// أو https://','error');
+      const level=Math.max(0,Math.floor(Number($('pubgAdminLevel').value)||0));
+      const rare=Math.max(0,Math.floor(Number($('pubgAdminRareOutfits').value)||0));
+      const weapons=Math.max(0,Math.floor(Number($('pubgAdminUpgradedWeapons').value)||0));
+      const status=$('pubgAdminStatus').value;
+      if(!['available','reserved','sold'].includes(status))return toast('اختر حالة حساب صحيحة','error');
+      const payload={title,description:$('pubgAdminDescription').value.trim(),level,rank:$('pubgAdminRank').value.trim(),rare_outfits:rare,upgraded_weapons:weapons,price_usd:Number(price.toFixed(2)),image_url:image,gallery_urls:[...new Set(gallery)],status,is_active:$('pubgAdminActive').checked,updated_at:new Date().toISOString()};
+      const q=editingPubgAccountId?supabase.from('pubg_accounts').update(payload).eq('id',editingPubgAccountId):supabase.from('pubg_accounts').insert(payload);
+      const {error}=await q;
+      if(error){toast(error.message,'error');return;}
+      toast(editingPubgAccountId?'تم تحديث الحساب':'تمت إضافة الحساب','success');resetPubgAdminForm();await loadAdminPubgAccounts();await loadPubgAccounts();
+    };
+
     // Lightweight filtering for each catalogue view.
     [['gamesSearch','gamesGrid','game'],['appsSearch','applicationsGrid','application'],['cardsSearch','giftCardsGrid','gift_card'],['allSearch','allGrid','all']].forEach(([input,grid,type])=>$(input).addEventListener('input',()=>{const q=$(input).value.trim().toLowerCase();const list=products.filter(p=>p.is_active&&(type==='all'||p.product_type===type)&&(`${p.title} ${p.description||''}`).toLowerCase().includes(q));renderGrid(grid,list);}));
     [['gamesSort','gamesGrid','game'],['appsSort','applicationsGrid','application']].forEach(([id,grid,type])=>$(id).addEventListener('change',()=>{let list=[...productsForType(type)];if($(id).value==='name')list.sort((a,b)=>a.title.localeCompare(b.title,'ar'));if($(id).value==='price')list.sort((a,b)=>(productPrice(a)?.price_syp??Infinity)-(productPrice(b)?.price_syp??Infinity));renderGrid(grid,list);}));
@@ -378,7 +508,7 @@ openModal('productModal');
     $('year').textContent=new Date().getFullYear();updateCartCount();
 
     async function init(){
-      try{await handleAuthState();await loadStoreData();const requestedPage=new URLSearchParams(window.location.search).get('view');if(['home','games','applications','gift-cards','all','orders','account','admin'].includes(requestedPage))showPage(requestedPage);restartHeroTimer();}
+      try{await handleAuthState();await loadStoreData();const requestedPage=new URLSearchParams(window.location.search).get('view');if(['home','games','applications','gift-cards','all','pubg-accounts','orders','account','admin'].includes(requestedPage))showPage(requestedPage);restartHeroTimer();}
       catch(err){console.error(err);toast('تعذر الاتصال بالخدمات. تحقق من الاتصال وإعدادات Supabase.','error');}
     }
     init();
