@@ -26,6 +26,16 @@
 
     .pubg-promo{margin-top:14px}.pubg-promo .primary{white-space:nowrap}
     .pubg-card-grid{margin-top:16px}.pubg-card-cover{height:178px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,rgba(255,138,24,.22),transparent 62%),linear-gradient(135deg,#24202c,#14141c)}.pubg-card-cover img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}.pubg-card-cover .pubg-fallback{font-size:58px}.pubg-status{position:absolute;top:11px;right:11px;z-index:2}.pubg-specs{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.pubg-spec{font-size:10px;color:#ddd;background:var(--surface3);padding:5px 8px;border-radius:9px}.pubg-price-usd{display:inline-block;color:var(--muted);font-size:10px;margin-right:5px}.pubg-main-image{height:260px;border-radius:15px;overflow:hidden;background:linear-gradient(135deg,#28232e,#121219);display:grid;place-items:center;margin-bottom:10px}.pubg-main-image img{width:100%;height:100%;object-fit:contain}.pubg-main-image .pubg-fallback{font-size:68px}.pubg-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:10px 0 16px}.pubg-gallery button{padding:0;height:70px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#101016}.pubg-gallery button.active{border-color:var(--orange)}.pubg-gallery img{width:100%;height:100%;object-fit:cover}.pubg-description{white-space:pre-wrap;line-height:1.9;color:#d6d6df;font-size:12px}.pubg-admin-thumb{width:46px;height:36px;border-radius:8px;object-fit:cover;vertical-align:middle;margin-left:7px}
+    .pubg-filter-panel{margin:16px 0;padding:17px}
+    .pubg-filter-grid{display:grid;grid-template-columns:minmax(220px,2fr) repeat(4,minmax(130px,1fr));gap:11px;align-items:end}
+    .pubg-filter-field{display:grid;gap:6px;min-width:0}
+    .pubg-filter-field label{font-size:11px;color:#c6c6d0;font-weight:700}
+    .pubg-filter-field .field{height:44px}
+    .pubg-filter-search{min-width:0}
+    .pubg-filter-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+    .pubg-filter-meta p{margin:0;color:var(--muted);font-size:11px}
+    @media(max-width:960px){.pubg-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pubg-filter-search{grid-column:1/-1}}
+    @media(max-width:680px){.pubg-filter-grid{grid-template-columns:1fr}.pubg-filter-search{grid-column:auto}.pubg-filter-meta{align-items:stretch;flex-direction:column}.pubg-filter-meta button{width:100%}}
   </style>
 </head>
 <body>
@@ -75,7 +85,19 @@
     <section id="page-gift-cards" class="page"><div class="container"><div class="page-title"><div><h1>البطاقات الرقمية 🎁</h1><p>بطاقات ورصيد رقمي جاهز</p></div></div><div class="toolbar"><div class="searchbox"><input id="cardsSearch" placeholder="ابحث عن بطاقة..." autocomplete="off"></div></div><div class="products-grid" id="giftCardsGrid"></div></div></section>
     <section id="page-all" class="page"><div class="container"><div class="page-title"><div><h1>جميع المنتجات</h1><p>تصفّح كل ما هو متاح في المتجر</p></div></div><div class="toolbar"><div class="searchbox"><input id="allSearch" placeholder="ابحث عن منتج..." autocomplete="off"></div></div><div class="products-grid" id="allGrid"></div></div></section>
 
-    <section id="page-pubg-accounts" class="page"><div class="container"><div class="page-title"><div><h1>حسابات PUBG Mobile 🎮</h1><p>حسابات معروضة مع الصور والتفاصيل والسعر. الاستفسار عبر واتساب للحسابات المتاحة فقط.</p></div><button class="secondary" id="refreshPubgAccounts">تحديث ↻</button></div><div class="notice">هذا قسم عرض واستفسار مستقل عن سلة المشتريات وطرق الدفع. تحقّق من سياسات اللعبة وشروط نقل الحساب قبل إتمام أي اتفاق.</div><div id="pubgAccountsGrid" class="products-grid pubg-card-grid"><div class="empty-state"><div class="empty-icon">🎮</div>يتم تحميل الحسابات...</div></div></div></section>
+    <section id="page-pubg-accounts" class="page"><div class="container"><div class="page-title"><div><h1>حسابات PUBG Mobile 🎮</h1><p>حسابات معروضة مع الصور والتفاصيل والسعر. الاستفسار عبر واتساب للحسابات المتاحة فقط.</p></div><button class="secondary" id="refreshPubgAccounts">تحديث ↻</button></div><div class="notice">هذا قسم عرض واستفسار مستقل عن سلة المشتريات وطرق الدفع. تحقّق من سياسات اللعبة وشروط نقل الحساب قبل إتمام أي اتفاق.</div>
+      <div class="panel pubg-filter-panel">
+        <div class="pubg-filter-grid">
+          <div class="pubg-filter-field pubg-filter-search"><label for="pubgSearch">البحث عن حساب</label><input class="field" id="pubgSearch" type="search" placeholder="ابحث بالاسم أو الوصف أو المستوى..." autocomplete="off"></div>
+          <div class="pubg-filter-field"><label for="pubgMinPrice">أقل سعر بالدولار</label><input class="field" id="pubgMinPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="من"></div>
+          <div class="pubg-filter-field"><label for="pubgMaxPrice">أعلى سعر بالدولار</label><input class="field" id="pubgMaxPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="إلى"></div>
+          <div class="pubg-filter-field"><label for="pubgRankFilter">التصنيف</label><select class="field" id="pubgRankFilter"><option value="">كل التصنيفات</option></select></div>
+          <div class="pubg-filter-field"><label for="pubgAvailabilityFilter">حالة الحساب</label><select class="field" id="pubgAvailabilityFilter"><option value="available" selected>المتاحة فقط</option><option value="all">كل الحالات</option><option value="reserved">المحجوزة</option><option value="sold">المباعة</option></select></div>
+          <div class="pubg-filter-field"><label for="pubgSort">ترتيب النتائج</label><select class="field" id="pubgSort"><option value="newest" selected>الأحدث أولاً</option><option value="price-asc">الأرخص أولاً</option><option value="price-desc">الأغلى أولاً</option></select></div>
+        </div>
+        <div class="pubg-filter-meta"><p id="pubgResultsCount" aria-live="polite">يتم تحميل الحسابات...</p><button type="button" class="secondary" id="pubgFiltersReset">مسح التصفية</button></div>
+      </div>
+      <div id="pubgAccountsGrid" class="products-grid pubg-card-grid"><div class="empty-state"><div class="empty-icon">🎮</div>يتم تحميل الحسابات...</div></div></div></section>
 
     <section id="page-orders" class="page"><div class="container"><div class="page-title"><div><h1>طلباتي</h1><p>سجل الطلبات ومتابعة حالتها</p></div><button class="secondary" id="refreshOrders">تحديث ↻</button></div><div id="ordersContent"></div></div></section>
     <section id="page-account" class="page"><div class="container"><div class="page-title"><div><h1>حسابي</h1><p>إدارة معلوماتك الشخصية</p></div></div><div class="panel" id="accountContent"></div></div></section>
@@ -422,18 +444,71 @@ openModal('productModal');
       const root=$('pubgAccountsGrid');if(!root)return;
       const {data,error}=await supabase.from('pubg_accounts').select('*').eq('is_active',true).order('created_at',{ascending:false});
       if(error){root.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div>تعذر تحميل حسابات PUBG حالياً. حاول التحديث لاحقاً.</div>';console.warn('pubg accounts',error);return;}
-      pubgAccounts=data||[];renderPubgAccounts();
+      pubgAccounts=data||[];updatePubgRankOptions();renderPubgAccounts();
+    }
+    function updatePubgRankOptions(){
+      const select=$('pubgRankFilter');if(!select)return;
+      const selected=select.value;
+      const ranks=[...new Set(pubgAccounts.map(a=>String(a.rank||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+      select.innerHTML='<option value="">كل التصنيفات</option>'+ranks.map(rank=>`<option value="${escapeHTML(rank)}">${escapeHTML(rank)}</option>`).join('');
+      if(ranks.includes(selected))select.value=selected;
+    }
+    function getFilteredPubgAccounts(){
+      const query=String($('pubgSearch')?.value||'').trim().toLocaleLowerCase('ar');
+      const minRaw=String($('pubgMinPrice')?.value||'').trim();
+      const maxRaw=String($('pubgMaxPrice')?.value||'').trim();
+      const minPrice=minRaw===''?null:Number(minRaw);
+      const maxPrice=maxRaw===''?null:Number(maxRaw);
+      const rank=String($('pubgRankFilter')?.value||'').trim();
+      const status=String($('pubgAvailabilityFilter')?.value||'available');
+      const sort=String($('pubgSort')?.value||'newest');
+      if((minPrice!==null&&(!Number.isFinite(minPrice)||minPrice<0))||(maxPrice!==null&&(!Number.isFinite(maxPrice)||maxPrice<0)))return {items:[],invalid:'أدخل نطاق سعر صحيحاً بالدولار.'};
+      if(minPrice!==null&&maxPrice!==null&&minPrice>maxPrice)return {items:[],invalid:'أقل سعر لا يمكن أن يكون أكبر من أعلى سعر.'};
+      let items=pubgAccounts.filter(a=>{
+        const searchable=`${a.title||''} ${a.description||''} ${a.rank||''} ${a.level??''}`.toLocaleLowerCase('ar');
+        const price=Number(a.price_usd);
+        return (!query||searchable.includes(query))
+          &&(minPrice===null||price>=minPrice)
+          &&(maxPrice===null||price<=maxPrice)
+          &&(!rank||String(a.rank||'').trim()===rank)
+          &&(status==='all'||a.status===status);
+      });
+      if(sort==='price-asc')items.sort((a,b)=>Number(a.price_usd)-Number(b.price_usd));
+      else if(sort==='price-desc')items.sort((a,b)=>Number(b.price_usd)-Number(a.price_usd));
+      else items.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+      return {items,invalid:''};
     }
     function renderPubgAccounts(){
       const root=$('pubgAccountsGrid');if(!root)return;
-      if(!pubgAccounts.length){root.innerHTML='<div class="empty-state"><div class="empty-icon">🎮</div>لا توجد حسابات معروضة حالياً.</div>';return;}
-      root.innerHTML=pubgAccounts.map(a=>{
+      const count=$('pubgResultsCount');
+      if(!pubgAccounts.length){
+        if(count)count.textContent='لا توجد حسابات معروضة حالياً.';
+        root.innerHTML='<div class="empty-state"><div class="empty-icon">🎮</div>لا توجد حسابات معروضة حالياً.</div>';return;
+      }
+      const result=getFilteredPubgAccounts();
+      if(result.invalid){
+        if(count)count.textContent=result.invalid;
+        root.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div>تحقق من حدود السعر المدخلة.</div>';return;
+      }
+      const items=result.items;
+      if(count)count.textContent=`عرض ${items.length} من ${pubgAccounts.length} حساب`;
+      if(!items.length){
+        root.innerHTML='<div class="empty-state"><div class="empty-icon">🔎</div>لا توجد حسابات تطابق معايير البحث. جرّب تعديل التصفية.</div>';return;
+      }
+      root.innerHTML=items.map(a=>{
         const image=safeHttpUrl(a.image_url);
         const specs=[a.level>0?`المستوى ${Number(a.level)}`:'',a.rank?`التصنيف ${escapeHTML(a.rank)}`:'',`ملابس نادرة ${Number(a.rare_outfits)||0}`,`أسلحة مطوّرة ${Number(a.upgraded_weapons)||0}`].filter(Boolean);
         return `<article class="product-card"><div class="pubg-card-cover">${image?`<img src="${escapeHTML(image)}" alt="${escapeHTML(a.title)}" loading="lazy" onerror="this.remove()">`:'<span class="pubg-fallback">🎮</span>'}<span class="status pubg-status ${pubgStatusClass(a.status)}">${pubgStatusNames[a.status]||'غير محدد'}</span></div><div class="product-body"><h3>${escapeHTML(a.title)}</h3><p class="product-desc">${escapeHTML(a.description||'تفاصيل الحساب متاحة عند فتح البطاقة.')}</p><div class="pubg-specs">${specs.map(x=>`<span class="pubg-spec">${x}</span>`).join('')}</div>${pubgPriceMarkup(a)}<div class="product-foot"><span class="product-type">PUBG Mobile</span><button class="primary" data-pubg-details="${a.id}">التفاصيل</button></div></div></article>`;
       }).join('');
       root.querySelectorAll('[data-pubg-details]').forEach(b=>b.addEventListener('click',()=>openPubgAccount(b.dataset.pubgDetails)));
     }
+    ['pubgSearch','pubgMinPrice','pubgMaxPrice'].forEach(id=>$(id)?.addEventListener('input',renderPubgAccounts));
+    ['pubgRankFilter','pubgAvailabilityFilter','pubgSort'].forEach(id=>$(id)?.addEventListener('change',renderPubgAccounts));
+    $('pubgFiltersReset').onclick=()=>{
+      $('pubgSearch').value='';$('pubgMinPrice').value='';$('pubgMaxPrice').value='';
+      $('pubgRankFilter').value='';$('pubgAvailabilityFilter').value='available';$('pubgSort').value='newest';
+      renderPubgAccounts();
+    };
     function openPubgAccount(id){
       const a=pubgAccounts.find(x=>x.id===id);if(!a)return;
       $('pubgModalTitle').textContent=a.title;
