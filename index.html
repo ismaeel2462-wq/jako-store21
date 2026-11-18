@@ -191,8 +191,7 @@ window.addEventListener('popstate',()=>{
       renderGrid('gamesGrid',productsForType('game'));renderGrid('applicationsGrid',productsForType('application'));renderGrid('giftCardsGrid',productsForType('gift_card'));renderGrid('allGrid',products.filter(p=>p.is_active));
     }
 
-  openModal('productModal');
-};
+  
     async function loadStoreData(){
       const [c,p,pay,b,s]=await Promise.all([
         supabase.from('categories').select('*').eq('is_active',true).order('sort_order'),
