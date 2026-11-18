@@ -386,9 +386,10 @@ openModal('productModal');
         const title=item.product_title||item.product?.title||'منتج';
         const variant=item.variant_title||item.title||'';
         const quantity=Number(item.quantity)||1;
-        const fields=item.fields&&typeof item.fields==='object'
-          ? Object.entries(item.fields).map(([key,value])=>`${key}: ${value}`).join('، ')
-          : '';
+        const customerFields = item.customer_fields ?? item.fields;
+const fields = customerFields && typeof customerFields === 'object' && !Array.isArray(customerFields)
+  ? Object.entries(customerFields).map(([key,value])=>`${key}: ${value}`).join('، ')
+  : '';
         return `${index+1}) ${title}${variant?' - '+variant:''} × ${quantity}${fields?'\n   بيانات العميل: '+fields:''}`;
       });
       const payment=order.payment_methods?.name||'غير محددة';
