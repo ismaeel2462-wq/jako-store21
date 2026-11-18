@@ -86,7 +86,7 @@
 
   <footer><div class="container"><div class="footer-grid"><div><a class="brand" href="#home"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a><p>متجرك الرقمي للألعاب والتطبيقات والبطاقات. تجربة واضحة، حسابات آمنة، ومتابعة سهلة لطلباتك.</p></div><div><h4>روابط سريعة</h4><div class="footer-links"><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="orders">طلباتي</button></div></div><div><h4>حسابك</h4><div class="footer-links"><button data-page="account">الملف الشخصي</button><button id="footerLogin">تسجيل الدخول</button><button id="footerSupport">تواصل مع الدعم</button></div></div></div><div class="copyright"><span>© <span id="year"></span> JAKO STORE — جميع الحقوق محفوظة</span><span>صُمم لعالمك الرقمي ✦</span></div></div></footer>
 
-  <div class="overlay" id="productModal"><div class="modal"><div class="modal-head"><h3 id="productModalTitle">تفاصيل المنتج</h3><button class="close-btn" data-close="productModal">×</button></div><div id="productModalContent"></div></div></div>
+  <div class="overlay" id="productModal"><div class="modal"><div class="modal-head"><h3 id="productModalTitle">تفاصيل المنتج</h3><button class="secondary" data-close="productModal" style="padding:7px 13px">رجوع ←</button></div><div id="productModalContent"></div></div></div>
   <div class="overlay" id="cartModal"><div class="modal"><div class="modal-head"><h3>سلة المشتريات 🛒</h3><button class="close-btn" data-close="cartModal">×</button></div><div id="cartContent"></div></div></div>
   <div class="overlay" id="authModal"><div class="modal"><div class="modal-head"><h3>حساب JAKO STORE</h3><button class="close-btn" data-close="authModal">×</button></div><div class="auth-tabs"><button class="active" data-auth-tab="login">تسجيل الدخول</button><button data-auth-tab="signup">إنشاء حساب</button><button data-auth-tab="reset">استعادة كلمة المرور</button></div><form id="authForm"><div id="authFields"></div><div class="form-actions"><button class="primary" id="authSubmit" type="submit">تسجيل الدخول</button></div></form><div id="authMessage"></div></div></div>
   <div class="overlay" id="checkoutModal"><div class="modal"><div class="modal-head"><h3>إتمام الطلب</h3><button class="close-btn" data-close="checkoutModal">×</button></div><div id="checkoutContent"></div></div></div>
@@ -130,8 +130,32 @@
       if (busy) { button.dataset.oldText = button.innerHTML; button.disabled = true; button.innerHTML = `<span class="loader"></span> ${label}`; }
       else { button.disabled = false; button.innerHTML = button.dataset.oldText || button.textContent; }
     }
-    function openModal(id) { $(id).classList.add('open'); document.body.style.overflow='hidden'; }
-    function closeModal(id) { $(id).classList.remove('open'); if (!document.querySelector('.overlay.open')) document.body.style.overflow=''; }
+    function openModal(id) {
+  const modal=$(id);
+  if(id==='productModal'&&!modal.classList.contains('open')&&modal.dataset.historyAdded!=='true'){
+    history.pushState({jakoProductModal:true},'',location.href);
+    modal.dataset.historyAdded='true';
+  }
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(id) {
+  const modal=$(id),wasOpen=modal.classList.contains('open');
+  const returnHistory=id==='productModal'&&wasOpen&&modal.dataset.historyAdded==='true';
+  modal.classList.remove('open');
+  if(!document.querySelector('.overlay.open'))document.body.style.overflow='';
+  if(returnHistory){modal.dataset.historyAdded='';history.back();}
+}
+
+window.addEventListener('popstate',()=>{
+  const modal=$('productModal');
+  if(modal?.classList.contains('open')){
+    modal.dataset.historyAdded='';
+    modal.classList.remove('open');
+    if(!document.querySelector('.overlay.open'))document.body.style.overflow='';
+  }
+});
     function showPage(page) {
       if (!['home','games','applications','gift-cards','all','orders','account','admin'].includes(page)) page='home';
       if (page==='admin' && !isAdmin) { toast('هذه الصفحة مخصصة للإدارة فقط','error'); page='home'; }
