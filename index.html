@@ -297,10 +297,77 @@ shell.style.background=s.image_url?`linear-gradient(90deg,rgba(0,0,0,.35),rgba(0
   }
 }
     function renderOrderReceipt(order){
-      if(!order)return;const pm=order.payment_methods||{};
-      $('checkoutContent').innerHTML=`<div style="text-align:center;padding:13px 0"><div style="font-size:43px">✅</div><h3 style="margin:5px 0">تم استلام طلبك</h3><p class="muted small">رقم الطلب: <strong>${escapeHTML(order.order_number||order.id)}</strong></p></div><div class="panel"><strong>${escapeHTML(pm.name||'طريقة الدفع')}</strong><p class="muted small" style="line-height:1.9">${escapeHTML(pm.instructions||'يرجى اتباع تعليمات الدفع والتواصل مع الدعم عند الحاجة.')}</p>${pm.account_name?`<p class="small">اسم الحساب: ${escapeHTML(pm.account_name)}</p>`:''}${pm.account_number?`<p class="small">رقم الحساب: <strong>${escapeHTML(pm.account_number)}</strong></p>`:''}${pm.image_url?`<img src="${escapeHTML(pm.image_url)}" style="width:150px;border-radius:12px" alt="QR">`:''}</div><div class="form-actions"><button class="primary" id="receiptDone">عرض طلباتي</button><button class="secondary" id="copyOrder">نسخ رقم الطلب</button></div>`;
-      $('receiptDone').onclick=()=>{closeModal('checkoutModal');showPage('orders');};$('copyOrder').onclick=()=>navigator.clipboard?.writeText(order.order_number||order.id).then(()=>toast('تم نسخ رقم الطلب','success')).catch(()=>toast(order.order_number||order.id));openModal('checkoutModal');
-    }
+  if(!order)return;
+
+  const pm=order.payment_methods||{};
+  const phone=String(settings.support_whatsapp||'963982704754').replace(/\D/g,'');
+  const orderNumber=order.order_number||order.id;
+
+  const items=(order.order_items||[]).map(i=>
+    `• ${i.product_title||'منتج'} - ${i.variant_title||''} × ${i.quantity}`
+  ).join('\n');
+
+  const message=[
+    'مرحباً، أريد متابعة طلبي من JAKO STORE',
+    '',
+    `رقم الطلب: ${orderNumber}`,
+    'تفاصيل الطلب:',
+    items||'يرجى مراجعة تفاصيل الطلب',
+    '',
+    `الإجمالي: ${money(order.total_syp)}`
+  ].join('\n');
+
+  const waUrl=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  $('checkoutContent').innerHTML=`
+    <div style="text-align:center;padding:13px 0">
+      <div style="font-size:43px">✅</div>
+      <h3 style="margin:5px 0">تم استلام طلبك</h3>
+      <p class="muted small">رقم الطلب: <strong>${escapeHTML(orderNumber)}</strong></p>
+    </div>
+
+    <div class="panel">
+      <strong>${escapeHTML(pm.name||'طريقة الدفع')}</strong>
+      <p class="muted small" style="line-height:1.9">
+        ${escapeHTML(pm.instructions||'يرجى اتباع تعليمات الدفع والتواصل مع الدعم عند الحاجة.')}
+      </p>
+
+      ${pm.account_name?`<p class="small">اسم الحساب: ${escapeHTML(pm.account_name)}</p>`:''}
+      ${pm.account_number?`<p class="small">رقم الحساب: <strong>${escapeHTML(pm.account_number)}</strong></p>`:''}
+
+      ${pm.image_url?`
+        <img src="${escapeHTML(pm.image_url)}"
+          style="width:min(230px,100%);height:auto;display:block;margin:12px auto;background:#fff;padding:8px;border-radius:12px"
+          alt="QR">
+      `:''}
+    </div>
+
+    <div class="form-actions" style="display:grid;gap:10px">
+      <button class="primary" id="sendOrderWhatsApp">
+        إرسال تفاصيل الطلب عبر واتساب
+      </button>
+      <button class="secondary" id="receiptDone">عرض طلباتي</button>
+      <button class="secondary" id="copyOrder">نسخ رقم الطلب</button>
+    </div>
+  `;
+
+  $('sendOrderWhatsApp').onclick=()=>{
+    window.open(waUrl,'_blank','noopener,noreferrer');
+  };
+
+  $('receiptDone').onclick=()=>{
+    closeModal('checkoutModal');
+    showPage('orders');
+  };
+
+  $('copyOrder').onclick=()=>{
+    navigator.clipboard?.writeText(orderNumber)
+      .then(()=>toast('تم نسخ رقم الطلب','success'))
+      .catch(()=>toast(orderNumber));
+  };
+
+  openModal('checkoutModal');
+}
 
     function openAuth(tab='login'){setAuthTab(tab);openModal('authModal');}
     function setAuthTab(tab){document.querySelectorAll('[data-auth-tab]').forEach(b=>b.classList.toggle('active',b.dataset.authTab===tab));const fields=$('authFields'),submit=$('authSubmit');$('authMessage').innerHTML='';
