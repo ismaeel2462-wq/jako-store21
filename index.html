@@ -186,7 +186,7 @@
     function renderHero(){
       const slides=banners.length?banners.map((b,i)=>({...b,emoji:['🎮','💎','⚡'][i%3],eyebrow:'✦ عروض JAKO STORE'})):heroDefaults;
       const s=slides[heroIndex%slides.length];$('heroTitle').innerHTML=escapeHTML(s.title).replace(/\n/g,'<br>');$('heroSubtitle').textContent=s.subtitle||'';$('heroEyebrow').textContent=s.eyebrow||'✦ JAKO STORE';$('heroEmoji').textContent=s.emoji||'🎮';
-      const shell=$('heroShell');shell.style.background=s.image_url?`linear-gradient(90deg,rgba(24,16,11,.96),rgba(20,17,22,.78)),url("${String(s.image_url).replace(/"/g,'%22')}") center/cover`:'';
+      const shell=$('heroShell');shell.style.background=s.image_url?`linear-gradient(90deg,rgba(16,12,10,.50),rgba(16,12,10,.34)),url("${String(s.image_url).replace(/"/g,'%22')}") center/cover`:'';
       $('heroDots').innerHTML=slides.map((_,i)=>`<button class="hero-dot ${i===heroIndex?'active':''}" data-hero="${i}" aria-label="الشريحة ${i+1}"></button>`).join('');$('heroDots').querySelectorAll('[data-hero]').forEach(b=>b.addEventListener('click',()=>{heroIndex=Number(b.dataset.hero);renderHero();restartHeroTimer();}));
       $('heroAction').textContent=(s.action_label||'اكتشف المنتجات')+'　←';$('heroAction').onclick=()=>{const url=s.action_url||'#all';if(url.startsWith('#'))showPage(url.slice(1));else window.open(url,'_blank','noopener');};
       window.__jakoHeroSlides=slides;
