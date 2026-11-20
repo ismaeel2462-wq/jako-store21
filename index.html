@@ -144,12 +144,42 @@
   <div class="overlay" id="pubgAccountModal"><div class="modal"><div class="modal-head"><h3 id="pubgModalTitle">تفاصيل حساب PUBG</h3><button class="secondary" data-close="pubgAccountModal" style="padding:7px 13px">رجوع ←</button></div><div id="pubgModalContent"></div></div></div>
   <div class="overlay" id="cartModal"><div class="modal"><div class="modal-head"><h3>سلة المشتريات 🛒</h3><button class="close-btn" data-close="cartModal">×</button></div><div id="cartContent"></div></div></div>
   <div class="overlay" id="authModal"><div class="modal"><div class="modal-head"><h3>حساب JAKO STORE</h3><button class="close-btn" data-close="authModal">×</button></div><div class="auth-tabs"><button class="active" data-auth-tab="login">تسجيل الدخول</button><button data-auth-tab="signup">إنشاء حساب</button><button data-auth-tab="reset">استعادة كلمة المرور</button></div><form id="authForm"><div id="authFields"></div><div class="form-actions"><button class="primary" id="authSubmit" type="submit">تسجيل الدخول</button></div></form><div id="authMessage"></div></div></div>
+  <div class="overlay" id="passwordUpdateModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="passwordUpdateModalTitle">تغيير كلمة المرور</h3>
+        <button class="close-btn" type="button" data-close="passwordUpdateModal" aria-label="إغلاق">×</button>
+      </div>
+      <form id="passwordUpdateForm">
+        <div class="form-grid">
+          <div class="form-field full">
+            <label for="newPassword">كلمة المرور الجديدة (8 أحرف على الأقل)</label>
+            <input class="field" id="newPassword" type="password" minlength="8" required autocomplete="new-password">
+          </div>
+          <div class="form-field full">
+            <label for="confirmNewPassword">تأكيد كلمة المرور الجديدة</label>
+            <input class="field" id="confirmNewPassword" type="password" minlength="8" required autocomplete="new-password">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="primary" id="passwordUpdateSubmit" type="submit">حفظ كلمة المرور</button>
+        </div>
+      </form>
+      <div id="passwordUpdateMessage"></div>
+    </div>
+  </div>
   <div class="overlay" id="checkoutModal"><div class="modal"><div class="modal-head"><h3>إتمام الطلب</h3><button class="close-btn" data-close="checkoutModal">×</button></div><div id="checkoutContent"></div></div></div>
   <div class="overlay" id="productAdminModal"><div class="modal"><div class="modal-head"><h3 id="productAdminTitle">إضافة منتج</h3><button class="close-btn" data-close="productAdminModal">×</button></div><form id="productAdminForm"><div class="form-grid"><div class="form-field"><label>اسم المنتج</label><input class="field" id="adminProductTitle" required></div><div class="form-field"><label>الرابط المختصر (slug)</label><input class="field" id="adminProductSlug" required></div><div class="form-field"><label>الفئة</label><select class="field" id="adminProductCategory" required></select></div><div class="form-field"><label>نوع المنتج</label><select class="field" id="adminProductType"><option value="game">لعبة</option><option value="application">تطبيق</option><option value="gift_card">بطاقة رقمية</option><option value="service">خدمة</option></select></div><div class="form-field full"><label>الوصف</label><textarea class="field textarea" id="adminProductDescription"></textarea></div><div class="form-field full"><label>رابط صورة المنتج</label><input class="field" id="adminProductImage" placeholder="https://..."></div><div class="form-field"><label>شارة قصيرة (اختياري)</label><input class="field" id="adminProductBadge" placeholder="الأكثر طلباً"></div><div class="form-field"><label>حقول مطلوبة من العميل (سطر لكل حقل بصيغة: name|label|placeholder)</label><textarea class="field textarea" id="adminProductFields" placeholder="player_id|معرّف اللاعب|أدخل ID\nserver|السيرفر|اختر السيرفر"></textarea></div><div class="form-field full"><label>طرق الدفع المتاحة لهذا المنتج</label><div id="adminProductPaymentOptions" class="form-grid"><span class="muted small">يتم تحميل طرق الدفع...</span></div><p class="muted small">حدد طرق الدفع التي تريد إتاحتها لهذا المنتج.</p></div><div class="form-field"><label class="check-row"><input type="checkbox" id="adminProductActive" checked> إظهار المنتج في المتجر</label></div><div class="form-field"><label class="check-row"><input type="checkbox" id="adminProductFeatured"> منتج مميز في الرئيسية</label></div></div><div class="form-actions"><button class="primary" type="submit">حفظ المنتج</button><button class="secondary" type="button" data-close="productAdminModal">إلغاء</button></div></form></div></div>
   <div class="toast-wrap" id="toasts" aria-live="polite"></div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm';
+
+    const RECOVERY_CALLBACK_AT_LOAD = (() => {
+      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      const query = new URLSearchParams(window.location.search);
+      return hash.get('type') === 'recovery' || query.get('type') === 'recovery';
+    })();
 
     const SUPABASE_URL = 'https://zfqhfrxvpbnzzrixjaxf.supabase.co';
     const AUTH_REDIRECT_URL = `${window.location.origin}${window.location.pathname}`;
@@ -171,6 +201,7 @@
       {title:'كل باقاتك في مكان واحد',subtitle:'تابع طلباتك واحتفظ بسجل مشترياتك، مع خيارات دفع يحددها المتجر.',action_label:'تصفّح الباقات',action_url:'#applications',emoji:'💎',eyebrow:'✦ تجربة تسوّق أسهل'}
     ];
     let session = null, currentUser = null, isAdmin = false;
+    let passwordUpdateMode = 'account';
     let categories = [], products = [], payments = [], adminPaymentMethods = [], banners = [], settings = {};
     let cart = JSON.parse(localStorage.getItem('jako_cart') || '[]');
     let currentProduct = null, currentVariants = [], selectedVariant = null, productModalQty = 1;
@@ -423,10 +454,67 @@ const fields = customerFields && typeof customerFields === 'object' && !Array.is
     }
 
     function openAuth(tab='login'){setAuthTab(tab);openModal('authModal');}
+    function openPasswordUpdateModal(mode='account') {
+      passwordUpdateMode = mode;
+      $('passwordUpdateModalTitle').textContent = mode === 'recovery'
+        ? 'تعيين كلمة مرور جديدة'
+        : 'تغيير كلمة المرور';
+      $('passwordUpdateForm').reset();
+      $('passwordUpdateMessage').innerHTML = mode === 'recovery'
+        ? '<div class="notice">أدخل كلمة المرور الجديدة وأكّدها لإكمال استعادة حسابك.</div>'
+        : '';
+      openModal('passwordUpdateModal');
+    }
+
+    $('passwordUpdateForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const button = $('passwordUpdateSubmit');
+      const password = $('newPassword').value;
+      const confirmPassword = $('confirmNewPassword').value;
+      $('passwordUpdateMessage').innerHTML = '';
+
+      if (password.length < 8) {
+        const message = 'كلمة المرور يجب ألا تقل عن 8 أحرف.';
+        $('passwordUpdateMessage').innerHTML = `<div class="notice">${escapeHTML(message)}</div>`;
+        return;
+      }
+      if (password !== confirmPassword) {
+        const message = 'كلمتا المرور غير متطابقتين.';
+        $('passwordUpdateMessage').innerHTML = `<div class="notice">${escapeHTML(message)}</div>`;
+        return;
+      }
+
+      setBusy(button, true);
+      try {
+        const { data: { session: activeSession }, error: sessionError } =
+          await supabase.auth.getSession();
+        if (sessionError) throw sessionError;
+        if (!activeSession) {
+          throw new Error('انتهت جلسة الاستعادة أو لم يعد الرابط صالحاً. اطلب رابط استعادة جديداً.');
+        }
+
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) throw error;
+
+        if (passwordUpdateMode === 'recovery') {
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+        closeModal('passwordUpdateModal');
+        passwordUpdateMode = 'account';
+        toast('تم تحديث كلمة المرور بنجاح', 'success');
+      } catch (err) {
+        const message = String(err?.message || 'تعذر تحديث كلمة المرور.');
+        $('passwordUpdateMessage').innerHTML =
+          `<div class="notice">${escapeHTML(message)}</div>`;
+        toast(message, 'error');
+      } finally {
+        setBusy(button, false);
+      }
+    });
+
     function setAuthTab(tab){document.querySelectorAll('[data-auth-tab]').forEach(b=>b.classList.toggle('active',b.dataset.authTab===tab));const fields=$('authFields'),submit=$('authSubmit');$('authMessage').innerHTML='';
       if(tab==='login'){fields.innerHTML=`<div class="form-grid"><div class="form-field full"><label>البريد الإلكتروني</label><input class="field" id="authEmail" type="email" required autocomplete="email"></div><div class="form-field full"><label>كلمة المرور</label><input class="field" id="authPassword" type="password" required autocomplete="current-password"></div></div>`;submit.textContent='تسجيل الدخول';}
       else if(tab==='signup'){fields.innerHTML=`<div class="form-grid"><div class="form-field full"><label>الاسم الكامل</label><input class="field" id="authName" required autocomplete="name"></div><div class="form-field full"><label>البريد الإلكتروني</label><input class="field" id="authEmail" type="email" required autocomplete="email"></div><div class="form-field full"><label>كلمة المرور (8 أحرف على الأقل)</label><input class="field" id="authPassword" type="password" minlength="8" required autocomplete="new-password"></div></div>`;submit.textContent='إنشاء حساب';}
-      else if(window.location.hash.includes('type=recovery')){fields.innerHTML=`<div class="form-grid"><div class="form-field full"><label>كلمة المرور الجديدة</label><input class="field" id="authPassword" type="password" minlength="8" required autocomplete="new-password"></div><div class="form-field full"><label>تأكيد كلمة المرور</label><input class="field" id="authPasswordConfirm" type="password" minlength="8" required autocomplete="new-password"></div></div>`;submit.textContent='حفظ كلمة المرور الجديدة';}
       else{fields.innerHTML=`<div class="form-grid"><div class="form-field full"><label>البريد الإلكتروني</label><input class="field" id="authEmail" type="email" required autocomplete="email"></div></div>`;submit.textContent='إرسال رابط الاستعادة';}
     }
     document.querySelectorAll('[data-auth-tab]').forEach(b=>b.addEventListener('click',()=>setAuthTab(b.dataset.authTab)));
@@ -438,8 +526,6 @@ const fields = customerFields && typeof customerFields === 'object' && !Array.is
         }else if(tab==='signup'){
           const full_name=$('authName').value.trim();const {data,error}=await supabase.auth.signUp({email,password:$('authPassword').value,options:{data:{full_name},emailRedirectTo:AUTH_REDIRECT_URL}});if(error)throw error;
           if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0){$('authMessage').innerHTML='<div class="notice">يبدو أن هذا البريد لديه حساب بالفعل. جرّب تسجيل الدخول أو استعادة كلمة المرور.</div>';return;} $('authMessage').innerHTML=`<div class="notice">تم إرسال رسالة التحقق إلى بريدك الإلكتروني. افتح الرسالة واضغط رابط التأكيد للعودة إلى المتجر.${data.session?' تم تسجيل دخولك.':''}</div>`;if(data.session)closeModal('authModal');
-        }else if(window.location.hash.includes('type=recovery')){
-          const password=$('authPassword').value,confirmPassword=$('authPasswordConfirm').value;if(password.length<8)throw new Error('كلمة المرور يجب ألا تقل عن 8 أحرف');if(password!==confirmPassword)throw new Error('كلمتا المرور غير متطابقتين');const {error}=await supabase.auth.updateUser({password});if(error)throw error;history.replaceState(null,'',window.location.pathname+window.location.search);closeModal('authModal');toast('تم تحديث كلمة المرور بنجاح','success');
         }else{
           const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:AUTH_REDIRECT_URL});if(error)throw error;$('authMessage').innerHTML='<div class="notice">تم إرسال رابط استعادة كلمة المرور إن كان البريد مسجلاً. افحص صندوق الوارد والرسائل غير المرغوبة.</div>';
         }
@@ -447,9 +533,24 @@ const fields = customerFields && typeof customerFields === 'object' && !Array.is
     });
     $('authBtn').onclick=()=>currentUser?showPage('account'):openAuth('login');$('footerLogin').onclick=()=>openAuth('login');$('signoutBtn').onclick=async()=>{const {error}=await supabase.auth.signOut();if(error)toast(error.message,'error');else toast('تم تسجيل الخروج','success');};
     async function handleAuthState(){
-      const {data:{session:s}}=await supabase.auth.getSession();session=s;currentUser=s?.user||null;await refreshUserUI();
-      supabase.auth.onAuthStateChange(async(_event,newSession)=>{session=newSession;currentUser=newSession?.user||null;setTimeout(refreshUserUI,0);});
-      if(window.location.hash.includes('type=recovery')){openAuth('reset');$('authMessage').innerHTML='<div class="notice">أدخل بريدك لاستخدام رابط الاستعادة الذي وصلك. إذا كان الرابط صالحاً ستتمكن من تغيير كلمة المرور.</div>';}
+      supabase.auth.onAuthStateChange((event,newSession)=>{
+        session=newSession;
+        currentUser=newSession?.user||null;
+        if(event==='PASSWORD_RECOVERY'){
+          setTimeout(()=>openPasswordUpdateModal('recovery'),0);
+        }
+        setTimeout(()=>refreshUserUI(),0);
+      });
+
+      const {data:{session:s},error}=await supabase.auth.getSession();
+      if(error)throw error;
+      session=s;
+      currentUser=s?.user||null;
+      await refreshUserUI();
+
+      if(RECOVERY_CALLBACK_AT_LOAD && s && !$('passwordUpdateModal').classList.contains('open')){
+        openPasswordUpdateModal('recovery');
+      }
     }
     async function refreshUserUI(){
       isAdmin=false;if(currentUser){const {data,error}=await supabase.from('user_roles').select('role').eq('user_id',currentUser.id).maybeSingle();if(!error&&data?.role==='admin')isAdmin=true;}
@@ -460,7 +561,7 @@ const fields = customerFields && typeof customerFields === 'object' && !Array.is
 
     async function loadOrders(){const root=$('ordersContent');if(!currentUser){root.innerHTML='<div class="empty-state">سجّل الدخول لعرض طلباتك</div>';return;}root.innerHTML='<div class="panel muted">جارٍ تحميل الطلبات...</div>';const {data,error}=await supabase.from('orders').select('*,payment_methods(name),order_items(*)').eq('user_id',currentUser.id).order('created_at',{ascending:false});if(error){root.innerHTML='<div class="notice">تعذر تحميل الطلبات. حاول التحديث.</div>';return;}if(!data?.length){root.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div>لا توجد طلبات حتى الآن</div>';return;}root.innerHTML=`<div class="panel"><div class="table-wrap"><table><thead><tr><th>رقم الطلب</th><th>التفاصيل</th><th>الإجمالي</th><th>الدفع</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>${data.map(o=>`<tr><td><strong>${escapeHTML(o.order_number)}</strong></td><td>${(o.order_items||[]).map(i=>`${escapeHTML(i.product_title)} — ${escapeHTML(i.variant_title)} × ${i.quantity}`).join('<br>')}</td><td>${money(o.total_syp)}</td><td>${escapeHTML(o.payment_methods?.name||'—')}</td><td><span class="status ${o.status}">${statusNames[o.status]||o.status}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td></tr>`).join('')}</tbody></table></div></div>`;}
     $('refreshOrders').onclick=loadOrders;
-    async function renderAccount(){const root=$('accountContent');if(!currentUser){root.innerHTML='<div class="notice">سجّل الدخول لعرض ملفك الشخصي.</div>';return;}const {data:profile}=await supabase.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();root.innerHTML=`<div class="form-grid"><div class="form-field"><label>الاسم الكامل</label><input class="field" id="profileName" value="${escapeHTML(profile?.full_name||currentUser.user_metadata?.full_name||'')}"></div><div class="form-field"><label>البريد الإلكتروني</label><input class="field" value="${escapeHTML(currentUser.email||'')}" disabled></div><div class="form-field"><label>رقم الهاتف</label><input class="field" id="profilePhone" value="${escapeHTML(profile?.phone||'')}"></div></div><div class="form-actions"><button class="primary" id="saveProfile">حفظ التعديلات</button><button class="secondary" id="changePassword">تغيير كلمة المرور</button></div>`;$('saveProfile').onclick=async()=>{const {error}=await supabase.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',currentUser.id);if(error)toast(error.message,'error');else toast('تم تحديث الملف الشخصي','success');};$('changePassword').onclick=async()=>{const password=prompt('أدخل كلمة المرور الجديدة (8 أحرف على الأقل):');if(!password)return;if(password.length<8)return toast('كلمة المرور قصيرة جداً','error');const {error}=await supabase.auth.updateUser({password});if(error)toast(error.message,'error');else toast('تم تحديث كلمة المرور','success');};}
+    async function renderAccount(){const root=$('accountContent');if(!currentUser){root.innerHTML='<div class="notice">سجّل الدخول لعرض ملفك الشخصي.</div>';return;}const {data:profile}=await supabase.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();root.innerHTML=`<div class="form-grid"><div class="form-field"><label>الاسم الكامل</label><input class="field" id="profileName" value="${escapeHTML(profile?.full_name||currentUser.user_metadata?.full_name||'')}"></div><div class="form-field"><label>البريد الإلكتروني</label><input class="field" value="${escapeHTML(currentUser.email||'')}" disabled></div><div class="form-field"><label>رقم الهاتف</label><input class="field" id="profilePhone" value="${escapeHTML(profile?.phone||'')}"></div></div><div class="form-actions"><button class="primary" id="saveProfile">حفظ التعديلات</button><button class="secondary" id="changePassword">تغيير كلمة المرور</button></div>`;$('saveProfile').onclick=async()=>{const {error}=await supabase.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',currentUser.id);if(error)toast(error.message,'error');else toast('تم تحديث الملف الشخصي','success');};$('changePassword').onclick=()=>openPasswordUpdateModal('account');}
 
     function adminOnly(){if(!isAdmin){toast('ليس لديك صلاحية الإدارة','error');return false;}return true;}
     async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings(),loadAdminPubgAccounts()]);}
