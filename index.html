@@ -38,7 +38,9 @@
     .pubg-filter-meta p{margin:0;color:var(--muted);font-size:11px}
     @media(max-width:960px){.pubg-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pubg-filter-search{grid-column:1/-1}}
     @media(max-width:680px){.pubg-filter-grid{grid-template-columns:1fr}.pubg-filter-search{grid-column:auto}.pubg-filter-meta{align-items:stretch;flex-direction:column}.pubg-filter-meta button{width:100%}.pubg-card-grid .product-card{grid-template-columns:minmax(0,1fr)}.pubg-card-grid .pubg-card-cover{width:100%;height:auto;min-height:0;aspect-ratio:16/9}.pubg-card-grid .product-body{padding:15px}}
-  </style>
+      .analytics-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:680px}.analytics-panel{margin-top:12px}.analytics-chart{min-height:230px;display:flex;align-items:center;justify-content:center}.analytics-chart-scroll{width:100%;overflow-x:auto}.analytics-chart svg{display:block;width:100%;min-width:620px;height:auto}.analytics-footnote{color:var(--muted);font-size:11px;margin:8px 0 0}.analytics-panel .section-head{margin-bottom:12px}
+    @media(max-width:600px){.analytics-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.analytics-panel{padding:14px}}
+    </style>
 </head>
 <body>
   <div class="topline"><div class="container"><span>⚡ <strong>JAKO STORE</strong> — شحنك الرقمي أصبح أسهل</span><span id="topUser">مرحباً بك في عالمك الرقمي</span></div></div>
@@ -106,7 +108,18 @@
     <section id="page-account" class="page"><div class="container"><div class="page-title"><div><h1>حسابي</h1><p>إدارة معلوماتك الشخصية</p></div></div><div class="panel" id="accountContent"></div></div></section>
     <section id="page-admin" class="page"><div class="container"><div class="page-title"><div><h1>لوحة الإدارة ⚙</h1><p>إدارة المنتجات والباقات والطلبات وبيانات المتجر</p></div><span class="status completed">مدير موثّق</span></div>
       <div class="stats-grid" id="adminStats"><div class="stat"><span>المنتجات</span><strong>—</strong></div><div class="stat"><span>الطلبات</span><strong>—</strong></div><div class="stat"><span>المستخدمون</span><strong>—</strong></div><div class="stat"><span>بانتظار المعالجة</span><strong>—</strong></div></div>
-      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button></div>
+      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button></div>
+      <div id="adminTab-analytics" class="admin-tab hidden">
+        <div class="stats-grid analytics-stats-grid">
+          <div class="stat"><span>مشاهدات اليوم</span><strong id="analyticsTodayValue">—</strong></div>
+          <div class="stat"><span>مشاهدات آخر 30 يوماً</span><strong id="analytics30Value">—</strong></div>
+        </div>
+        <div class="panel analytics-panel">
+          <div class="section-head"><div><h2>مشاهدات الصفحات خلال آخر 30 يوماً</h2><p>عدد مرات تحميل صفحات المتجر المسجلة عبر Cloudflare Web Analytics</p></div><button class="secondary" id="refreshAnalyticsBtn">تحديث ↻</button></div>
+          <div id="analyticsChart" class="analytics-chart"><div class="muted">افتح هذا القسم لتحميل الإحصاءات</div></div>
+          <p class="analytics-footnote">الأرقام تمثل مشاهدات الصفحات وليست عدد الزوار الفريدين. التوقيت المعتمد في التقرير: UTC.</p>
+        </div>
+      </div>
       <div id="adminTab-products" class="admin-tab"><div class="panel"><div class="section-head"><div><h2>المنتجات</h2><p>أضف الألعاب والتطبيقات والبطاقات ثم أضف باقات كل منتج</p></div><button class="primary" id="addProductBtn">＋ منتج جديد</button></div><div class="table-wrap"><table><thead><tr><th>المنتج</th><th>الفئة</th><th>النوع</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="adminProductsRows"><tr><td colspan="5" class="muted">تحميل...</td></tr></tbody></table></div></div><div class="panel" style="margin-top:14px"><h3>إدارة الباقات</h3><div class="form-grid"><div class="form-field"><label>اختر المنتج</label><select class="field" id="variantProduct"></select></div><div class="form-field"><label>اسم الباقة</label><input class="field" id="variantTitle" placeholder="مثال: 60 جوهرة"></div><div class="form-field"><label>السعر بالليرة السورية</label><input class="field" type="number" min="0" step="1" id="variantSyp"></div><div class="form-field"><label>السعر بالدولار (اختياري)</label><input class="field" type="number" min="0" step="0.01" id="variantUsd"></div><div class="form-field"><label>المخزون (اتركه فارغاً للمخزون غير المحدود)</label><input class="field" type="number" min="0" step="1" id="variantStock"></div><div class="form-field"><label>ملاحظة الباقة (اختياري)</label><input class="field" id="variantDescription"></div></div><div class="form-actions"><button class="primary" id="saveVariantBtn">إضافة الباقة</button></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>الباقة</th><th>السعر SYP</th><th>السعر USD</th><th>المخزون</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminVariantsRows"><tr><td colspan="6" class="muted">اختر منتجاً لعرض باقاته</td></tr></tbody></table></div></div></div>
       <div id="adminTab-orders" class="admin-tab hidden"><div class="panel"><h3>كل الطلبات</h3><div class="table-wrap"><table><thead><tr><th>رقم الطلب</th><th>العميل</th><th>المنتجات</th><th>الإجمالي</th><th>الحالة</th><th>التاريخ</th><th>تحديث الحالة</th></tr></thead><tbody id="adminOrdersRows"></tbody></table></div></div></div>
       <div id="adminTab-payments" class="admin-tab hidden"><div class="panel"><div class="section-head"><div><h2>طرق الدفع</h2><p>أدخل معلومات التحويل التي ستظهر للعميل عند إتمام الطلب</p></div></div><div class="form-grid"><div class="form-field"><label>اسم طريقة الدفع</label><input class="field" id="payName" placeholder="شام كاش / Google Play / واتساب"></div><div class="form-field"><label>اسم صاحب الحساب</label><input class="field" id="payAccountName"></div><div class="form-field"><label>رقم الحساب أو المعرف</label><input class="field" id="payAccountNumber"></div><div class="form-field"><label>رابط صورة QR (اختياري)</label><input class="field" id="payImage"></div><div class="form-field full"><label>تعليمات الدفع</label><textarea class="field textarea" id="payInstructions" placeholder="اكتب تعليمات التحويل وإرسال إثبات الدفع"></textarea></div><div class="form-field"><label class="check-row"><input type="checkbox" id="payActive" checked> تفعيل طريقة الدفع</label></div></div><div class="form-actions"><button class="primary" id="savePaymentBtn">إضافة طريقة الدفع</button></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>الطريقة</th><th>الحساب</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminPaymentsRows"></tbody></table></div></div></div>
@@ -658,8 +671,57 @@ openModal('productModal');
     function adminOnly(){if(!isAdmin){toast('ليس لديك صلاحية الإدارة','error');return false;}return true;}
     async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings(),loadAdminPubgAccounts()]);}
     async function loadAdminStats(){const [p,o,u,pending]=await Promise.all([supabase.from('products').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}),supabase.from('profiles').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}).in('status',['pending','awaiting_payment'])]);$('adminStats').innerHTML=[['المنتجات',p.count],['الطلبات',o.count],['المستخدمون',u.count],['بانتظار المعالجة',pending.count]].map(([a,b])=>`<div class="stat"><span>${a}</span><strong>${b??'—'}</strong></div>`).join('');}
-    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));$(`adminTab-${tab}`).classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});}
+    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();}
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>setAdminTab(b.dataset.adminTab));
+    function renderAdminAnalyticsChart(series){
+      const root=$('analyticsChart');
+      const points=Array.isArray(series)?series.slice(-30):[];
+      if(!points.length){root.innerHTML='<div class="empty-state">لا توجد بيانات مشاهدات متاحة حتى الآن.</div>';return;}
+      const width=960,height=300,pad={top:18,right:22,bottom:48,left:64};
+      const plotWidth=width-pad.left-pad.right,plotHeight=height-pad.top-pad.bottom;
+      const values=points.map(item=>Math.max(0,Number(item.pageViews)||0));
+      const maxValue=Math.max(...values,1);
+      const niceMax=maxValue===1?1:Math.ceil(maxValue/4)*4;
+      const x=i=>pad.left+(points.length===1?plotWidth/2:i*plotWidth/(points.length-1));
+      const y=v=>pad.top+plotHeight-(v/niceMax)*plotHeight;
+      const linePath=values.map((v,i)=>`${i===0?'M':'L'} ${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
+      const areaPath=`${linePath} L ${x(points.length-1).toFixed(1)} ${(pad.top+plotHeight).toFixed(1)} L ${x(0).toFixed(1)} ${(pad.top+plotHeight).toFixed(1)} Z`;
+      const grid=Array.from({length:5},(_,i)=>{
+        const value=niceMax-(niceMax*i/4),gy=pad.top+(plotHeight*i/4);
+        return `<line x1="${pad.left}" y1="${gy}" x2="${width-pad.right}" y2="${gy}" stroke="#373743" stroke-width="1"/><text x="${pad.left-12}" y="${gy+4}" text-anchor="end" fill="#9b9ba8" font-size="12">${Math.round(value).toLocaleString('en-US')}</text>`;
+      }).join('');
+      const labels=points.map((item,i)=>{
+        if(i!==0&&i!==points.length-1&&i%5!==0)return '';
+        const d=new Date(`${item.date}T00:00:00Z`);
+        const label=Number.isNaN(d.getTime())?'':new Intl.DateTimeFormat('ar',{day:'numeric',month:'short',timeZone:'UTC'}).format(d);
+        return `<text x="${x(i)}" y="${height-15}" text-anchor="middle" fill="#a5a5b0" font-size="11">${label}</text>`;
+      }).join('');
+      const dots=values.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3.2" fill="#ff9800" stroke="#1b1b23" stroke-width="1.5"><title>${points[i].date}: ${v.toLocaleString('en-US')}</title></circle>`).join('');
+      root.innerHTML=`<div class="analytics-chart-scroll"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="رسم بياني لمشاهدات صفحات المتجر خلال آخر ثلاثين يوماً" preserveAspectRatio="none"><defs><linearGradient id="analyticsAreaFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ff9800" stop-opacity=".30"/><stop offset="100%" stop-color="#ff9800" stop-opacity=".015"/></linearGradient></defs>${grid}<path d="${areaPath}" fill="url(#analyticsAreaFill)"/><path d="${linePath}" fill="none" stroke="#ff9800" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${dots}${labels}</svg></div>`;
+    }
+
+    async function loadAdminAnalytics(){
+      if(!adminOnly())return;
+      const todayNode=$('analyticsTodayValue'),totalNode=$('analytics30Value'),chartNode=$('analyticsChart'),refresh=$('refreshAnalyticsBtn');
+      if(refresh){refresh.disabled=true;refresh.textContent='جارٍ التحديث...';}
+      if(chartNode)chartNode.innerHTML='<div class="muted">جارٍ تحميل الإحصاءات...</div>';
+      try{
+        const {data,error}=await supabase.functions.invoke('store-web-analytics',{method:'GET'});
+        if(error)throw error;
+        if(!data||!Array.isArray(data.series))throw new Error('استجابة الإحصاءات غير مكتملة');
+        if(todayNode)todayNode.textContent=Math.max(0,Number(data.todayPageViews)||0).toLocaleString('en-US');
+        if(totalNode)totalNode.textContent=Math.max(0,Number(data.last30PageViews)||0).toLocaleString('en-US');
+        renderAdminAnalyticsChart(data.series);
+      }catch(error){
+        console.error('Admin analytics error:',error);
+        if(todayNode)todayNode.textContent='—';
+        if(totalNode)totalNode.textContent='—';
+        if(chartNode)chartNode.innerHTML='<div class="notice">تعذر تحميل الإحصاءات. تأكد من إعداد أسرار Cloudflare في Supabase وأن خدمة الإحصاءات تعمل، ثم اضغط تحديث.</div>';
+      }finally{
+        if(refresh){refresh.disabled=false;refresh.textContent='تحديث ↻';refresh.onclick=loadAdminAnalytics;}
+      }
+    }
+
     async function loadAdminProducts(){const {data,error}=await supabase.from('products').select('*,categories(name),product_variants(*)').order('created_at',{ascending:false});if(error){$('adminProductsRows').innerHTML='<tr><td colspan="5">تعذر التحميل</td></tr>';return;}products=data||[];$('adminProductsRows').innerHTML=products.length?products.map(p=>`<tr><td><strong>${escapeHTML(p.title)}</strong></td><td>${escapeHTML(p.categories?.name||'—')}</td><td>${typeNames[p.product_type]||p.product_type}</td><td><span class="status ${p.is_active?'completed':'rejected'}">${p.is_active?'ظاهر':'مخفي'}</span></td><td><button class="text-link" data-edit-product="${p.id}">تعديل</button> · <button class="text-link" data-product-toggle="${p.id}">${p.is_active?'إخفاء':'إظهار'}</button> · <button class="text-link" data-product-delete="${p.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="5" class="muted">لا توجد منتجات بعد. أضف أول منتج.</td></tr>';
       $('adminProductsRows').querySelectorAll('[data-edit-product]').forEach(b=>b.onclick=()=>editProduct(b.dataset.editProduct));$('adminProductsRows').querySelectorAll('[data-product-toggle]').forEach(b=>b.onclick=()=>toggleProduct(b.dataset.productToggle));$('adminProductsRows').querySelectorAll('[data-product-delete]').forEach(b=>b.onclick=()=>deleteProduct(b.dataset.productDelete));
       $('variantProduct').innerHTML=products.map(p=>`<option value="${p.id}">${escapeHTML(p.title)}</option>`).join('');$('adminProductCategory').innerHTML=categories.map(c=>`<option value="${c.id}">${escapeHTML(c.name)}</option>`).join('');if(products.length)loadAdminVariants();}
