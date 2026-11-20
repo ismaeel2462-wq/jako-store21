@@ -1,26 +1,50 @@
 # نشر JAKO STORE
 
-## الملفات
+## ملفات الواجهة
 
 - `index.html` هو التطبيق الرئيسي.
-- `games.html` يفتح مباشرة عرض الألعاب عبر `index.html?view=games`.
-- `applications.html` يفتح مباشرة عرض التطبيقات عبر `index.html?view=applications`.
-- ملفات قاعدة البيانات موجودة في `supabase/migrations/`.
+- `games.html` يفتح عرض الألعاب عبر `index.html?view=games`.
+- `applications.html` يفتح عرض التطبيقات عبر `index.html?view=applications`.
+- `store-assets/` يحتوي أصول المتجر المستخدمة في الواجهة.
+
+المستودع يستخدم فرع `main`. النطاق الذي تسمح به دالة الإحصائيات حالياً هو `https://jako-store21.jako-st.workers.dev`، وهو دليل على أصل النشر المستخدم عند مراجعة الدالة. لا تفترض أن GitHub Pages مفعّل، ولا تغيّر منصة الاستضافة أو إعدادات الربط لمجرد وجود الملفات على GitHub.
 
 ## Supabase
 
-المشروع المستخدم هو `zfqhfrxvpbnzzrixjaxf`. المفتاح الموجود في الواجهة هو مفتاح `publishable` وليس مفتاح `service_role`. لا تضع أي secret أو service-role key في ملفات الواجهة.
+معرّف المشروع المرجعي: `zfqhfrxvpbnzzrixjaxf`.
 
-في Supabase Dashboard راجع: Authentication → URL Configuration. عيّن Site URL إلى رابط GitHub Pages المنشور، وأضف عناوين الموقع وإعادة التوجيه الخاصة بتسجيل الحساب وتأكيد البريد واستعادة كلمة المرور ضمن Redirect URLs.
+1. راجع Authentication → URL Configuration واضبط Site URL وRedirect URLs على نطاق الموقع الفعلي.
+2. استخدم مفتاح `publishable` في الواجهة فقط.
+3. لا تضف `service_role` أو أي Secret Key إلى `index.html` أو أي ملف frontend.
+4. احفظ الأسرار المطلوبة للدوال في إعدادات Supabase Edge Function Secrets فقط.
 
-## كتالوج المنتجات
+## Edge Functions
 
-تمت إضافة 6 ألعاب و6 تطبيقات إلى `public.products` بعناوين ووصف وحقول الحساب المطلوبة. لا توجد أسعار أو باقات بعد. أضف الباقات الحقيقية من لوحة الإدارة ضمن Product Variants قبل إتاحة الطلب. لا تضع بيانات دفع غير مؤكدة.
+المصادر محفوظة في:
 
-## GitHub Pages
+- `supabase/functions/store-web-analytics/index.ts`
+- `supabase/functions/refresh-syp-market-rate/index.ts`
 
-بعد رفع ملفات المشروع إلى فرع `main`، افتح إعدادات المستودع → Pages، واختر النشر من `Deploy from a branch` ثم الفرع `main` والمجلد `/ (root)`. فعّل `.nojekyll` الموجود في جذر المشروع.
+كانتا نشطتين عند مراجعة Supabase بتاريخ 2026-11-20 (الإصداران 7 و6 على التوالي)، مع `verify_jwt = true`. قبل نشر أي إصدار جديد، قارن المصدر المحلي بإصدار Supabase الحالي، ثم انشر الدالة المقصودة وحدها واختبرها. لا تغيّر `verify_jwt` إلى `false` دون سبب أمني موثق.
 
-## ملاحظة نشر
+متغيرات Cloudflare التي تحتاجها دالة الإحصائيات:
 
-هذا الإصدار موجود محلياً في ملفات التسليم. لم يُرفع بعد إلى GitHub ولم يُفعّل Pages، لأن تكامل GitHub المتصل أعاد خطأ `403 Resource not accessible by integration` عند اختبار الكتابة.
+- `CF_ANALYTICS_API_TOKEN`
+- `CF_ACCOUNT_ID`
+- `CF_WEB_ANALYTICS_SITE_TAG`
+
+تستخدم دالة تحديث سعر الصرف متغيرات Supabase الخادمية `SUPABASE_URL` ومفتاح الخدمة المقدم في بيئة الدالة (`SUPABASE_SERVICE_ROLE_KEY` أو `SUPABASE_SECRET_KEYS` بحسب إعداد المشروع). لا تكتب قيم هذه المتغيرات في هذا المستودع.
+
+دالة الإحصائيات تسمح حالياً بأصل الموقع `https://jako-store21.jako-st.workers.dev`. عند تغيير نطاق الواجهة، حدّث قائمة `allowedOrigins` في مصدر الدالة بعد التأكد من النطاق الجديد، ثم انشرها واختبر الطلب من النطاق الجديد.
+
+## ترحيلات قاعدة البيانات
+
+قاعدة الإنتاج تسجل تاريخ ترحيلات أقدم من ملف تأسيس المورّد الموجود حالياً في المستودع. ملفات SQL الأصلية لتلك الترحيلات لم تُستعد بعد. لذلك:
+
+- لا تنفّذ ملف `20261120102254_supplier_integration_foundation.sql` مرة ثانية على قاعدة الإنتاج؛ تم تطبيقه وتسجيله هناك بالفعل.
+- لا تستخدم `supabase db reset` أو تنشئ مشروعاً جديداً اعتماداً على مجلد الترحيلات الحالي باعتباره كاملاً.
+- استعد أرشيف الترحيلات السابقة من نسخة مصدر موثوقة أو أنشئ baseline موثقاً بعد أخذ نسخة احتياطية ومراجعة المخطط الحالي.
+
+## تكامل المورّد
+
+لا يوجد مورّد حقيقي متصل حتى الآن. جداول الربط والتتبّع جاهزة فقط. لا تنشر أو تفعّل إرسال الطلبات إلى مورد قبل توفر وثائق API، وبيانات sandbox، وآلية مصادقة آمنة، واختبار منع الطلبات المكررة.

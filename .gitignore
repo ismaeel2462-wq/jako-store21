@@ -1,1 +1,28 @@
+# Local AI/editor state
 .ai-code-tracker.json
+
+# Environment secrets (keep .env.example if one is added later)
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+
+# Node / build output
+node_modules/
+dist/
+build/
+
+# Local tooling and logs
+.wrangler/
+.supabase/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
