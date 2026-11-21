@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
@@ -516,7 +516,7 @@ window.addEventListener('popstate',()=>{
         const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
         const valid=raw!==''&&Number.isFinite(amount)&&amount>0&&Number.isFinite(min)&&Number.isFinite(max)&&amount>=min&&amount<=max&&stepValid;
         if(!valid){output.textContent=`أدخل كمية بين ${pricingField.min} و${pricingField.max}`;if(button)button.disabled=true;return;}
-        total=String(currentProduct?.slug||'').startsWith('msa-')
+        total=/^(?:msg|msa)-/.test(String(currentProduct?.slug||''))
           ?Math.ceil(Number(selectedVariant.price_syp||0)*amount)
           :Math.round(Number(selectedVariant.price_syp||0)*amount*100)/100;
       }
@@ -536,7 +536,7 @@ window.addEventListener('popstate',()=>{
         const raw=String(fields[pricingField.name]||'').trim();const amount=Number(raw);const min=Number(pricingField.min),max=Number(pricingField.max),step=Number(pricingField.step);
         const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
         if(!raw||!Number.isFinite(amount)||amount<=0||!Number.isFinite(min)||!Number.isFinite(max)||amount<min||amount>max||!stepValid){const input=Array.from(document.querySelectorAll('.customer-input')).find(el=>el.dataset.field===pricingField.name);input?.focus();return toast('أدخل كمية صحيحة ضمن الحدود الموضحة.','error');}
-        if(String(currentProduct.slug||'').startsWith('msa-'))linePriceSyp=Math.ceil(linePriceSyp*amount);
+        if(/^(?:msg|msa)-/.test(String(currentProduct.slug||'')))linePriceSyp=Math.ceil(linePriceSyp*amount);
         else linePriceSyp=Math.round(linePriceSyp*amount*100)/100;
         if(linePriceUsd!==null)linePriceUsd=Math.round(linePriceUsd*amount*100)/100;
         variantTitle=selectedVariant.title+' × '+raw;
@@ -1049,13 +1049,13 @@ window.addEventListener('popstate',()=>{
     $('msExportMatchingData').onclick = exportMediaStoreMatchingData;
     async function runMediaStoreCatalogImport(){
       const button=$('msImportCatalog');
-      if(!confirm('سيتم استيراد المنتجات المتاحة حالياً من MediaStore إلى واجهة المتجر، مع إضافة هامش 10% على تكلفة المورد، واستبعاد المنتجات غير المتاحة. سيتم إبقاء جميع روابط التوريد معطّلة وسيبقى المورد متوقفاً؛ لن تُرسل أي طلبات تلقائية. هل تتابع؟'))return;
+      if(!confirm('سيتم استيراد المنتجات المتاحة من MediaStore بالليرة السورية مع ربح 10% وتقريب سعر البيع للأعلى. ستُحدّث أيضاً أسعار الباقات القديمة التي لها تطابق واضح فقط؛ الباقات التي لا يقابلها عرض مطابق ستبقى كما هي. ستبقى روابط التوريد معطّلة والمورد متوقفاً، ولن تُرسل أي طلبات تلقائية. هل تتابع؟'))return;
       setBusy(button,true,'جارٍ استيراد الكتالوج...');
       try{
         const result=await callMediaStore('import_catalog');
         await Promise.all([loadMediaStoreVariants(),loadMediaStoreMappings(),loadMediaStoreState()]);
         await loadStoreData();
-        toast(`تم الاستيراد: ${result.imported_product_groups||0} مجموعة منتجات و${result.new_variants_inserted||0} باقة جديدة. روابط محفوظة معطّلة: ${result.new_mappings_created||0}. المستبعد لعدم التوفر: ${result.unavailable_products_excluded||0}.`,'success');
+        toast(`تم الاستيراد: ${result.imported_product_groups||0} مجموعة منتجات و${result.new_variants_inserted||0} باقة جديدة. تم تحديث أسعار الباقات القديمة المطابقة: ${result.existing_variants_repriced||0}. روابط محفوظة معطّلة: ${result.new_mappings_created||0}. المستبعد لعدم التوفر: ${result.unavailable_products_excluded||0}.`,'success');
       }catch(error){toast(error.message||'تعذر استيراد كتالوج MediaStore.','error');}
       finally{setBusy(button,false);}
     }
