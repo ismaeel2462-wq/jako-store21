@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
@@ -169,7 +169,7 @@
               <button class="secondary" id="msExportMatchingData" type="button">تصدير بيانات المطابقة</button>
             </div>
           </div>
-          <div class="notice" style="margin-bottom:12px">يعرض عمود السعر القيمة كما يرسلها MediaStore عبر API. عملة التكلفة لم يتم تأكيدها بعد؛ لا تعتمد هذه القيمة كسعر بيع قبل التأكد من العملة مع المورّد.</div>
+          <div class="notice" style="margin-bottom:12px">يعرض عمود السعر كما يرسله MediaStore بالليرة السورية. عند الاستيراد يُضاف هامش ربح 10% مباشرة، وتبقى روابط المورد معطّلة حتى مراجعتها واعتمادها.</div>
           <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:10px">
             <div class="form-field"><label for="msCatalogSearch">البحث في الكتالوج</label><input class="field" id="msCatalogSearch" type="search" placeholder="SYRIATEL أو MTN أو اسم المنتج"></div>
             <div class="form-field"><label for="msCatalogCategory">تصفية حسب الفئة</label><select class="field" id="msCatalogCategory"><option value="">كل الفئات</option></select></div>
@@ -341,7 +341,7 @@
     });
 
     const $ = (id) => document.getElementById(id);
-    const money = (value, currency='ل.س') => value === null || value === undefined || value === '' ? '' : `${Number(value).toLocaleString('en-US',{maximumFractionDigits:2})} ${currency}`;
+    const money = (value, currency='ل.س', precision=2) => value === null || value === undefined || value === '' ? '' : `${Number(value).toLocaleString('en-US',{maximumFractionDigits:precision})} ${currency}`;
     const escapeHTML = (value='') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const slugify = (value='') => value.trim().toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/g,'-').replace(/^-+|-+$/g,'') || `product-${Date.now()}`;
     const statusNames = {pending:'بانتظار الدفع',awaiting_payment:'بانتظار تأكيد الدفع',processing:'قيد التنفيذ',completed:'مكتمل',rejected:'مرفوض',cancelled:'ملغي'};
@@ -438,7 +438,7 @@ window.addEventListener('popstate',()=>{
     function productPrice(product){const v=(product.product_variants||[]).filter(x=>x.is_active && x.price_syp!==null && Number(x.price_syp)>0).sort((a,b)=>Number(a.price_syp)-Number(b.price_syp))[0];return v||null;}
     function renderProductCard(p){
       const hasPricingQuantity=Array.isArray(p.input_fields)&&p.input_fields.some(f=>f&&f.pricing_quantity===true);
-      const v=productPrice(p), price=hasPricingQuantity?'<span class="muted small">السعر حسب الكمية التي تختارها</span>':v?`${money(v.price_syp)}${v.price_usd?` <small>· ${money(v.price_usd,'$')}</small>`:''}`:'<span class="muted small">الباقات والأسعار قيد التجهيز</span>';
+      const v=productPrice(p), price=hasPricingQuantity?'<span class="muted small">السعر حسب الكمية التي تختارها</span>':v?`${money(v.price_syp,'ل.س',8)}`:'<span class="muted small">الباقات والأسعار قيد التجهيز</span>';
       const art=`<div class="fallback-art">${typeIcons[p.product_type]||'✨'}</div>${p.image_url?`<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.title)}" loading="lazy" onerror="this.remove()">`:''}`;
       return `<article class="product-card"><div class="product-art">${art}${p.badge?`<span class="product-badge">${escapeHTML(p.badge)}</span>`:''}</div><div class="product-body"><h3>${escapeHTML(p.title)}</h3><p class="product-desc">${escapeHTML(p.description||'اختر الباقة المناسبة وتابع طلبك من حسابك.')}</p><div class="price-line">${price}</div><div class="product-foot"><span class="product-type">${typeNames[p.product_type]||'منتج'}</span><button class="primary" data-product="${p.id}">التفاصيل</button></div></div></article>`;
     }
@@ -494,7 +494,7 @@ window.addEventListener('popstate',()=>{
       const hasPricingQuantity=fields.some(f=>f&&f.pricing_quantity===true);
       const isSupplierProduct=p.badge==='من MediaStore'||p.badge==='حسب الكمية'||['mtn-recharge','syriatel-recharge'].includes(String(p.slug||''));
       const lockPackageCount=isSupplierProduct||hasPricingQuantity;
-      $('productModalContent').innerHTML=`<div class="modal-art">${art}</div><p class="muted small">${escapeHTML(p.description||'اختر الباقة المناسبة وأدخل البيانات المطلوبة لإتمام الطلب.')}</p><h4 style="font-size:12px;margin:18px 0 8px">الباقات المتاحة</h4><div class="variant-list" id="variantOptions">${currentVariants.length?currentVariants.map((v,i)=>`<div class="variant-option ${i===0?'selected':''}" data-variant="${v.id}"><div><strong>${escapeHTML(v.title)}</strong><br><small>${escapeHTML(v.description||'')}</small></div><div class="variant-price">${hasPricingQuantity?`<small>سعر الوحدة</small><br>${v.price_syp?money(v.price_syp):''}`:`${v.price_syp?money(v.price_syp):''}${v.price_usd?`<br><small>${money(v.price_usd,'$')}</small>`:''}`}</div></div>`).join(''):'<div class="empty-state"><div class="empty-icon">⏳</div>باقات وأسعار هذا المنتج قيد التجهيز حالياً. لا يمكن إرسال طلب قبل اعتماد باقة وسعرها.</div>'}</div><div id="productCustomerFields"></div><div class="quantity-row"><span class="small muted">${lockPackageCount?'عدد الباقات':'الكمية'}</span><button class="qty-btn" id="qtyMinus" ${lockPackageCount?'disabled':''}>−</button><input class="field" id="productQty" value="1" type="number" min="1" max="1000" ${lockPackageCount?'disabled':''}><button class="qty-btn" id="qtyPlus" ${lockPackageCount?'disabled':''}>＋</button><span class="variant-price" id="selectedPrice"></span></div><button class="primary" id="addToCart" style="width:100%" ${currentVariants.length?'':'disabled'}>أضف إلى السلة</button>`;
+      $('productModalContent').innerHTML=`<div class="modal-art">${art}</div><p class="muted small">${escapeHTML(p.description||'اختر الباقة المناسبة وأدخل البيانات المطلوبة لإتمام الطلب.')}</p><h4 style="font-size:12px;margin:18px 0 8px">الباقات المتاحة</h4><div class="variant-list" id="variantOptions">${currentVariants.length?currentVariants.map((v,i)=>`<div class="variant-option ${i===0?'selected':''}" data-variant="${v.id}"><div><strong>${escapeHTML(v.title)}</strong><br><small>${escapeHTML(v.description||'')}</small></div><div class="variant-price">${hasPricingQuantity?`<small>سعر الوحدة</small><br>${v.price_syp?money(v.price_syp,'ل.س',8):''}`:`${v.price_syp?money(v.price_syp,'ل.س',8):''}`}</div></div>`).join(''):'<div class="empty-state"><div class="empty-icon">⏳</div>باقات وأسعار هذا المنتج قيد التجهيز حالياً. لا يمكن إرسال طلب قبل اعتماد باقة وسعرها.</div>'}</div><div id="productCustomerFields"></div><div class="quantity-row"><span class="small muted">${lockPackageCount?'عدد الباقات':'الكمية'}</span><button class="qty-btn" id="qtyMinus" ${lockPackageCount?'disabled':''}>−</button><input class="field" id="productQty" value="1" type="number" min="1" max="1000" ${lockPackageCount?'disabled':''}><button class="qty-btn" id="qtyPlus" ${lockPackageCount?'disabled':''}>＋</button><span class="variant-price" id="selectedPrice"></span></div><button class="primary" id="addToCart" style="width:100%" ${currentVariants.length?'':'disabled'}>أضف إلى السلة</button>`;
       if(currentVariants.length){selectedVariant=currentVariants[0];renderCustomerFields(fields);updateSelectedPrice();}
       $('variantOptions').querySelectorAll('[data-variant]').forEach(el=>el.addEventListener('click',()=>{selectedVariant=currentVariants.find(v=>v.id===el.dataset.variant);$('variantOptions').querySelectorAll('.variant-option').forEach(n=>n.classList.toggle('selected',n===el));updateSelectedPrice();}));
       $('qtyMinus').onclick=()=>{if(lockPackageCount)return;productModalQty=Math.max(1,productModalQty-1);$('productQty').value=productModalQty;updateSelectedPrice();};$('qtyPlus').onclick=()=>{if(lockPackageCount)return;productModalQty=Math.min(1000,productModalQty+1);$('productQty').value=productModalQty;updateSelectedPrice();};$('productQty').onchange=()=>{if(lockPackageCount)return;productModalQty=Math.min(1000,Math.max(1,Number($('productQty').value)||1));$('productQty').value=productModalQty;updateSelectedPrice();};
@@ -516,7 +516,9 @@ window.addEventListener('popstate',()=>{
         const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
         const valid=raw!==''&&Number.isFinite(amount)&&amount>0&&Number.isFinite(min)&&Number.isFinite(max)&&amount>=min&&amount<=max&&stepValid;
         if(!valid){output.textContent=`أدخل كمية بين ${pricingField.min} و${pricingField.max}`;if(button)button.disabled=true;return;}
-        total=Math.round(Number(selectedVariant.price_syp||0)*amount*100)/100;
+        total=String(currentProduct?.slug||'').startsWith('msa-')
+          ?Math.ceil(Number(selectedVariant.price_syp||0)*amount)
+          :Math.round(Number(selectedVariant.price_syp||0)*amount*100)/100;
       }
       output.textContent=money(total);if(button)button.disabled=!(Number.isFinite(total)&&total>0);
     }
@@ -534,7 +536,8 @@ window.addEventListener('popstate',()=>{
         const raw=String(fields[pricingField.name]||'').trim();const amount=Number(raw);const min=Number(pricingField.min),max=Number(pricingField.max),step=Number(pricingField.step);
         const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
         if(!raw||!Number.isFinite(amount)||amount<=0||!Number.isFinite(min)||!Number.isFinite(max)||amount<min||amount>max||!stepValid){const input=Array.from(document.querySelectorAll('.customer-input')).find(el=>el.dataset.field===pricingField.name);input?.focus();return toast('أدخل كمية صحيحة ضمن الحدود الموضحة.','error');}
-        linePriceSyp=Math.round(linePriceSyp*amount*100)/100;
+        if(String(currentProduct.slug||'').startsWith('msa-'))linePriceSyp=Math.ceil(linePriceSyp*amount);
+        else linePriceSyp=Math.round(linePriceSyp*amount*100)/100;
         if(linePriceUsd!==null)linePriceUsd=Math.round(linePriceUsd*amount*100)/100;
         variantTitle=selectedVariant.title+' × '+raw;
         itemQuantity=1;
@@ -670,15 +673,15 @@ window.addEventListener('popstate',()=>{
           :'';
 
         const unitSyp=Number(item.unit_price_syp??item.price_syp);
-        const unitUsdRaw=item.unit_price_usd??item.price_usd;
-        const unitUsd=unitUsdRaw===null||unitUsdRaw===undefined||unitUsdRaw===''?NaN:Number(unitUsdRaw);
+
+
         const storedLineTotal=Number(item.line_total_syp);
         const lineTotalSyp=Number.isFinite(storedLineTotal)&&storedLineTotal>0
           ?storedLineTotal
           :(Number.isFinite(unitSyp)&&unitSyp>0?unitSyp*quantity:NaN);
         const priceDetails=[
           Number.isFinite(unitSyp)&&unitSyp>0?`سعر الوحدة: ${money(unitSyp)}`:'',
-          Number.isFinite(unitUsd)&&unitUsd>0?`السعر الأصلي: ${money(unitUsd,'$')}`:'',
+
           Number.isFinite(lineTotalSyp)&&lineTotalSyp>0?`إجمالي البند: ${money(lineTotalSyp)}`:''
         ].filter(Boolean).join(' | ');
 
