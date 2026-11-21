@@ -1299,24 +1299,43 @@ openModal('productModal');
         .select('*,payment_methods(name),order_items(*)')
         .order('created_at',{ascending:false})
         .limit(100);
-      if(error){$('adminOrdersRows').innerHTML='<tr><td colspan="7">تعذر تحميل الطلبات</td></tr>';return;}
+      if(error){$('adminOrdersRows').innerHTML='<tr><td colspan="7">طھط¹ط°ط± طھط­ظ…ظٹظ„ ط§ظ„ط·ظ„ط¨ط§طھ</td></tr>';return;}
+
+      // Only show the MediaStore check action for orders that have an actual
+      // supplier fulfillment record in an active, checkable state.
+      const orderIds=[...new Set((data||[]).map(o=>o.id).filter(Boolean))];
+      let checkableOrderIds=new Set();
+      if(orderIds.length){
+        try{
+          const result=await callMediaStore('get_orders_with_supplier_fulfillments',{order_ids:orderIds});
+          checkableOrderIds=new Set(Array.isArray(result.order_ids)?result.order_ids:[]);
+        }catch(error){
+          // Fail closed: if supplier records cannot be verified, hide all check buttons.
+          console.warn('Could not verify MediaStore submissions; check buttons are hidden.',error);
+        }
+      }
+
       const ids=[...new Set((data||[]).map(o=>o.user_id).filter(Boolean))];
       const prof=ids.length
         ?await supabase.from('profiles').select('id,full_name,phone').in('id',ids)
         :{data:[]};
       const profiles=Object.fromEntries((prof.data||[]).map(x=>[x.id,x]));
       $('adminOrdersRows').innerHTML=data?.length?data.map(o=>{
-        const items=(o.order_items||[]).map(i=>`${escapeHTML(i.product_title)} — ${escapeHTML(i.variant_title)} × ${i.quantity}`).join('<br>');
-        const note=o.customer_note?`<div class="muted small" style="white-space:pre-wrap;margin-top:6px"><strong>ملاحظة العميل:</strong> ${escapeHTML(o.customer_note)}</div>`:'';
-        return `<tr><td>${escapeHTML(o.order_number||o.id)}</td><td>${escapeHTML(profiles[o.user_id]?.full_name||String(o.user_id||'').slice(0,8)||'عميل')}<br><small class="muted">${escapeHTML(profiles[o.user_id]?.phone||'')}</small></td><td>${items||'—'}${note}</td><td>${money(o.total_syp)}</td><td><span class="status ${escapeHTML(o.status)}">${escapeHTML(statusNames[o.status]||o.status)}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td><td><select class="field" style="min-width:130px" data-order-status="${o.id}" data-current-status="${escapeHTML(o.status)}">${Object.entries(statusNames).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select>${o.status==='processing'?`<div style="margin-top:6px"><button class="text-link" type="button" data-ms-check-order="${o.id}">فحص حالة MediaStore</button></div>`:''}</td></tr>`;
-      }).join(''):'<tr><td colspan="7" class="muted">لا توجد طلبات حتى الآن</td></tr>';
+        const items=(o.order_items||[]).map(i=>`${escapeHTML(i.product_title)} â€” ${escapeHTML(i.variant_title)} أ— ${i.quantity}`).join('<br>');
+        const note=o.customer_note?`<div class="muted small" style="white-space:pre-wrap;margin-top:6px"><strong>ظ…ظ„ط§ط­ط¸ط© ط§ظ„ط¹ظ…ظٹظ„:</strong> ${escapeHTML(o.customer_note)}</div>`:'';
+        const mediaStoreCheck=checkableOrderIds.has(o.id)
+          ?`<div style="margin-top:6px"><button class="text-link" type="button" data-ms-check-order="${o.id}">ظپط­طµ ط­ط§ظ„ط© MediaStore</button></div>`
+          :'';
+        return `<tr><td>${escapeHTML(o.order_number||o.id)}</td><td>${escapeHTML(profiles[o.user_id]?.full_name||String(o.user_id||'').slice(0,8)||'ط¹ظ…ظٹظ„')}<br><small class="muted">${escapeHTML(profiles[o.user_id]?.phone||'')}</small></td><td>${items||'â€”'}${note}</td><td>${money(o.total_syp)}</td><td><span class="status ${escapeHTML(o.status)}">${escapeHTML(statusNames[o.status]||o.status)}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td><td><select class="field" style="min-width:130px" data-order-status="${o.id}" data-current-status="${escapeHTML(o.status)}">${Object.entries(statusNames).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select>${mediaStoreCheck}</td></tr>`;
+      }).join(''):'<tr><td colspan="7" class="muted">ظ„ط§ طھظˆط¬ط¯ ط·ظ„ط¨ط§طھ ط­طھظ‰ ط§ظ„ط¢ظ†</td></tr>';
+
       $('adminOrdersRows').querySelectorAll('[data-ms-check-order]').forEach(button=>button.onclick=async()=>{
         const orderId=button.dataset.msCheckOrder;
-        setBusy(button,true,'جارٍ الفحص...');
+        setBusy(button,true,'ط¬ط§ط±ظچ ط§ظ„ظپط­طµ...');
         try{
           const result=await callMediaStore('check_order_status',{order_id:orderId});
-          const statuses=(result.results||[]).map(item=>item.status).join('، ')||'لا توجد طلبات خارجية مسجلة';
-          toast(`نتيجة فحص MediaStore: ${statuses}. حالة القبول لا تعني اكتمال التسليم.`, 'success');
+          const statuses=(result.results||[]).map(item=>item.status).join('طŒ ')||'ظ„ط§ طھظˆط¬ط¯ ط·ظ„ط¨ط§طھ ط®ط§ط±ط¬ظٹط© ظ…ط³ط¬ظ„ط©';
+          toast(`ظ†طھظٹط¬ط© ظپط­طµ MediaStore: ${statuses}. ط­ط§ظ„ط© ط§ظ„ظ‚ط¨ظˆظ„ ظ„ط§ طھط¹ظ†ظٹ ط§ظƒطھظ…ط§ظ„ ط§ظ„طھط³ظ„ظٹظ….`, 'success');
           await loadAdminOrders();
         }catch(error){toast(error.message,'error');}
         finally{setBusy(button,false);}
