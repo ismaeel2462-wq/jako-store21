@@ -1,0 +1,61 @@
+{
+  "id": "./",
+  "name": "JAKO STORE — عالمك الرقمي",
+  "short_name": "JAKO STORE",
+  "description": "متجر JAKO STORE لشحن الألعاب والتطبيقات والبطاقات الرقمية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "theme_color": "#101014",
+  "background_color": "#0d0d11",
+  "categories": [
+    "shopping",
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الألعاب",
+      "short_name": "الألعاب",
+      "url": "./index.html?view=games",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "التطبيقات",
+      "short_name": "التطبيقات",
+      "url": "./index.html?view=applications",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

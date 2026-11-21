@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#101014">
   <meta name="description" content="JAKO STORE — متجر رقمي للألعاب والتطبيقات والبطاقات الرقمية">
   <title>JAKO STORE | عالمك الرقمي</title>
@@ -41,6 +41,13 @@
       .analytics-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:680px}.analytics-panel{margin-top:12px}.analytics-chart{min-height:230px;display:flex;align-items:center;justify-content:center}.analytics-chart-scroll{width:100%;overflow-x:auto}.analytics-chart svg{display:block;width:100%;min-width:620px;height:auto}.analytics-footnote{color:var(--muted);font-size:11px;margin:8px 0 0}.analytics-panel .section-head{margin-bottom:12px}
     @media(max-width:600px){.analytics-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.analytics-panel{padding:14px}}
     </style>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="JAKO STORE">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
   <div class="topline"><div class="container"><span>⚡ <strong>JAKO STORE</strong> — شحنك الرقمي أصبح أسهل</span><span id="topUser">مرحباً بك في عالمك الرقمي</span></div></div>
@@ -936,5 +943,44 @@ openModal('productModal');
     init();
   </script>
   <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b4a7ab8460624e14abf92f96af96729a"}'></script><!-- End Cloudflare Web Analytics -->
+  <button id="jakoInstallApp" type="button" aria-label="Install JAKO STORE" style="display:none;position:fixed;left:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:45;border:1px solid rgba(255,255,255,.15);border-radius:15px;padding:12px 17px;background:linear-gradient(135deg,#ffbd68,#ff8a18);color:#17110b;font-family:inherit;font-size:13px;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4);align-items:center;gap:8px;cursor:pointer">📲 تثبيت التطبيق</button>
+  <script>
+    (() => {
+      const installButton = document.getElementById('jakoInstallApp');
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      let deferredInstallPrompt = null;
+      if (isStandalone) return;
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js', { scope: './' })
+            .catch(error => console.warn('JAKO STORE service worker registration failed:', error));
+        });
+      }
+      if (isIOS) {
+        installButton.style.display = 'inline-flex';
+        installButton.addEventListener('click', () => {
+          alert('لتثبيت JAKO STORE على iPhone أو iPad: افتح قائمة المشاركة في Safari، ثم اختر «إضافة إلى الشاشة الرئيسية».');
+        });
+        return;
+      }
+      window.addEventListener('beforeinstallprompt', event => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        installButton.style.display = 'inline-flex';
+      });
+      installButton.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        installButton.style.display = 'none';
+      });
+      window.addEventListener('appinstalled', () => {
+        installButton.style.display = 'none';
+        deferredInstallPrompt = null;
+      });
+    })();
+  </script>
 </body>
 </html>
