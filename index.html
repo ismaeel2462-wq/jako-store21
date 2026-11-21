@@ -72,7 +72,7 @@
     <div class="container nav">
       <a class="brand" href="#home" aria-label="JAKO STORE"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a>
       <nav class="navlinks" aria-label="القائمة الرئيسية">
-        <button class="active" data-page="home">الرئيسية</button><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="telecom">الاتصالات</button><button data-page="pubg-accounts">حسابات ببجي</button><button data-page="orders">طلباتي</button>
+        <button class="active" data-page="home">الرئيسية</button><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="telecom">الاتصالات</button><button data-page="digital-services">الخدمات الرقمية</button><button data-page="pubg-accounts">حسابات ببجي</button><button data-page="orders">طلباتي</button>
       </nav>
       <div class="nav-actions">
         <button class="icon-btn" id="cartBtn" aria-label="السلة">🛒<span class="cart-count" id="cartCount">0</span></button>
@@ -101,6 +101,7 @@
             <div class="category-card" data-page="applications"><div class="category-icon">📱</div><div><h3>التطبيقات</h3><p>باقات واشتراكات رقمية</p></div><span class="category-arrow">←</span></div>
             <div class="category-card" data-page="gift-cards"><div class="category-icon">🎁</div><div><h3>البطاقات الرقمية</h3><p>رصيد وبطاقات رقمية متنوعة</p></div><span class="category-arrow">←</span></div>
             <div class="category-card" data-page="telecom"><div class="category-icon">📞</div><div><h3>الاتصالات</h3><p>اشحن رصيد سيريتل وMTN</p></div><span class="category-arrow">←</span></div>
+            <div class="category-card" data-page="digital-services"><div class="category-icon">✨</div><div><h3>الخدمات الرقمية</h3><p>خدمات المشاهدات والمتابعين والتسويق</p></div><span class="category-arrow">←</span></div>
           </div>
         </section>
         <section class="section"><div class="section-head"><div><div class="section-kicker">مختارة لك</div><h2>منتجات مميزة</h2><p>اكتشف المنتجات والباقات المتاحة حالياً</p></div><button class="text-link" data-page="all">عرض الكل ←</button></div><div id="featuredGrid" class="products-grid"><div class="empty-state"><div class="empty-icon">✨</div>يتم تحميل المنتجات...</div></div></section>
@@ -114,6 +115,7 @@
     <section id="page-applications" class="page"><div class="container"><div class="page-title"><div><h1>التطبيقات 📱</h1><p>باقات التطبيقات والخدمات الرقمية</p></div></div><div class="toolbar"><div class="searchbox"><input id="appsSearch" placeholder="ابحث عن تطبيق..." autocomplete="off"></div><select class="filter-select" id="appsSort"><option value="default">الترتيب الافتراضي</option><option value="name">الاسم</option><option value="price">الأقل سعراً</option></select></div><div class="products-grid" id="applicationsGrid"></div></div></section>
     <section id="page-gift-cards" class="page"><div class="container"><div class="page-title"><div><h1>البطاقات الرقمية 🎁</h1><p>بطاقات ورصيد رقمي جاهز</p></div></div><div class="toolbar"><div class="searchbox"><input id="cardsSearch" placeholder="ابحث عن بطاقة..." autocomplete="off"></div></div><div class="products-grid" id="giftCardsGrid"></div></div></section>
     <section id="page-telecom" class="page"><div class="container"><div class="page-title"><div><h1>الاتصالات 📞</h1><p>اختر شركة الاتصالات ثم فئة الرصيد المناسبة</p></div></div><div class="toolbar"><div class="searchbox"><input id="telecomSearch" placeholder="ابحث عن سيريتل أو MTN..." autocomplete="off"></div></div><div class="products-grid" id="telecomGrid"></div></div></section>
+    <section id="page-digital-services" class="page"><div class="container"><div class="page-title"><div><h1>الخدمات الرقمية ✨</h1><p>خدمات المشاهدات والمتابعين والتفاعل والتسويق الرقمي المتاحة</p></div></div><div class="toolbar"><div class="searchbox"><input id="digitalServicesSearch" placeholder="ابحث عن خدمة رقمية..." autocomplete="off"></div></div><div class="products-grid" id="digitalServicesGrid"></div></div></section>
     <section id="page-all" class="page"><div class="container"><div class="page-title"><div><h1>جميع المنتجات</h1><p>تصفّح كل ما هو متاح في المتجر</p></div></div><div class="toolbar"><div class="searchbox"><input id="allSearch" placeholder="ابحث عن منتج..." autocomplete="off"></div></div><div class="products-grid" id="allGrid"></div></div></section>
 
     <section id="page-pubg-accounts" class="page"><div class="container"><div class="page-title"><div><h1>حسابات PUBG Mobile 🎮</h1><p>حسابات معروضة مع الصور والتفاصيل والسعر. الاستفسار عبر واتساب للحسابات المتاحة فقط.</p></div><button class="secondary" id="refreshPubgAccounts">تحديث ↻</button></div><div class="notice">هذا قسم عرض واستفسار مستقل عن سلة المشتريات وطرق الدفع. تحقّق من سياسات اللعبة وشروط نقل الحساب قبل إتمام أي اتفاق.</div>
@@ -163,6 +165,7 @@
             <div class="form-actions" style="margin:0;gap:8px">
               <button class="secondary" id="msLoadCompact" type="button">تحميل مختصر</button>
               <button class="primary" id="msLoadCatalog" type="button">تحميل الكتالوج الكامل والأسعار</button>
+              <button class="secondary" id="msImportCatalog" type="button">استيراد المنتجات المتاحة إلى المتجر</button>
               <button class="secondary" id="msExportMatchingData" type="button">تصدير بيانات المطابقة</button>
             </div>
           </div>
@@ -193,8 +196,9 @@
             <div class="form-field full"><label for="msLocalVariant">باقة المتجر</label><select class="field" id="msLocalVariant"><option value="">حمّل الباقات المحلية...</option></select></div>
             <div class="form-field full"><label for="msRemoteProduct">منتج MediaStore</label><select class="field" id="msRemoteProduct"><option value="">حمّل الكتالوج واختر المنتج...</option></select></div>
             <div class="form-field"><label for="msSupplierSku">SKU لدى المورّد (اختياري)</label><input class="field" id="msSupplierSku" maxlength="100" placeholder="اختياري"></div>
-            <div class="form-field"><label for="msQtyMode">طريقة تحديد الكمية</label><select class="field" id="msQtyMode"><option value="one">طلب واحد (qty=1)</option><option value="order_quantity">استخدام كمية الطلب</option><option value="customer_field">استخدام حقل من بيانات العميل</option></select></div>
+            <div class="form-field"><label for="msQtyMode">طريقة تحديد الكمية</label><select class="field" id="msQtyMode"><option value="one">طلب واحد (qty=1)</option><option value="fixed">كمية ثابتة محددة للباقة</option><option value="order_quantity">استخدام كمية الطلب</option><option value="customer_field">استخدام حقل من بيانات العميل</option></select></div>
             <div class="form-field hidden" id="msQtyFieldWrap"><label for="msQtyField">اسم حقل الكمية المحلي</label><input class="field" id="msQtyField" maxlength="64" placeholder="مثال: amount"></div>
+            <div class="form-field hidden" id="msFixedQtyWrap"><label for="msFixedQty">الكمية الثابتة التي سترسل للمورد</label><input class="field" id="msFixedQty" inputmode="decimal" maxlength="40" placeholder="مثال: 60 أو 1.92"></div>
             <div class="form-field full"><label for="msFieldMapping">مطابقة حقول العميل بصيغة JSON</label><textarea class="field textarea" id="msFieldMapping" rows="3" dir="ltr" placeholder='{"playerId":"player_id"}'>{}</textarea><small class="muted">المفتاح على اليسار هو اسم الحقل الذي يطلبه MediaStore، والقيمة على اليمين هي اسم الحقل المحلي في بيانات الطلب.</small></div>
             <div class="form-field full"><div class="notice" id="msMappingHints">اختر منتجاً خارجياً لعرض حقوله المطلوبة، واختر باقة محلية لعرض حقول بيانات العميل.</div></div>
           </div>
@@ -393,7 +397,7 @@ window.addEventListener('popstate',()=>{
   }
 });
     function showPage(page, options = {}) {
-      if (!['home','games','applications','gift-cards','telecom','all','pubg-accounts','orders','account','admin'].includes(page)) page='home';
+      if (!['home','games','applications','gift-cards','telecom','digital-services','all','pubg-accounts','orders','account','admin'].includes(page)) page='home';
       if (page==='admin' && !isAdmin) { toast('هذه الصفحة مخصصة للإدارة فقط','error'); page='home'; }
       if (page==='orders' && !currentUser) { openAuth('login'); toast('سجّل الدخول لعرض طلباتك'); return; }
       if (page==='account' && !currentUser) { openAuth('login'); return; }
@@ -410,7 +414,7 @@ window.addEventListener('popstate',()=>{
       const target=$(`page-${page}`); if(target) target.classList.add('active');
       document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
       window.scrollTo({top:0,behavior:'smooth'});
-      const pageTitles={home:'الرئيسية',games:'الألعاب',applications:'التطبيقات','gift-cards':'البطاقات الرقمية',telecom:'الاتصالات',all:'جميع المنتجات','pubg-accounts':'حسابات PUBG',orders:'طلباتي',account:'حسابي',admin:'لوحة الإدارة'};
+      const pageTitles={home:'الرئيسية',games:'الألعاب',applications:'التطبيقات','gift-cards':'البطاقات الرقمية',telecom:'الاتصالات','digital-services':'الخدمات الرقمية',all:'جميع المنتجات','pubg-accounts':'حسابات PUBG',orders:'طلباتي',account:'حسابي',admin:'لوحة الإدارة'};
       document.title=`${pageTitles[page]||'المتجر'} | JAKO STORE`;
       if(page==='orders') loadOrders(); if(page==='account') renderAccount(); if(page==='admin') loadAdmin(); if(page==='pubg-accounts') loadPubgAccounts();
     }
@@ -433,7 +437,8 @@ window.addEventListener('popstate',()=>{
     function updateCartCount(){ $('cartCount').textContent=cart.reduce((n,x)=>n+x.quantity,0); localStorage.setItem('jako_cart',JSON.stringify(cart)); }
     function productPrice(product){const v=(product.product_variants||[]).filter(x=>x.is_active && x.price_syp!==null && Number(x.price_syp)>0).sort((a,b)=>Number(a.price_syp)-Number(b.price_syp))[0];return v||null;}
     function renderProductCard(p){
-      const v=productPrice(p), price=v?`${money(v.price_syp)}${v.price_usd?` <small>· ${money(v.price_usd,'$')}</small>`:''}`:'<span class="muted small">الباقات والأسعار قيد التجهيز</span>';
+      const hasPricingQuantity=Array.isArray(p.input_fields)&&p.input_fields.some(f=>f&&f.pricing_quantity===true);
+      const v=productPrice(p), price=hasPricingQuantity?'<span class="muted small">السعر حسب الكمية التي تختارها</span>':v?`${money(v.price_syp)}${v.price_usd?` <small>· ${money(v.price_usd,'$')}</small>`:''}`:'<span class="muted small">الباقات والأسعار قيد التجهيز</span>';
       const art=`<div class="fallback-art">${typeIcons[p.product_type]||'✨'}</div>${p.image_url?`<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.title)}" loading="lazy" onerror="this.remove()">`:''}`;
       return `<article class="product-card"><div class="product-art">${art}${p.badge?`<span class="product-badge">${escapeHTML(p.badge)}</span>`:''}</div><div class="product-body"><h3>${escapeHTML(p.title)}</h3><p class="product-desc">${escapeHTML(p.description||'اختر الباقة المناسبة وتابع طلبك من حسابك.')}</p><div class="price-line">${price}</div><div class="product-foot"><span class="product-type">${typeNames[p.product_type]||'منتج'}</span><button class="primary" data-product="${p.id}">التفاصيل</button></div></div></article>`;
     }
@@ -446,7 +451,7 @@ window.addEventListener('popstate',()=>{
     function productsForCategory(slug){const category=categories.find(c=>c.slug===slug);return products.filter(p=>p.is_active&&category&&p.category_id===category.id);}
     function renderAllProducts(){
       renderGrid('featuredGrid',products.filter(p=>p.is_active&&p.is_featured).slice(0,4));
-      renderGrid('gamesGrid',productsForType('game'));renderGrid('applicationsGrid',productsForType('application'));renderGrid('giftCardsGrid',productsForType('gift_card'));renderGrid('telecomGrid',productsForCategory('telecom'));renderGrid('allGrid',products.filter(p=>p.is_active));
+      renderGrid('gamesGrid',productsForType('game'));renderGrid('applicationsGrid',productsForType('application'));renderGrid('giftCardsGrid',productsForType('gift_card'));renderGrid('telecomGrid',productsForCategory('telecom'));renderGrid('digitalServicesGrid',productsForCategory('digital-services'));renderGrid('allGrid',products.filter(p=>p.is_active));
     }
 
   
@@ -486,21 +491,62 @@ window.addEventListener('popstate',()=>{
       $('productModalTitle').textContent=p.title;
       const art=`<div style="position:relative;z-index:0">${typeIcons[p.product_type]||'✨'}</div>${p.image_url?`<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.title)}" onerror="this.remove()">`:''}`;
       const fields=Array.isArray(p.input_fields)?p.input_fields:[];
-      $('productModalContent').innerHTML=`<div class="modal-art">${art}</div><p class="muted small">${escapeHTML(p.description||'اختر الباقة المناسبة وأدخل البيانات المطلوبة لإتمام الطلب.')}</p><h4 style="font-size:12px;margin:18px 0 8px">الباقات المتاحة</h4><div class="variant-list" id="variantOptions">${currentVariants.length?currentVariants.map((v,i)=>`<div class="variant-option ${i===0?'selected':''}" data-variant="${v.id}"><div><strong>${escapeHTML(v.title)}</strong><br><small>${escapeHTML(v.description||'')}</small></div><div class="variant-price">${v.price_syp?money(v.price_syp):''}${v.price_usd?`<br><small>${money(v.price_usd,'$')}</small>`:''}</div></div>`).join(''):'<div class="empty-state"><div class="empty-icon">⏳</div>باقات وأسعار هذا المنتج قيد التجهيز حالياً. لا يمكن إرسال طلب قبل اعتماد باقة وسعرها.</div>'}</div><div id="productCustomerFields"></div><div class="quantity-row"><span class="small muted">الكمية</span><button class="qty-btn" id="qtyMinus">−</button><input class="field" id="productQty" value="1" type="number" min="1" max="1000"><button class="qty-btn" id="qtyPlus">＋</button><span class="variant-price" id="selectedPrice"></span></div><button class="primary" id="addToCart" style="width:100%" ${currentVariants.length?'':'disabled'}>أضف إلى السلة</button>`;
+      const hasPricingQuantity=fields.some(f=>f&&f.pricing_quantity===true);
+      const isSupplierProduct=p.badge==='من MediaStore'||p.badge==='حسب الكمية'||['mtn-recharge','syriatel-recharge'].includes(String(p.slug||''));
+      const lockPackageCount=isSupplierProduct||hasPricingQuantity;
+      $('productModalContent').innerHTML=`<div class="modal-art">${art}</div><p class="muted small">${escapeHTML(p.description||'اختر الباقة المناسبة وأدخل البيانات المطلوبة لإتمام الطلب.')}</p><h4 style="font-size:12px;margin:18px 0 8px">الباقات المتاحة</h4><div class="variant-list" id="variantOptions">${currentVariants.length?currentVariants.map((v,i)=>`<div class="variant-option ${i===0?'selected':''}" data-variant="${v.id}"><div><strong>${escapeHTML(v.title)}</strong><br><small>${escapeHTML(v.description||'')}</small></div><div class="variant-price">${hasPricingQuantity?`<small>سعر الوحدة</small><br>${v.price_syp?money(v.price_syp):''}`:`${v.price_syp?money(v.price_syp):''}${v.price_usd?`<br><small>${money(v.price_usd,'$')}</small>`:''}`}</div></div>`).join(''):'<div class="empty-state"><div class="empty-icon">⏳</div>باقات وأسعار هذا المنتج قيد التجهيز حالياً. لا يمكن إرسال طلب قبل اعتماد باقة وسعرها.</div>'}</div><div id="productCustomerFields"></div><div class="quantity-row"><span class="small muted">${lockPackageCount?'عدد الباقات':'الكمية'}</span><button class="qty-btn" id="qtyMinus" ${lockPackageCount?'disabled':''}>−</button><input class="field" id="productQty" value="1" type="number" min="1" max="1000" ${lockPackageCount?'disabled':''}><button class="qty-btn" id="qtyPlus" ${lockPackageCount?'disabled':''}>＋</button><span class="variant-price" id="selectedPrice"></span></div><button class="primary" id="addToCart" style="width:100%" ${currentVariants.length?'':'disabled'}>أضف إلى السلة</button>`;
       if(currentVariants.length){selectedVariant=currentVariants[0];renderCustomerFields(fields);updateSelectedPrice();}
       $('variantOptions').querySelectorAll('[data-variant]').forEach(el=>el.addEventListener('click',()=>{selectedVariant=currentVariants.find(v=>v.id===el.dataset.variant);$('variantOptions').querySelectorAll('.variant-option').forEach(n=>n.classList.toggle('selected',n===el));updateSelectedPrice();}));
-      $('qtyMinus').onclick=()=>{productModalQty=Math.max(1,productModalQty-1);$('productQty').value=productModalQty;updateSelectedPrice();};$('qtyPlus').onclick=()=>{productModalQty=Math.min(1000,productModalQty+1);$('productQty').value=productModalQty;updateSelectedPrice();};$('productQty').onchange=()=>{productModalQty=Math.min(1000,Math.max(1,Number($('productQty').value)||1));$('productQty').value=productModalQty;updateSelectedPrice();};
+      $('qtyMinus').onclick=()=>{if(lockPackageCount)return;productModalQty=Math.max(1,productModalQty-1);$('productQty').value=productModalQty;updateSelectedPrice();};$('qtyPlus').onclick=()=>{if(lockPackageCount)return;productModalQty=Math.min(1000,productModalQty+1);$('productQty').value=productModalQty;updateSelectedPrice();};$('productQty').onchange=()=>{if(lockPackageCount)return;productModalQty=Math.min(1000,Math.max(1,Number($('productQty').value)||1));$('productQty').value=productModalQty;updateSelectedPrice();};
       $('addToCart').onclick=addCurrentToCart;
-openModal('productModal');
-}
+      openModal('productModal');
+    }
     function renderCustomerFields(fields){
-      const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الشحن</h4><div class="form-grid">${fields.map(f=>{const fieldType=['tel','email','number','url','text'].includes(f.type)?f.type:'text';return `<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" type="${fieldType}" ${fieldType==='tel'?'inputmode="tel" autocomplete="tel"':''} data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'')}" ${f.required===false?'':'required'}></div>`;}).join('')}</div>`;}
-    function updateSelectedPrice(){if(!selectedVariant)return;$('selectedPrice').textContent=money(Number(selectedVariant.price_syp||0)*productModalQty);}
+      const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الشحن</h4><div class="form-grid">${fields.map(f=>{const fieldType=['tel','email','number','url','text'].includes(f.type)?f.type:'text';const isPricing=f.pricing_quantity===true;const rangeAttrs=isPricing?` min="${escapeHTML(f.min)}" max="${escapeHTML(f.max)}" step="${escapeHTML(f.step??'any')}" inputmode="decimal" data-pricing-quantity="true"`:'';return `<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" type="${fieldType}" ${fieldType==='tel'?'inputmode="tel" autocomplete="tel"':''}${rangeAttrs} data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'')}" ${f.required===false?'':'required'}></div>`;}).join('')}</div>`;root.querySelectorAll('.customer-input').forEach(el=>el.addEventListener('input',updateSelectedPrice));}
+    function updateSelectedPrice(){
+      const output=$('selectedPrice'),button=$('addToCart');if(!output)return;
+      if(!selectedVariant){output.textContent='';if(button)button.disabled=true;return;}
+      const fields=Array.isArray(currentProduct?.input_fields)?currentProduct.input_fields:[];
+      const pricingField=fields.find(f=>f&&f.pricing_quantity===true);
+      let total=Number(selectedVariant.price_syp||0)*productModalQty;
+      if(pricingField){
+        const input=Array.from(document.querySelectorAll('.customer-input')).find(el=>el.dataset.field===pricingField.name);
+        const raw=input?.value?.trim()||'';const amount=Number(raw);
+        const min=Number(pricingField.min),max=Number(pricingField.max),step=Number(pricingField.step);
+        const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
+        const valid=raw!==''&&Number.isFinite(amount)&&amount>0&&Number.isFinite(min)&&Number.isFinite(max)&&amount>=min&&amount<=max&&stepValid;
+        if(!valid){output.textContent=`أدخل كمية بين ${pricingField.min} و${pricingField.max}`;if(button)button.disabled=true;return;}
+        total=Math.round(Number(selectedVariant.price_syp||0)*amount*100)/100;
+      }
+      output.textContent=money(total);if(button)button.disabled=!(Number.isFinite(total)&&total>0);
+    }
     function addCurrentToCart(){
       if(!selectedVariant||!currentProduct)return toast('اختر باقة متاحة أولاً','error');
       const fields={};for(const el of document.querySelectorAll('.customer-input')){if(el.required&&!el.value.trim()){el.focus();return toast('يرجى إدخال '+el.previousElementSibling.textContent,'error');}fields[el.dataset.field]=el.value.trim();}
-      const existing=cart.find(x=>x.variant_id===selectedVariant.id&&JSON.stringify(x.fields)===JSON.stringify(fields));
-      if(existing)existing.quantity=Math.min(1000,existing.quantity+productModalQty);else cart.push({product_id:currentProduct.id,product_title:currentProduct.title,variant_id:selectedVariant.id,variant_title:selectedVariant.title,price_syp:Number(selectedVariant.price_syp),price_usd:selectedVariant.price_usd?Number(selectedVariant.price_usd):null,quantity:productModalQty,fields});
+      const definitions=Array.isArray(currentProduct.input_fields)?currentProduct.input_fields:[];
+      const pricingField=definitions.find(f=>f&&f.pricing_quantity===true);
+      const supplierProduct=currentProduct.badge==='من MediaStore'||currentProduct.badge==='حسب الكمية'||['mtn-recharge','syriatel-recharge'].includes(String(currentProduct.slug||''));
+      let linePriceSyp=Number(selectedVariant.price_syp||0);
+      let linePriceUsd=selectedVariant.price_usd===null||selectedVariant.price_usd===undefined||selectedVariant.price_usd===''?null:Number(selectedVariant.price_usd);
+      let itemQuantity=supplierProduct?1:productModalQty;
+      let variantTitle=selectedVariant.title;
+      if(pricingField){
+        const raw=String(fields[pricingField.name]||'').trim();const amount=Number(raw);const min=Number(pricingField.min),max=Number(pricingField.max),step=Number(pricingField.step);
+        const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
+        if(!raw||!Number.isFinite(amount)||amount<=0||!Number.isFinite(min)||!Number.isFinite(max)||amount<min||amount>max||!stepValid){const input=Array.from(document.querySelectorAll('.customer-input')).find(el=>el.dataset.field===pricingField.name);input?.focus();return toast('أدخل كمية صحيحة ضمن الحدود الموضحة.','error');}
+        linePriceSyp=Math.round(linePriceSyp*amount*100)/100;
+        if(linePriceUsd!==null)linePriceUsd=Math.round(linePriceUsd*amount*100)/100;
+        variantTitle=selectedVariant.title+' × '+raw;
+        itemQuantity=1;
+      }
+      if(!Number.isFinite(linePriceSyp)||linePriceSyp<=0)return toast('تعذر احتساب سعر هذه الباقة.','error');
+      const item={product_id:currentProduct.id,product_title:currentProduct.title,variant_id:selectedVariant.id,variant_title:variantTitle,price_syp:linePriceSyp,price_usd:linePriceUsd,quantity:itemQuantity,fields};
+      if(!supplierProduct&&!pricingField){
+        const existing=cart.find(x=>x.variant_id===selectedVariant.id&&JSON.stringify(x.fields)===JSON.stringify(fields));
+        if(existing)existing.quantity=Math.min(1000,existing.quantity+itemQuantity);else cart.push(item);
+      }else{
+        cart.push(item);
+      }
       updateCartCount();closeModal('productModal');toast('تمت إضافة الباقة إلى السلة','success');
     }
     $('cartBtn').addEventListener('click',renderCart);
@@ -958,12 +1004,15 @@ openModal('productModal');
             product_slug: product.slug || '',
             product_type: product.product_type || '',
             inventory_mode: variant.inventory_mode || '',
+            price_syp: variant.price_syp ?? null,
+            price_usd: variant.price_usd ?? null,
+            cost_syp: variant.cost_syp ?? null,
             input_fields: Array.isArray(product.input_fields) ? product.input_fields : []
           };
-        }).filter(item => ['game', 'application'].includes(item.product_type));
+        }).filter(item => ['game', 'application', 'gift_card', 'service'].includes(item.product_type));
 
         if (!mediaStoreProducts.length) throw new Error('The full MediaStore catalog is empty.');
-        if (!localVariants.length) throw new Error('No active local game/application packages were returned.');
+        if (!localVariants.length) throw new Error('No active local store packages were returned.');
 
         const payload = {
           schema_version: 1,
@@ -995,6 +1044,19 @@ openModal('productModal');
       }
     }
     $('msExportMatchingData').onclick = exportMediaStoreMatchingData;
+    async function runMediaStoreCatalogImport(){
+      const button=$('msImportCatalog');
+      if(!confirm('سيتم استيراد المنتجات المتاحة حالياً من MediaStore إلى واجهة المتجر، مع إضافة هامش 10% على تكلفة المورد، واستبعاد المنتجات غير المتاحة. سيتم إبقاء جميع روابط التوريد معطّلة وسيبقى المورد متوقفاً؛ لن تُرسل أي طلبات تلقائية. هل تتابع؟'))return;
+      setBusy(button,true,'جارٍ استيراد الكتالوج...');
+      try{
+        const result=await callMediaStore('import_catalog');
+        await Promise.all([loadMediaStoreVariants(),loadMediaStoreMappings(),loadMediaStoreState()]);
+        await loadStoreData();
+        toast(`تم الاستيراد: ${result.imported_product_groups||0} مجموعة منتجات و${result.new_variants_inserted||0} باقة جديدة. روابط محفوظة معطّلة: ${result.new_mappings_created||0}. المستبعد لعدم التوفر: ${result.unavailable_products_excluded||0}.`,'success');
+      }catch(error){toast(error.message||'تعذر استيراد كتالوج MediaStore.','error');}
+      finally{setBusy(button,false);}
+    }
+    $('msImportCatalog').onclick=runMediaStoreCatalogImport;
     async function loadMediaStoreMappings() {
       const data = await callMediaStore('get_mappings');
       mediaStoreMappings = Array.isArray(data.mappings) ? data.mappings : [];
@@ -1033,6 +1095,7 @@ openModal('productModal');
       $('msMappingHints').textContent = `حقول MediaStore المطلوبة: ${remoteText}. حقول المنتج المحلية: ${localText}. يجب أن تكون مطابقة JSON على شكل {"اسم_حقل_المورّد":"اسم_الحقل_المحلي"}.`;
       const mode = $('msQtyMode').value;
       $('msQtyFieldWrap').classList.toggle('hidden', mode !== 'customer_field');
+      $('msFixedQtyWrap').classList.toggle('hidden', mode !== 'fixed');
     }
     async function loadMediaStorePanel() {
       if (!adminOnly()) return;
@@ -1107,7 +1170,9 @@ openModal('productModal');
       const required = mediaStoreProductParams(remoteProduct);
       const missing = required.filter(key => !Object.prototype.hasOwnProperty.call(fieldMapping, key));
       if (missing.length) return toast(`اربط الحقول الخارجية المطلوبة أولاً: ${missing.join('، ')}`, 'error');
-      const metadata = { qty_mode: qtyMode, qty_field: qtyMode === 'customer_field' ? $('msQtyField').value.trim() : '', field_mapping: fieldMapping };
+      const fixedQty = qtyMode === 'fixed' ? $('msFixedQty').value.trim() : '';
+      if (qtyMode === 'fixed' && (!/^[0-9]+(?:\.[0-9]+)?$/.test(fixedQty) || !Number.isFinite(Number(fixedQty)) || Number(fixedQty) <= 0)) return toast('أدخل كمية ثابتة رقمية أكبر من صفر.', 'error');
+      const metadata = { qty_mode: qtyMode, qty_field: qtyMode === 'customer_field' ? $('msQtyField').value.trim() : '', fixed_qty: qtyMode === 'fixed' ? fixedQty : '', field_mapping: fieldMapping };
       if (qtyMode === 'customer_field' && !metadata.qty_field) return toast('أدخل اسم حقل الكمية المحلي.', 'error');
       const button = $('msSaveMapping'); setBusy(button, true, 'جارٍ الحفظ...');
       try {
@@ -1548,13 +1613,13 @@ openModal('productModal');
     };
 
     // Lightweight filtering for each catalogue view.
-    [['gamesSearch','gamesGrid','game'],['appsSearch','applicationsGrid','application'],['cardsSearch','giftCardsGrid','gift_card'],['telecomSearch','telecomGrid','telecom'],['allSearch','allGrid','all']].forEach(([input,grid,type])=>$(input).addEventListener('input',()=>{const q=$(input).value.trim().toLowerCase();const base=type==='telecom'?productsForCategory('telecom'):products.filter(p=>p.is_active&&(type==='all'||p.product_type===type));const list=base.filter(p=>(`${p.title} ${p.description||''}`).toLowerCase().includes(q));renderGrid(grid,list);}));
+    [['gamesSearch','gamesGrid','game'],['appsSearch','applicationsGrid','application'],['cardsSearch','giftCardsGrid','gift_card'],['telecomSearch','telecomGrid','telecom'],['digitalServicesSearch','digitalServicesGrid','digital-services'],['allSearch','allGrid','all']].forEach(([input,grid,type])=>$(input).addEventListener('input',()=>{const q=$(input).value.trim().toLowerCase();const base=type==='telecom'?productsForCategory('telecom'):type==='digital-services'?productsForCategory('digital-services'):products.filter(p=>p.is_active&&(type==='all'||p.product_type===type));const list=base.filter(p=>(`${p.title} ${p.description||''}`).toLowerCase().includes(q));renderGrid(grid,list);}));
     [['gamesSort','gamesGrid','game'],['appsSort','applicationsGrid','application']].forEach(([id,grid,type])=>$(id).addEventListener('change',()=>{let list=[...productsForType(type)];if($(id).value==='name')list.sort((a,b)=>a.title.localeCompare(b.title,'ar'));if($(id).value==='price')list.sort((a,b)=>(productPrice(a)?.price_syp??Infinity)-(productPrice(b)?.price_syp??Infinity));renderGrid(grid,list);}));
     // روابط التواصل المباشرة موجودة في أيقونات التذييل.
     $('year').textContent=new Date().getFullYear();updateCartCount();
 
     async function init(){
-      try{await handleAuthState();await loadStoreData();const requestedPage=new URLSearchParams(window.location.search).get('view');if(['home','games','applications','gift-cards','all','pubg-accounts','orders','account','admin'].includes(requestedPage))showPage(requestedPage);restartHeroTimer();}
+      try{await handleAuthState();await loadStoreData();const requestedPage=new URLSearchParams(window.location.search).get('view');if(['home','games','applications','gift-cards','telecom','digital-services','all','pubg-accounts','orders','account','admin'].includes(requestedPage))showPage(requestedPage);restartHeroTimer();}
       catch(err){console.error(err);toast('تعذر الاتصال بالخدمات. تحقق من الاتصال وإعدادات Supabase.','error');}
     }
     init();
