@@ -72,7 +72,7 @@
     <div class="container nav">
       <a class="brand" href="#home" aria-label="JAKO STORE"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a>
       <nav class="navlinks" aria-label="القائمة الرئيسية">
-        <button class="active" data-page="home">الرئيسية</button><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="pubg-accounts">حسابات ببجي</button><button data-page="orders">طلباتي</button>
+        <button class="active" data-page="home">الرئيسية</button><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="telecom">الاتصالات</button><button data-page="pubg-accounts">حسابات ببجي</button><button data-page="orders">طلباتي</button>
       </nav>
       <div class="nav-actions">
         <button class="icon-btn" id="cartBtn" aria-label="السلة">🛒<span class="cart-count" id="cartCount">0</span></button>
@@ -100,6 +100,7 @@
             <div class="category-card" data-page="games"><div class="category-icon">🎮</div><div><h3>الألعاب</h3><p>اشحن ألعابك المفضلة بسهولة</p></div><span class="category-arrow">←</span></div>
             <div class="category-card" data-page="applications"><div class="category-icon">📱</div><div><h3>التطبيقات</h3><p>باقات واشتراكات رقمية</p></div><span class="category-arrow">←</span></div>
             <div class="category-card" data-page="gift-cards"><div class="category-icon">🎁</div><div><h3>البطاقات الرقمية</h3><p>رصيد وبطاقات رقمية متنوعة</p></div><span class="category-arrow">←</span></div>
+            <div class="category-card" data-page="telecom"><div class="category-icon">📞</div><div><h3>الاتصالات</h3><p>اشحن رصيد سيريتل وMTN</p></div><span class="category-arrow">←</span></div>
           </div>
         </section>
         <section class="section"><div class="section-head"><div><div class="section-kicker">مختارة لك</div><h2>منتجات مميزة</h2><p>اكتشف المنتجات والباقات المتاحة حالياً</p></div><button class="text-link" data-page="all">عرض الكل ←</button></div><div id="featuredGrid" class="products-grid"><div class="empty-state"><div class="empty-icon">✨</div>يتم تحميل المنتجات...</div></div></section>
@@ -112,6 +113,7 @@
     <section id="page-games" class="page"><div class="container"><div class="page-title"><div><h1>الألعاب 🎮</h1><p>اختر اللعبة ثم الباقة المناسبة لحسابك</p></div></div><div class="toolbar"><div class="searchbox"><input id="gamesSearch" placeholder="ابحث عن لعبة..." autocomplete="off"></div><select class="filter-select" id="gamesSort"><option value="default">الترتيب الافتراضي</option><option value="name">الاسم</option><option value="price">الأقل سعراً</option></select></div><div class="products-grid" id="gamesGrid"></div></div></section>
     <section id="page-applications" class="page"><div class="container"><div class="page-title"><div><h1>التطبيقات 📱</h1><p>باقات التطبيقات والخدمات الرقمية</p></div></div><div class="toolbar"><div class="searchbox"><input id="appsSearch" placeholder="ابحث عن تطبيق..." autocomplete="off"></div><select class="filter-select" id="appsSort"><option value="default">الترتيب الافتراضي</option><option value="name">الاسم</option><option value="price">الأقل سعراً</option></select></div><div class="products-grid" id="applicationsGrid"></div></div></section>
     <section id="page-gift-cards" class="page"><div class="container"><div class="page-title"><div><h1>البطاقات الرقمية 🎁</h1><p>بطاقات ورصيد رقمي جاهز</p></div></div><div class="toolbar"><div class="searchbox"><input id="cardsSearch" placeholder="ابحث عن بطاقة..." autocomplete="off"></div></div><div class="products-grid" id="giftCardsGrid"></div></div></section>
+    <section id="page-telecom" class="page"><div class="container"><div class="page-title"><div><h1>الاتصالات 📞</h1><p>اختر شركة الاتصالات ثم فئة الرصيد المناسبة</p></div></div><div class="toolbar"><div class="searchbox"><input id="telecomSearch" placeholder="ابحث عن سيريتل أو MTN..." autocomplete="off"></div></div><div class="products-grid" id="telecomGrid"></div></div></section>
     <section id="page-all" class="page"><div class="container"><div class="page-title"><div><h1>جميع المنتجات</h1><p>تصفّح كل ما هو متاح في المتجر</p></div></div><div class="toolbar"><div class="searchbox"><input id="allSearch" placeholder="ابحث عن منتج..." autocomplete="off"></div></div><div class="products-grid" id="allGrid"></div></div></section>
 
     <section id="page-pubg-accounts" class="page"><div class="container"><div class="page-title"><div><h1>حسابات PUBG Mobile 🎮</h1><p>حسابات معروضة مع الصور والتفاصيل والسعر. الاستفسار عبر واتساب للحسابات المتاحة فقط.</p></div><button class="secondary" id="refreshPubgAccounts">تحديث ↻</button></div><div class="notice">هذا قسم عرض واستفسار مستقل عن سلة المشتريات وطرق الدفع. تحقّق من سياسات اللعبة وشروط نقل الحساب قبل إتمام أي اتفاق.</div>
@@ -390,7 +392,7 @@ window.addEventListener('popstate',()=>{
   }
 });
     function showPage(page, options = {}) {
-      if (!['home','games','applications','gift-cards','all','pubg-accounts','orders','account','admin'].includes(page)) page='home';
+      if (!['home','games','applications','gift-cards','telecom','all','pubg-accounts','orders','account','admin'].includes(page)) page='home';
       if (page==='admin' && !isAdmin) { toast('هذه الصفحة مخصصة للإدارة فقط','error'); page='home'; }
       if (page==='orders' && !currentUser) { openAuth('login'); toast('سجّل الدخول لعرض طلباتك'); return; }
       if (page==='account' && !currentUser) { openAuth('login'); return; }
@@ -407,7 +409,7 @@ window.addEventListener('popstate',()=>{
       const target=$(`page-${page}`); if(target) target.classList.add('active');
       document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
       window.scrollTo({top:0,behavior:'smooth'});
-      const pageTitles={home:'الرئيسية',games:'الألعاب',applications:'التطبيقات','gift-cards':'البطاقات الرقمية',all:'جميع المنتجات','pubg-accounts':'حسابات PUBG',orders:'طلباتي',account:'حسابي',admin:'لوحة الإدارة'};
+      const pageTitles={home:'الرئيسية',games:'الألعاب',applications:'التطبيقات','gift-cards':'البطاقات الرقمية',telecom:'الاتصالات',all:'جميع المنتجات','pubg-accounts':'حسابات PUBG',orders:'طلباتي',account:'حسابي',admin:'لوحة الإدارة'};
       document.title=`${pageTitles[page]||'المتجر'} | JAKO STORE`;
       if(page==='orders') loadOrders(); if(page==='account') renderAccount(); if(page==='admin') loadAdmin(); if(page==='pubg-accounts') loadPubgAccounts();
     }
@@ -440,9 +442,10 @@ window.addEventListener('popstate',()=>{
       root.querySelectorAll('[data-product]').forEach(b=>b.addEventListener('click',()=>openProduct(b.dataset.product)));
     }
     function productsForType(type){return products.filter(p=>p.is_active && (type==='all'||p.product_type===type));}
+    function productsForCategory(slug){const category=categories.find(c=>c.slug===slug);return products.filter(p=>p.is_active&&category&&p.category_id===category.id);}
     function renderAllProducts(){
       renderGrid('featuredGrid',products.filter(p=>p.is_active&&p.is_featured).slice(0,4));
-      renderGrid('gamesGrid',productsForType('game'));renderGrid('applicationsGrid',productsForType('application'));renderGrid('giftCardsGrid',productsForType('gift_card'));renderGrid('allGrid',products.filter(p=>p.is_active));
+      renderGrid('gamesGrid',productsForType('game'));renderGrid('applicationsGrid',productsForType('application'));renderGrid('giftCardsGrid',productsForType('gift_card'));renderGrid('telecomGrid',productsForCategory('telecom'));renderGrid('allGrid',products.filter(p=>p.is_active));
     }
 
   
@@ -490,7 +493,7 @@ window.addEventListener('popstate',()=>{
 openModal('productModal');
 }
     function renderCustomerFields(fields){
-      const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الحساب</h4><div class="form-grid">${fields.map(f=>`<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'') }" ${f.required===false?'':'required'}></div>`).join('')}</div>`;}
+      const root=$('productCustomerFields');if(!root)return;if(!fields.length){root.innerHTML='';return;}root.innerHTML=`<h4 style="font-size:12px;margin:17px 0 8px">بيانات الشحن</h4><div class="form-grid">${fields.map(f=>{const fieldType=['tel','email','number','url','text'].includes(f.type)?f.type:'text';return `<div class="form-field"><label>${escapeHTML(f.label||f.name)}</label><input class="field customer-input" type="${fieldType}" ${fieldType==='tel'?'inputmode="tel" autocomplete="tel"':''} data-field="${escapeHTML(f.name)}" placeholder="${escapeHTML(f.placeholder||'')}" ${f.required===false?'':'required'}></div>`;}).join('')}</div>`;}
     function updateSelectedPrice(){if(!selectedVariant)return;$('selectedPrice').textContent=money(Number(selectedVariant.price_syp||0)*productModalQty);}
     function addCurrentToCart(){
       if(!selectedVariant||!currentProduct)return toast('اختر باقة متاحة أولاً','error');
@@ -1479,7 +1482,7 @@ openModal('productModal');
     };
 
     // Lightweight filtering for each catalogue view.
-    [['gamesSearch','gamesGrid','game'],['appsSearch','applicationsGrid','application'],['cardsSearch','giftCardsGrid','gift_card'],['allSearch','allGrid','all']].forEach(([input,grid,type])=>$(input).addEventListener('input',()=>{const q=$(input).value.trim().toLowerCase();const list=products.filter(p=>p.is_active&&(type==='all'||p.product_type===type)&&(`${p.title} ${p.description||''}`).toLowerCase().includes(q));renderGrid(grid,list);}));
+    [['gamesSearch','gamesGrid','game'],['appsSearch','applicationsGrid','application'],['cardsSearch','giftCardsGrid','gift_card'],['telecomSearch','telecomGrid','telecom'],['allSearch','allGrid','all']].forEach(([input,grid,type])=>$(input).addEventListener('input',()=>{const q=$(input).value.trim().toLowerCase();const base=type==='telecom'?productsForCategory('telecom'):products.filter(p=>p.is_active&&(type==='all'||p.product_type===type));const list=base.filter(p=>(`${p.title} ${p.description||''}`).toLowerCase().includes(q));renderGrid(grid,list);}));
     [['gamesSort','gamesGrid','game'],['appsSort','applicationsGrid','application']].forEach(([id,grid,type])=>$(id).addEventListener('change',()=>{let list=[...productsForType(type)];if($(id).value==='name')list.sort((a,b)=>a.title.localeCompare(b.title,'ar'));if($(id).value==='price')list.sort((a,b)=>(productPrice(a)?.price_syp??Infinity)-(productPrice(b)?.price_syp??Infinity));renderGrid(grid,list);}));
     // روابط التواصل المباشرة موجودة في أيقونات التذييل.
     $('year').textContent=new Date().getFullYear();updateCartCount();
