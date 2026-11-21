@@ -132,7 +132,69 @@
     <section id="page-account" class="page"><div class="container"><div class="page-title"><div><h1>حسابي</h1><p>إدارة معلوماتك الشخصية</p></div></div><div class="panel" id="accountContent"></div></div></section>
     <section id="page-admin" class="page"><div class="container"><div class="page-title"><div><h1>لوحة الإدارة ⚙</h1><p>إدارة المنتجات والباقات والطلبات وبيانات المتجر</p></div><span class="status completed">مدير موثّق</span></div>
       <div class="stats-grid" id="adminStats"><div class="stat"><span>المنتجات</span><strong>—</strong></div><div class="stat"><span>الطلبات</span><strong>—</strong></div><div class="stat"><span>المستخدمون</span><strong>—</strong></div><div class="stat"><span>بانتظار المعالجة</span><strong>—</strong></div></div>
-      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="inventory">المخزون</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button></div>
+      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="inventory">المخزون</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button><button class="secondary" data-admin-tab="supplier">MediaStore</button></div>
+
+      <div id="adminTab-supplier" class="admin-tab hidden">
+        <div class="panel">
+          <div class="section-head">
+            <div><h2>ربط MediaStore</h2><p>إدارة اتصال المورّد وربط باقات المتجر بمنتجاته. لن تُرسل أي طلبات قبل تفعيل الربط وتأكيد الدفع.</p></div>
+            <button class="secondary" id="msRefreshState" type="button">تحديث الحالة ↻</button>
+          </div>
+          <div class="stats-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+            <div class="stat"><span>حالة المورّد</span><strong id="msSupplierStatus">—</strong></div>
+            <div class="stat"><span>رمز API في Supabase</span><strong id="msTokenStatus">—</strong></div>
+            <div class="stat"><span>آخر اختبار اتصال</span><strong id="msConnectionStatus">—</strong></div>
+            <div class="stat"><span>الباقات المرتبطة</span><strong id="msMappingsCount">—</strong></div>
+          </div>
+          <div class="notice">مهم: لا تضع رمز MediaStore في هذه الصفحة أو في ملف HTML. أضفه فقط ضمن أسرار Edge Functions في Supabase باسم MEDIASTORE_API_TOKEN. تفعيل المورّد يسمح بإرسال طلبات حقيقية عند تأكيد الدفع، وقد يخصم رصيد حساب المورّد.</div>
+          <div class="form-actions">
+            <button class="primary" id="msTestConnection" type="button">اختبار الاتصال</button>
+            <button class="secondary" id="msActivateSupplier" type="button">تفعيل الإرسال الآلي</button>
+            <button class="danger-btn" id="msPauseSupplier" type="button">إيقاف الإرسال الآلي</button>
+          </div>
+          <p class="muted small" id="msStateMessage" aria-live="polite">اضغط «تحديث الحالة» لقراءة إعدادات الربط.</p>
+        </div>
+
+        <div class="panel" style="margin-top:14px">
+          <div class="section-head">
+            <div><h3>كتالوج MediaStore</h3><p>اعرض معرّفات المنتجات والحقول المطلوبة قبل إنشاء أي ربط يدوي.</p></div>
+            <button class="secondary" id="msLoadCatalog" type="button">تحميل الكتالوج</button>
+          </div>
+          <div class="form-field" style="max-width:260px;margin-bottom:12px">
+            <label class="check-row"><input type="checkbox" id="msBaseOnly"> تحميل المنتجات الأساسية فقط</label>
+          </div>
+          <div class="table-wrap">
+            <table style="min-width:760px">
+              <thead><tr><th>المعرّف</th><th>المنتج</th><th>الفئة</th><th>النوع</th><th>الكمية المسموحة</th><th>الحقول المطلوبة</th><th>التوفر</th></tr></thead>
+              <tbody id="msProductsRows"><tr><td colspan="7" class="muted">لم يتم تحميل الكتالوج بعد.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px">
+          <h3>ربط باقة من المتجر بمنتج من MediaStore</h3>
+          <p class="muted small">اختر الباقة المحلية ثم المنتج الخارجي. الربط الآلي متاح حالياً للباقات التي نوع مخزونها «غير محدود» فقط؛ مخزون الأكواد والكميات يبقى للتسليم اليدوي.</p>
+          <div class="form-grid">
+            <div class="form-field full"><label for="msLocalVariant">باقة المتجر</label><select class="field" id="msLocalVariant"><option value="">حمّل الباقات المحلية...</option></select></div>
+            <div class="form-field full"><label for="msRemoteProduct">منتج MediaStore</label><select class="field" id="msRemoteProduct"><option value="">حمّل الكتالوج واختر المنتج...</option></select></div>
+            <div class="form-field"><label for="msSupplierSku">SKU لدى المورّد (اختياري)</label><input class="field" id="msSupplierSku" maxlength="100" placeholder="اختياري"></div>
+            <div class="form-field"><label for="msQtyMode">طريقة تحديد الكمية</label><select class="field" id="msQtyMode"><option value="one">طلب واحد (qty=1)</option><option value="order_quantity">استخدام كمية الطلب</option><option value="customer_field">استخدام حقل من بيانات العميل</option></select></div>
+            <div class="form-field hidden" id="msQtyFieldWrap"><label for="msQtyField">اسم حقل الكمية المحلي</label><input class="field" id="msQtyField" maxlength="64" placeholder="مثال: amount"></div>
+            <div class="form-field full"><label for="msFieldMapping">مطابقة حقول العميل بصيغة JSON</label><textarea class="field textarea" id="msFieldMapping" rows="3" dir="ltr" placeholder='{"playerId":"player_id"}'>{}</textarea><small class="muted">المفتاح على اليسار هو اسم الحقل الذي يطلبه MediaStore، والقيمة على اليمين هي اسم الحقل المحلي في بيانات الطلب.</small></div>
+            <div class="form-field full"><div class="notice" id="msMappingHints">اختر منتجاً خارجياً لعرض حقوله المطلوبة، واختر باقة محلية لعرض حقول بيانات العميل.</div></div>
+          </div>
+          <div class="form-actions"><button class="primary" id="msSaveMapping" type="button">حفظ الربط</button><button class="secondary" id="msReloadMappings" type="button">تحديث روابط الباقات</button></div>
+        </div>
+
+        <div class="panel" style="margin-top:14px">
+          <h3>روابط الباقات الحالية</h3>
+          <div class="table-wrap">
+            <table style="min-width:680px"><thead><tr><th>الباقة المحلية</th><th>معرّف MediaStore</th><th>الحالة</th><th>مطابقة الحقول</th><th>إجراء</th></tr></thead>
+            <tbody id="msMappingsRows"><tr><td colspan="5" class="muted">لم يتم تحميل الروابط بعد.</td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+
       <div id="adminTab-analytics" class="admin-tab hidden">
         <div class="stats-grid analytics-stats-grid">
           <div class="stat"><span>مشاهدات اليوم</span><strong id="analyticsTodayValue">—</strong></div>
@@ -729,8 +791,274 @@ openModal('productModal');
     function adminOnly(){if(!isAdmin){toast('ليس لديك صلاحية الإدارة','error');return false;}return true;}
     async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings(),loadAdminPubgAccounts()]);}
     async function loadAdminStats(){const [p,o,u,pending]=await Promise.all([supabase.from('products').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}),supabase.from('profiles').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}).in('status',['pending','awaiting_payment'])]);$('adminStats').innerHTML=[['المنتجات',p.count],['الطلبات',o.count],['المستخدمون',u.count],['بانتظار المعالجة',pending.count]].map(([a,b])=>`<div class="stat"><span>${a}</span><strong>${b??'—'}</strong></div>`).join('');}
-    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();if(tab==='inventory')loadAdminInventory();}
+    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();if(tab==='inventory')loadAdminInventory();if(tab==='supplier')loadMediaStorePanel();}
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>setAdminTab(b.dataset.adminTab));
+
+    // JAKO_MEDIASTORE_ADMIN_UI_V1
+    // MediaStore admin integration. API credentials remain server-side in Supabase secrets.
+    let mediaStoreState = null;
+    let mediaStoreProducts = [];
+    let mediaStoreVariants = [];
+    let mediaStoreMappings = [];
+
+    async function callMediaStore(action, payload = {}) {
+      if (!adminOnly()) throw new Error('صلاحيات الإدارة مطلوبة.');
+      const { data, error } = await supabase.functions.invoke('mediastore-integration', {
+        body: { action, ...payload }
+      });
+      if (error) {
+        let message = error.message || 'تعذر الاتصال بخدمة MediaStore.';
+        try {
+          const response = error.context;
+          if (response && typeof response.clone === 'function') {
+            const detail = await response.clone().json();
+            if (detail?.error) message = detail.error;
+          }
+        } catch {}
+        throw new Error(message);
+      }
+      if (data?.ok === false) throw new Error(data.error || 'فشلت العملية لدى MediaStore.');
+      return data || {};
+    }
+
+    function mediaStoreProductParams(product) {
+      return Array.isArray(product?.params) ? product.params : [];
+    }
+    function mediaStoreProductQty(product) {
+      const q = product?.qty_values;
+      if (q === null || q === undefined) return '1 فقط';
+      if (Array.isArray(q)) return q.length ? q.join('، ') : 'غير محدد';
+      if (q && typeof q === 'object') return `${q.min ?? '؟'} إلى ${q.max ?? '؟'}`;
+      return String(q);
+    }
+    function mediaStoreVariantProduct(variant) {
+      return Array.isArray(variant?.products) ? (variant.products[0] || {}) : (variant?.products || {});
+    }
+    function mediaStoreVariantLabel(variant) {
+      const product = mediaStoreVariantProduct(variant);
+      return `${product.title || 'منتج'} — ${variant.title || 'باقة'} · ${String(variant.id).slice(0,8)}`;
+    }
+    function renderMediaStoreState(data) {
+      mediaStoreState = data || null;
+      const supplier = data?.supplier || {};
+      $('msSupplierStatus').textContent = supplier.status === 'active' ? 'مفعّل' : supplier.status === 'inactive' ? 'متوقف' : 'غير معروف';
+      $('msTokenStatus').textContent = data?.token_configured ? 'موجود في الأسرار' : 'غير مضبوط';
+      $('msConnectionStatus').textContent = supplier.last_connection_status === 'success' ? 'ناجح' : supplier.last_connection_status === 'failed' ? 'فاشل' : 'لم يُختبر';
+      $('msMappingsCount').textContent = `${data?.enabled_mappings_count ?? 0} مفعّل / ${data?.mappings_count ?? 0}`;
+      const testedAt = supplier.last_connection_test_at ? new Date(supplier.last_connection_test_at).toLocaleString('ar') : 'لا يوجد';
+      $('msStateMessage').textContent = `الحالة: ${supplier.status || 'غير معروفة'} · آخر اختبار: ${testedAt} · لا تُرسل الطلبات إلا بعد تفعيل المورّد وتأكيد الدفع.`;
+      $('msActivateSupplier').disabled = supplier.status === 'active';
+      $('msPauseSupplier').disabled = supplier.status !== 'active';
+    }
+    async function loadMediaStoreState() {
+      const data = await callMediaStore('state');
+      renderMediaStoreState(data);
+      return data;
+    }
+    async function loadMediaStoreVariants() {
+      const data = await callMediaStore('get_local_variants');
+      mediaStoreVariants = Array.isArray(data.variants) ? data.variants : [];
+      const eligible = mediaStoreVariants.filter(v => v.inventory_mode === 'unlimited');
+      $('msLocalVariant').innerHTML = '<option value="">اختر باقة غير محدودة...</option>' +
+        eligible.map(v => `<option value="${escapeHTML(v.id)}">${escapeHTML(mediaStoreVariantLabel(v))}</option>`).join('');
+      if (!eligible.length) $('msLocalVariant').innerHTML = '<option value="">لا توجد باقات غير محدودة مفعّلة حالياً</option>';
+      updateMediaStoreMappingHints();
+    }
+    async function loadMediaStoreCatalog() {
+      const data = await callMediaStore('list_products', { base_only: $('msBaseOnly').checked });
+      mediaStoreProducts = Array.isArray(data.products) ? data.products : [];
+      $('msProductsRows').innerHTML = mediaStoreProducts.length ? mediaStoreProducts.map(product => {
+        const params = mediaStoreProductParams(product);
+        return `<tr>
+          <td><code>${escapeHTML(product.id)}</code></td>
+          <td>${escapeHTML(product.name || '—')}</td>
+          <td>${escapeHTML(product.category_name || '—')}</td>
+          <td>${escapeHTML(product.product_type || '—')}</td>
+          <td>${escapeHTML(mediaStoreProductQty(product))}</td>
+          <td>${params.length ? `<code dir="ltr">${escapeHTML(params.join(', '))}</code>` : 'لا توجد حقول'}</td>
+          <td>${product.available === false ? 'غير متاح' : 'متاح'}</td>
+        </tr>`;
+      }).join('') : '<tr><td colspan="7" class="muted">لم يُرجع المورّد منتجات.</td></tr>';
+      $('msRemoteProduct').innerHTML = '<option value="">اختر منتجاً من الكتالوج...</option>' +
+        mediaStoreProducts.map(product => `<option value="${escapeHTML(product.id)}">${escapeHTML(product.name || 'منتج')} · #${escapeHTML(product.id)}</option>`).join('');
+      updateMediaStoreMappingHints();
+      return data;
+    }
+    async function loadMediaStoreMappings() {
+      const data = await callMediaStore('get_mappings');
+      mediaStoreMappings = Array.isArray(data.mappings) ? data.mappings : [];
+      const variantMap = new Map(mediaStoreVariants.map(v => [v.id, v]));
+      $('msMappingsRows').innerHTML = mediaStoreMappings.length ? mediaStoreMappings.map(mapping => {
+        const variant = variantMap.get(mapping.variant_id);
+        const fieldMap = mapping.metadata?.field_mapping || {};
+        return `<tr>
+          <td>${escapeHTML(variant ? mediaStoreVariantLabel(variant) : mapping.variant_id)}</td>
+          <td><code>${escapeHTML(mapping.remote_product_id)}</code></td>
+          <td>${mapping.is_enabled ? '<span class="status completed">مفعّل</span>' : '<span class="status rejected">متوقف</span>'}</td>
+          <td><code dir="ltr">${escapeHTML(JSON.stringify(fieldMap))}</code></td>
+          <td>${mapping.is_enabled ? `<button class="text-link" type="button" data-ms-disable-mapping="${escapeHTML(mapping.id)}">إيقاف الربط</button>` : '—'}</td>
+        </tr>`;
+      }).join('') : '<tr><td colspan="5" class="muted">لا توجد روابط محفوظة بعد.</td></tr>';
+      $('msMappingsRows').querySelectorAll('[data-ms-disable-mapping]').forEach(button => {
+        button.onclick = async () => {
+          if (!confirm('إيقاف هذا الربط؟ لن تُرسل الطلبات الجديدة لهذه الباقة تلقائياً.')) return;
+          try {
+            await callMediaStore('disable_mapping', { mapping_id: button.dataset.msDisableMapping });
+            toast('تم إيقاف الربط.', 'success');
+            await loadMediaStoreMappings();
+            await loadMediaStoreState();
+          } catch (error) { toast(error.message, 'error'); }
+        };
+      });
+    }
+    function updateMediaStoreMappingHints() {
+      const variant = mediaStoreVariants.find(v => v.id === $('msLocalVariant').value);
+      const product = mediaStoreProducts.find(p => String(p.id) === String($('msRemoteProduct').value));
+      const local = mediaStoreVariantProduct(variant || {});
+      const params = mediaStoreProductParams(product);
+      const inputFields = Array.isArray(local.input_fields) ? local.input_fields : [];
+      const localText = inputFields.length ? JSON.stringify(inputFields) : 'لا توجد حقول مدخلات محلية ظاهرة';
+      const remoteText = params.length ? params.join(', ') : 'لا توجد حقول خارجية مطلوبة أو لم يُحمّل الكتالوج';
+      $('msMappingHints').textContent = `حقول MediaStore المطلوبة: ${remoteText}. حقول المنتج المحلية: ${localText}. يجب أن تكون مطابقة JSON على شكل {"اسم_حقل_المورّد":"اسم_الحقل_المحلي"}.`;
+      const mode = $('msQtyMode').value;
+      $('msQtyFieldWrap').classList.toggle('hidden', mode !== 'customer_field');
+    }
+    async function loadMediaStorePanel() {
+      if (!adminOnly()) return;
+      $('msStateMessage').textContent = 'جارٍ تحميل حالة الربط...';
+      try {
+        await Promise.all([loadMediaStoreState(), loadMediaStoreVariants()]);
+        await loadMediaStoreMappings();
+      } catch (error) {
+        $('msStateMessage').textContent = error.message;
+        toast(error.message, 'error');
+      }
+    }
+    $('msRefreshState').onclick = async () => {
+      try { await loadMediaStoreState(); toast('تم تحديث حالة MediaStore.', 'success'); }
+      catch (error) { toast(error.message, 'error'); }
+    };
+    $('msTestConnection').onclick = async () => {
+      const button = $('msTestConnection'); setBusy(button, true, 'جارٍ الاختبار...');
+      try {
+        const result = await callMediaStore('test_connection');
+        await loadMediaStoreState();
+        toast(`نجح الاتصال. الرصيد: ${result.balance ?? 'غير متاح'} · الحساب: ${result.email ?? 'غير متاح'}`, 'success');
+      } catch (error) {
+        await loadMediaStoreState().catch(() => {});
+        toast(error.message, 'error');
+      } finally { setBusy(button, false); }
+    };
+    $('msLoadCatalog').onclick = async () => {
+      const button = $('msLoadCatalog'); setBusy(button, true, 'جارٍ تحميل الكتالوج...');
+      try { await loadMediaStoreCatalog(); toast(`تم تحميل ${mediaStoreProducts.length} منتجاً.`, 'success'); }
+      catch (error) { toast(error.message, 'error'); }
+      finally { setBusy(button, false); }
+    };
+    $('msLocalVariant').onchange = updateMediaStoreMappingHints;
+    $('msRemoteProduct').onchange = updateMediaStoreMappingHints;
+    $('msQtyMode').onchange = updateMediaStoreMappingHints;
+    $('msReloadMappings').onclick = async () => {
+      try {
+        if (!mediaStoreVariants.length) await loadMediaStoreVariants();
+        await loadMediaStoreMappings();
+        await loadMediaStoreState();
+        toast('تم تحديث روابط الباقات.', 'success');
+      } catch (error) { toast(error.message, 'error'); }
+    };
+    $('msSaveMapping').onclick = async () => {
+      const variantId = $('msLocalVariant').value;
+      const remoteProductId = $('msRemoteProduct').value;
+      const qtyMode = $('msQtyMode').value;
+      if (!variantId || !remoteProductId) return toast('اختر باقة محلية ومنتجاً من MediaStore.', 'error');
+      let fieldMapping;
+      try {
+        fieldMapping = JSON.parse($('msFieldMapping').value || '{}');
+        if (!fieldMapping || typeof fieldMapping !== 'object' || Array.isArray(fieldMapping)) throw new Error();
+      } catch { return toast('صيغة مطابقة الحقول ليست JSON صالحاً.', 'error'); }
+      const remoteProduct = mediaStoreProducts.find(p => String(p.id) === String(remoteProductId));
+      const required = mediaStoreProductParams(remoteProduct);
+      const missing = required.filter(key => !Object.prototype.hasOwnProperty.call(fieldMapping, key));
+      if (missing.length) return toast(`اربط الحقول الخارجية المطلوبة أولاً: ${missing.join('، ')}`, 'error');
+      const metadata = { qty_mode: qtyMode, qty_field: qtyMode === 'customer_field' ? $('msQtyField').value.trim() : '', field_mapping: fieldMapping };
+      if (qtyMode === 'customer_field' && !metadata.qty_field) return toast('أدخل اسم حقل الكمية المحلي.', 'error');
+      const button = $('msSaveMapping'); setBusy(button, true, 'جارٍ الحفظ...');
+      try {
+        await callMediaStore('save_mapping', {
+          variant_id: variantId,
+          remote_product_id: remoteProductId,
+          supplier_sku: $('msSupplierSku').value.trim(),
+          metadata
+        });
+        toast('تم حفظ ربط الباقة. لم يتم تفعيل الإرسال الآلي تلقائياً.', 'success');
+        await loadMediaStoreMappings();
+        await loadMediaStoreState();
+      } catch (error) { toast(error.message, 'error'); }
+      finally { setBusy(button, false); }
+    };
+    $('msActivateSupplier').onclick = async () => {
+      if (!confirm('تأكيد تفعيل MediaStore؟ بعد التفعيل، سيُرسل المتجر طلبات حقيقية للمورّد عند تأكيد استلام الدفع للباقة المرتبطة، وقد يُخصم رصيد حساب المورّد. لا تفعّل قبل اختبار الاتصال ومراجعة كل ربط.')) return;
+      const button = $('msActivateSupplier'); setBusy(button, true, 'جارٍ التفعيل...');
+      try {
+        await callMediaStore('activate_supplier');
+        await loadMediaStoreState();
+        toast('تم تفعيل MediaStore. الطلبات لن تُرسل إلا عند تأكيد الدفع من لوحة الإدارة.', 'success');
+      } catch (error) { toast(error.message, 'error'); }
+      finally { setBusy(button, false); }
+    };
+    $('msPauseSupplier').onclick = async () => {
+      if (!confirm('إيقاف الإرسال الآلي من MediaStore؟')) return;
+      try {
+        await callMediaStore('pause_supplier');
+        await loadMediaStoreState();
+        toast('تم إيقاف الإرسال الآلي.', 'success');
+      } catch (error) { toast(error.message, 'error'); }
+    };
+
+    document.addEventListener('change', async event => {
+      const select = event.target;
+      if (!select?.matches?.('#adminOrdersRows [data-order-status]')) return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      const previousStatus = select.dataset.currentStatus || 'pending';
+      const nextStatus = select.value;
+      if (nextStatus === previousStatus) return;
+      if (nextStatus === 'processing') {
+        if (!confirm('هل تحققت من وصول المبلغ فعلياً؟ عند الموافقة سيتم تأكيد الدفع، وإذا كان MediaStore مفعّلاً ومربوطاً بهذه الباقة فقد يُرسل طلب مدفوع للمورّد.')) {
+          select.value = previousStatus; return;
+        }
+        select.disabled = true;
+        try {
+          const result = await callMediaStore('confirm_order', { order_id: select.dataset.orderStatus });
+          if (Number(result.submitted) > 0) {
+            toast(`تم تأكيد الدفع وإرسال ${result.submitted} طلب(ات) للمورّد. بقي الطلب قيد التنفيذ حتى تأكيد التسليم النهائي.`, 'success');
+          } else if (Number(result.manual_items) > 0) {
+            toast('تم تأكيد الدفع، لكن لم يُرسل أي طلب آلي. راجع نوع المخزون وروابط الباقات، أو أكمل التسليم يدوياً.', 'success');
+          } else {
+            toast('تم تأكيد الدفع. لم يُرسل طلب خارجي.', 'success');
+          }
+          await Promise.all([loadAdminOrders(), loadAdminStats()]);
+        } catch (error) {
+          select.value = previousStatus;
+          toast(error.message, 'error');
+        } finally { select.disabled = false; }
+      } else {
+        select.disabled = true;
+        try {
+          const { error } = await supabase.from('orders')
+            .update({ status: nextStatus, updated_at: new Date().toISOString() })
+            .eq('id', select.dataset.orderStatus);
+          if (error) throw error;
+          toast('تم تحديث حالة الطلب.', 'success');
+          await Promise.all([loadAdminOrders(), loadAdminStats()]);
+        } catch (error) {
+          select.value = previousStatus;
+          toast(error.message || 'تعذر تحديث حالة الطلب.', 'error');
+        } finally { select.disabled = false; }
+      }
+    }, true);
+
     function renderAdminAnalyticsChart(series){
       const root=$('analyticsChart');
       const points=Array.isArray(series)?series.slice(-30):[];
@@ -906,14 +1234,18 @@ openModal('productModal');
       $('adminOrdersRows').innerHTML=data?.length?data.map(o=>{
         const items=(o.order_items||[]).map(i=>`${escapeHTML(i.product_title)} — ${escapeHTML(i.variant_title)} × ${i.quantity}`).join('<br>');
         const note=o.customer_note?`<div class="muted small" style="white-space:pre-wrap;margin-top:6px"><strong>ملاحظة العميل:</strong> ${escapeHTML(o.customer_note)}</div>`:'';
-        return `<tr><td>${escapeHTML(o.order_number||o.id)}</td><td>${escapeHTML(profiles[o.user_id]?.full_name||String(o.user_id||'').slice(0,8)||'عميل')}<br><small class="muted">${escapeHTML(profiles[o.user_id]?.phone||'')}</small></td><td>${items||'—'}${note}</td><td>${money(o.total_syp)}</td><td><span class="status ${escapeHTML(o.status)}">${escapeHTML(statusNames[o.status]||o.status)}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td><td><select class="field" style="min-width:130px" data-order-status="${o.id}">${Object.entries(statusNames).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select></td></tr>`;
+        return `<tr><td>${escapeHTML(o.order_number||o.id)}</td><td>${escapeHTML(profiles[o.user_id]?.full_name||String(o.user_id||'').slice(0,8)||'عميل')}<br><small class="muted">${escapeHTML(profiles[o.user_id]?.phone||'')}</small></td><td>${items||'—'}${note}</td><td>${money(o.total_syp)}</td><td><span class="status ${escapeHTML(o.status)}">${escapeHTML(statusNames[o.status]||o.status)}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td><td><select class="field" style="min-width:130px" data-order-status="${o.id}" data-current-status="${escapeHTML(o.status)}">${Object.entries(statusNames).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select>${o.status==='processing'?`<div style="margin-top:6px"><button class="text-link" type="button" data-ms-check-order="${o.id}">فحص حالة MediaStore</button></div>`:''}</td></tr>`;
       }).join(''):'<tr><td colspan="7" class="muted">لا توجد طلبات حتى الآن</td></tr>';
-      $('adminOrdersRows').querySelectorAll('[data-order-status]').forEach(sel=>sel.onchange=async()=>{
-        const {error}=await supabase.from('orders')
-          .update({status:sel.value,updated_at:new Date().toISOString()})
-          .eq('id',sel.dataset.orderStatus);
-        if(error)toast(error.message,'error');
-        else{toast('تم تحديث حالة الطلب','success');loadAdminStats();}
+      $('adminOrdersRows').querySelectorAll('[data-ms-check-order]').forEach(button=>button.onclick=async()=>{
+        const orderId=button.dataset.msCheckOrder;
+        setBusy(button,true,'جارٍ الفحص...');
+        try{
+          const result=await callMediaStore('check_order_status',{order_id:orderId});
+          const statuses=(result.results||[]).map(item=>item.status).join('، ')||'لا توجد طلبات خارجية مسجلة';
+          toast(`نتيجة فحص MediaStore: ${statuses}. حالة القبول لا تعني اكتمال التسليم.`, 'success');
+          await loadAdminOrders();
+        }catch(error){toast(error.message,'error');}
+        finally{setBusy(button,false);}
       });
     }
     async function loadAdminPayments(){const {data,error}=await supabase.from('payment_methods').select('*').order('sort_order');if(error)return;adminPaymentMethods=data||[];renderProductPaymentOptions();$('adminPaymentsRows').innerHTML=data?.length?data.map(p=>`<tr><td>${escapeHTML(p.name)}</td><td>${p.name==='الطلب عبر واتساب'?`رقم الدعم: ${escapeHTML(p.account_number||'—')}`:escapeHTML(p.account_number||'—')}</td><td><span class="status ${p.is_active?'completed':'rejected'}">${p.is_active?'مفعّلة':'مخفية'}</span></td><td><button class="text-link" data-pay-edit="${p.id}">تعديل</button> · <button class="text-link" data-pay-toggle="${p.id}" data-active="${p.is_active}">${p.is_active?'إخفاء':'تفعيل'}</button> · <button class="text-link" data-pay-delete="${p.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="4" class="muted">لم تتم إضافة طرق دفع بعد</td></tr>';$('adminPaymentsRows').querySelectorAll('[data-pay-edit]').forEach(b=>b.onclick=()=>{const p=data.find(x=>x.id===b.dataset.payEdit);if(!p)return;editingPaymentId=p.id;$('payName').value=p.name;$('payAccountName').value=p.account_name||'';$('payAccountNumber').value=p.account_number||'';$('payImage').value=p.image_url||'';$('payInstructions').value=p.instructions||'';$('payActive').checked=p.is_active;$('savePaymentBtn').textContent='تحديث طريقة الدفع';$('payName').focus();});$('adminPaymentsRows').querySelectorAll('[data-pay-toggle]').forEach(b=>b.onclick=async()=>{const {error}=await supabase.from('payment_methods').update({is_active:b.dataset.active!=='true',updated_at:new Date().toISOString()}).eq('id',b.dataset.payToggle);if(error)toast(error.message,'error');else loadAdminPayments();});$('adminPaymentsRows').querySelectorAll('[data-pay-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('حذف طريقة الدفع؟'))return;const {error}=await supabase.from('payment_methods').delete().eq('id',b.dataset.payDelete);if(error)toast(error.message,'error');else loadAdminPayments();});}
