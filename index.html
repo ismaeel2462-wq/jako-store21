@@ -24,6 +24,23 @@
     @keyframes spin{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0) rotate(-12deg)}50%{transform:translateY(-13px) rotate(-8deg)}}@keyframes glow{to{transform:translate(40px,25px) scale(1.15);opacity:.65}}@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}@keyframes toastIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
     @media(max-width:960px){.nav{height:auto;min-height:78px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand actions" "links links";gap:7px 12px;padding:10px 0}.brand{grid-area:brand}.nav-actions{grid-area:actions}.navlinks{grid-area:links;display:flex;width:100%;min-width:0;gap:5px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;justify-content:flex-start;scrollbar-width:none;-ms-overflow-style:none;padding:2px 0 5px;overscroll-behavior-x:contain}.navlinks::-webkit-scrollbar{display:none}.navlinks button{flex:0 0 auto;padding:8px 12px;font-size:12px}.hero-visual{left:1%;opacity:.6}.products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.container{width:min(100% - 24px,1180px)}.nav{height:auto;min-height:68px;padding:9px 0;grid-template-columns:minmax(0,1fr) auto}.brand-name{font-size:17px}.brand-mark{width:39px;height:39px}.nav-actions .primary{display:none}.hero-shell{min-height:420px}.hero-content{padding:42px 25px 85px}.hero-content h1{font-size:37px}.hero-visual{width:220px;height:230px;left:-28px;top:43%;opacity:.35}.hero-device{width:110px;height:150px;font-size:55px}.orb{width:170px;height:170px}.chip-a,.chip-b,.chip-c{font-size:18px;padding:8px 10px}.hero-dots{right:25px}.hero-controls{left:15px}.categories{grid-template-columns:1fr}.category-card{padding:17px}.products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-art{height:125px}.product-body{padding:11px}.product-body h3{font-size:12px}.product-desc{font-size:10px}.product-foot .primary{padding:8px 9px}.product-type{font-size:9px}.features{grid-template-columns:1fr}.promo-strip{padding:20px}.promo-strip h3{font-size:15px}.footer-grid{grid-template-columns:1fr 1fr}.footer-grid>div:first-child{grid-column:1/-1}.copyright{display:block;line-height:2}.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}.stats-grid{gap:8px}.stat{padding:13px}.stat strong{font-size:21px}.page-title{align-items:flex-start;flex-direction:column}.panel{padding:15px}.modal{padding:16px}.topline{font-size:10px}.topline .container span:last-child{display:none}}
 
+
+    .social-contact-icons{display:flex;align-items:center;gap:14px;margin-top:5px}
+    .social-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;position:relative;isolation:isolate;transition:transform .25s ease,box-shadow .25s ease,filter .25s ease;animation:socialPulse 3s ease-in-out infinite}
+    .social-icon svg{width:25px;height:25px;display:block;position:relative;z-index:2}
+    .social-whatsapp{color:#fff;background:linear-gradient(145deg,#31df79,#13a95a);box-shadow:0 0 0 1px rgba(37,211,102,.24),0 8px 24px rgba(37,211,102,.2);animation-delay:0s}
+    .social-telegram{color:#fff;background:linear-gradient(145deg,#39bdf5,#1686c5);box-shadow:0 0 0 1px rgba(34,158,217,.24),0 8px 24px rgba(34,158,217,.2);animation-delay:1.2s}
+    .social-icon:before{content:"";position:absolute;inset:-5px;border-radius:20px;border:1px solid currentColor;opacity:0;z-index:-1;animation:socialRing 3s ease-out infinite}
+    .social-telegram:before{animation-delay:1.2s}
+    .social-icon:hover{transform:translateY(-5px) scale(1.09);filter:brightness(1.12)}
+    .social-whatsapp:hover{box-shadow:0 0 0 1px rgba(37,211,102,.5),0 0 28px rgba(37,211,102,.42)}
+    .social-telegram:hover{box-shadow:0 0 0 1px rgba(34,158,217,.5),0 0 28px rgba(34,158,217,.42)}
+    .social-icon:active{transform:scale(.92)}
+    .social-icon:focus-visible{outline:3px solid #fff;outline-offset:5px}
+    @keyframes socialPulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.045);filter:brightness(1.1)}}
+    @keyframes socialRing{0%{transform:scale(.88);opacity:.48}75%,100%{transform:scale(1.45);opacity:0}}
+    @media(prefers-reduced-motion:reduce){.social-icon,.social-icon:before{animation:none!important;transition:none!important}}
+
     .pubg-promo{margin-top:14px}.pubg-promo .primary{white-space:nowrap}
     .global-back-btn{position:fixed;right:22px;bottom:22px;z-index:19;display:inline-flex;align-items:center;gap:8px;box-shadow:0 10px 28px rgba(0,0,0,.35);border-color:rgba(255,176,75,.25)}.global-back-btn:hover{border-color:rgba(255,176,75,.65)}
     @media(max-width:680px){.global-back-btn{right:12px;bottom:14px;padding:10px 15px}}
@@ -115,7 +132,7 @@
     <section id="page-account" class="page"><div class="container"><div class="page-title"><div><h1>حسابي</h1><p>إدارة معلوماتك الشخصية</p></div></div><div class="panel" id="accountContent"></div></div></section>
     <section id="page-admin" class="page"><div class="container"><div class="page-title"><div><h1>لوحة الإدارة ⚙</h1><p>إدارة المنتجات والباقات والطلبات وبيانات المتجر</p></div><span class="status completed">مدير موثّق</span></div>
       <div class="stats-grid" id="adminStats"><div class="stat"><span>المنتجات</span><strong>—</strong></div><div class="stat"><span>الطلبات</span><strong>—</strong></div><div class="stat"><span>المستخدمون</span><strong>—</strong></div><div class="stat"><span>بانتظار المعالجة</span><strong>—</strong></div></div>
-      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button></div>
+      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="inventory">المخزون</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button></div>
       <div id="adminTab-analytics" class="admin-tab hidden">
         <div class="stats-grid analytics-stats-grid">
           <div class="stat"><span>مشاهدات اليوم</span><strong id="analyticsTodayValue">—</strong></div>
@@ -126,6 +143,33 @@
           <div id="analyticsChart" class="analytics-chart"><div class="muted">افتح هذا القسم لتحميل الإحصاءات</div></div>
           <p class="analytics-footnote">الأرقام تمثل مشاهدات الصفحات وليست عدد الزوار الفريدين. التوقيت المعتمد في التقرير: UTC.</p>
         </div>
+      </div>
+      <div id="adminTab-inventory" class="admin-tab hidden">
+        <div class="panel">
+          <div class="section-head"><div><h2>إدارة المخزون</h2><p>إدارة كميات الباقات والأكواد المستوردة، مع سجل للحركات وتسليم يدوي للأكواد.</p></div><button class="secondary" id="refreshInventoryBtn">تحديث ↻</button></div>
+          <div class="form-grid">
+            <div class="form-field full"><label>اختر الباقة</label><select class="field" id="inventoryVariantSelect"><option value="">جارٍ تحميل الباقات...</option></select></div>
+            <div class="form-field"><label>نوع المخزون</label><select class="field" id="inventoryModeSelect"><option value="unlimited">غير محدود</option><option value="quantity">مخزون كميات</option><option value="codes">مخزون أكواد</option></select></div>
+            <div class="form-field" style="align-self:end"><button class="primary" id="saveInventoryModeBtn" type="button">حفظ نوع المخزون</button></div>
+          </div>
+          <div class="stats-grid" id="inventoryStats" style="margin-top:14px"><div class="stat"><span>المتاح</span><strong>—</strong></div><div class="stat"><span>المحجوز</span><strong>—</strong></div><div class="stat"><span>المباع</span><strong>—</strong></div><div class="stat"><span>المسلّم يدوياً</span><strong>—</strong></div></div>
+        </div>
+        <div class="panel" id="inventoryQuantityPanel" style="margin-top:14px">
+          <h3>إضافة أو تعديل كمية المخزون</h3>
+          <p class="muted small">أدخل رقماً موجباً للزيادة أو سالباً للنقص. لن يسمح النظام بأن يصبح المخزون سالباً.</p>
+          <div class="form-grid"><div class="form-field"><label>الكمية (+ زيادة / − نقص)</label><input class="field" id="inventoryQuantityDelta" type="number" step="1" placeholder="مثال: 50 أو -3"></div><div class="form-field"><label>ملاحظة الحركة (اختياري)</label><input class="field" id="inventoryQuantityNote" maxlength="500" placeholder="شراء مخزون جديد"></div></div>
+          <div class="form-actions"><button class="primary" id="adjustInventoryQuantityBtn" type="button">تسجيل حركة المخزون</button></div>
+        </div>
+        <div class="panel" id="inventoryCodesPanel" style="margin-top:14px">
+          <h3>استيراد الأكواد</h3><p class="muted small">ضع كوداً واحداً في كل سطر. تتم إزالة الفراغات الخارجية، ويُرفض الاستيراد بالكامل عند وجود كود فارغ أو مكرر داخل الدفعة أو موجود مسبقاً.</p>
+          <div class="form-field"><label>الأكواد</label><textarea class="field textarea" id="inventoryCodesInput" rows="7" placeholder="CODE-001&#10;CODE-002&#10;CODE-003"></textarea></div>
+          <div class="form-field"><label>ملاحظة الاستيراد (اختياري)</label><input class="field" id="inventoryCodesNote" maxlength="500" placeholder="دفعة شراء بتاريخ اليوم"></div>
+          <div class="form-actions"><button class="primary" id="importInventoryCodesBtn" type="button">استيراد الأكواد</button></div>
+        </div>
+        <div class="panel" style="margin-top:14px"><div class="section-head"><div><h3>الأكواد والتسليم اليدوي</h3><p class="muted small">الأكواد الظاهرة هنا لا يراها العملاء. انسخ الأكواد المرتبطة بالطلب ثم أكد التسليم بعد إرسالها للعميل.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>الكود / الأكواد</th><th>الحالة</th><th>الطلب</th><th>التسليم</th><th>إجراء</th></tr></thead><tbody id="inventoryCodesRows"><tr><td colspan="5" class="muted">اختر باقة لعرض الأكواد</td></tr></tbody></table></div>
+        </div>
+        <div class="panel" style="margin-top:14px"><h3>سجل حركات المخزون</h3><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>الحركة</th><th>التغير</th><th>قبل</th><th>بعد</th><th>ملاحظة</th></tr></thead><tbody id="inventoryMovementsRows"><tr><td colspan="6" class="muted">اختر باقة لعرض الحركات</td></tr></tbody></table></div></div>
       </div>
       <div id="adminTab-products" class="admin-tab"><div class="panel"><div class="section-head"><div><h2>المنتجات</h2><p>أضف الألعاب والتطبيقات والبطاقات ثم أضف باقات كل منتج</p></div><button class="primary" id="addProductBtn">＋ منتج جديد</button></div><div class="table-wrap"><table><thead><tr><th>المنتج</th><th>الفئة</th><th>النوع</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="adminProductsRows"><tr><td colspan="5" class="muted">تحميل...</td></tr></tbody></table></div></div><div class="panel" style="margin-top:14px"><h3>إدارة الباقات</h3><div class="form-grid"><div class="form-field"><label>اختر المنتج</label><select class="field" id="variantProduct"></select></div><div class="form-field"><label>اسم الباقة</label><input class="field" id="variantTitle" placeholder="مثال: 60 جوهرة"></div><div class="form-field"><label>السعر بالليرة السورية</label><input class="field" type="number" min="0" step="1" id="variantSyp"></div><div class="form-field"><label>السعر بالدولار (اختياري)</label><input class="field" type="number" min="0" step="0.01" id="variantUsd"></div><div class="form-field"><label>المخزون (اتركه فارغاً للمخزون غير المحدود)</label><input class="field" type="number" min="0" step="1" id="variantStock"></div><div class="form-field"><label>ملاحظة الباقة (اختياري)</label><input class="field" id="variantDescription"></div></div><div class="form-actions"><button class="primary" id="saveVariantBtn">إضافة الباقة</button></div><div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>الباقة</th><th>السعر SYP</th><th>السعر USD</th><th>المخزون</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminVariantsRows"><tr><td colspan="6" class="muted">اختر منتجاً لعرض باقاته</td></tr></tbody></table></div></div></div>
       <div id="adminTab-orders" class="admin-tab hidden"><div class="panel"><h3>كل الطلبات</h3><div class="table-wrap"><table><thead><tr><th>رقم الطلب</th><th>العميل</th><th>المنتجات</th><th>الإجمالي</th><th>الحالة</th><th>التاريخ</th><th>تحديث الحالة</th></tr></thead><tbody id="adminOrdersRows"></tbody></table></div></div></div>
@@ -158,7 +202,14 @@
     </div></section>
   </main>
 
-  <footer><div class="container"><div class="footer-grid"><div><a class="brand" href="#home"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a><p>متجرك الرقمي للألعاب والتطبيقات والبطاقات. تجربة واضحة، حسابات آمنة، ومتابعة سهلة لطلباتك.</p></div><div><h4>روابط سريعة</h4><div class="footer-links"><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="pubg-accounts">حسابات PUBG</button><button data-page="orders">طلباتي</button></div></div><div><h4>حسابك</h4><div class="footer-links"><button data-page="account">الملف الشخصي</button><button id="footerLogin">تسجيل الدخول</button><button id="footerSupport">تواصل مع الدعم</button></div></div></div><div class="copyright"><span>© <span id="year"></span> JAKO STORE — جميع الحقوق محفوظة</span><span>صُمم لعالمك الرقمي ✦</span></div></div></footer>
+  <footer><div class="container"><div class="footer-grid"><div><a class="brand" href="#home"><span class="brand-mark">J</span><span class="brand-name">JAKO <span>STORE</span></span></a><p>متجرك الرقمي للألعاب والتطبيقات والبطاقات. تجربة واضحة، حسابات آمنة، ومتابعة سهلة لطلباتك.</p></div><div><h4>روابط سريعة</h4><div class="footer-links"><button data-page="games">الألعاب</button><button data-page="applications">التطبيقات</button><button data-page="gift-cards">البطاقات الرقمية</button><button data-page="pubg-accounts">حسابات PUBG</button><button data-page="orders">طلباتي</button></div></div><div><h4>حسابك</h4><div class="footer-links"><button data-page="account">الملف الشخصي</button><button id="footerLogin">تسجيل الدخول</button><div class="social-contact-icons" aria-label="روابط التواصل">
+        <a class="social-icon social-whatsapp" id="footerSupport" href="https://wa.me/963982704754" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.2 7.8c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4 0 .7.6 1 1.4 1.8 2.5 2.3.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.7-.1l1.7.8c.3.1.4.3.4.5 0 .3-.2 1.2-.8 1.6-.5.4-1.1.6-1.8.4-1-.2-2.3-.8-3.7-2-1.2-1.1-2-2.4-2.3-3.4-.3-.9 0-1.8.5-2.8Z" fill="currentColor"/></svg>
+        </a>
+        <a class="social-icon social-telegram" href="https://t.me/jako246" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.5 3.5-3.2 16.1c-.2 1.1-.8 1.4-1.7.9l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8c.4-.4-.1-.6-.6-.2L6.2 13.7l-4.7-1.5c-1-.3-1-1 .2-1.5L20 3.1c.9-.3 1.7.2 1.5.4Z" fill="currentColor"/></svg>
+        </a>
+      </div></div></div></div><div class="copyright"><span>© <span id="year"></span> JAKO STORE — جميع الحقوق محفوظة</span><span>صُمم لعالمك الرقمي ✦</span></div></div></footer>
 
   <div class="overlay" id="productModal"><div class="modal"><div class="modal-head"><h3 id="productModalTitle">تفاصيل المنتج</h3><button class="secondary" data-close="productModal" style="padding:7px 13px">رجوع ←</button></div><div id="productModalContent"></div></div></div>
   <div class="overlay" id="pubgAccountModal"><div class="modal"><div class="modal-head"><h3 id="pubgModalTitle">تفاصيل حساب PUBG</h3><button class="secondary" data-close="pubgAccountModal" style="padding:7px 13px">رجوع ←</button></div><div id="pubgModalContent"></div></div></div>
@@ -678,7 +729,7 @@ openModal('productModal');
     function adminOnly(){if(!isAdmin){toast('ليس لديك صلاحية الإدارة','error');return false;}return true;}
     async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings(),loadAdminPubgAccounts()]);}
     async function loadAdminStats(){const [p,o,u,pending]=await Promise.all([supabase.from('products').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}),supabase.from('profiles').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}).in('status',['pending','awaiting_payment'])]);$('adminStats').innerHTML=[['المنتجات',p.count],['الطلبات',o.count],['المستخدمون',u.count],['بانتظار المعالجة',pending.count]].map(([a,b])=>`<div class="stat"><span>${a}</span><strong>${b??'—'}</strong></div>`).join('');}
-    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();}
+    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();if(tab==='inventory')loadAdminInventory();}
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>setAdminTab(b.dataset.adminTab));
     function renderAdminAnalyticsChart(series){
       const root=$('analyticsChart');
@@ -729,6 +780,100 @@ openModal('productModal');
       }
     }
 
+    const inventoryModeNames={unlimited:'غير محدود',quantity:'كميات',codes:'أكواد'};
+    const inventoryStatusNames={available:'متاح',reserved:'محجوز',sold:'مباع',disabled:'معطّل'};
+    const inventoryMovementNames={initial_stock:'رصيد افتتاحي',manual_adjustment:'تعديل كمية',mode_changed:'تغيير نوع المخزون',order_reserved:'حجز طلب',order_released:'إعادة كمية',code_reserved:'حجز أكواد',code_released:'إعادة أكواد',code_sold:'بيع أكواد',code_imported:'استيراد أكواد'};
+    let inventoryVariants=[];
+    async function loadAdminInventory(){
+      if(!adminOnly())return;
+      const select=$('inventoryVariantSelect');
+      const {data,error}=await supabase.from('products').select('id,title,product_variants(id,title,inventory_mode,stock_quantity,price_syp)').order('title');
+      if(error){toast('تعذر تحميل باقات المخزون: '+error.message,'error');return;}
+      inventoryVariants=(data||[]).flatMap(p=>(p.product_variants||[]).map(v=>({...v,product_title:p.title,product_id:p.id})));
+      const previous=select.value;
+      select.innerHTML='<option value="">اختر الباقة</option>'+inventoryVariants.map(v=>`<option value="${v.id}">${escapeHTML(v.product_title)} — ${escapeHTML(v.title)}</option>`).join('');
+      if(inventoryVariants.some(v=>v.id===previous))select.value=previous;
+      else if(inventoryVariants.length)select.value=inventoryVariants[0].id;
+      await loadSelectedInventory();
+    }
+    $('inventoryVariantSelect').onchange=loadSelectedInventory;
+    $('refreshInventoryBtn').onclick=loadAdminInventory;
+    async function loadSelectedInventory(){
+      const id=$('inventoryVariantSelect').value;
+      const variant=inventoryVariants.find(v=>v.id===id);
+      if(!variant){$('inventoryStats').innerHTML='';$('inventoryCodesRows').innerHTML='<tr><td colspan="5" class="muted">لا توجد باقات لعرضها</td></tr>';return;}
+      $('inventoryModeSelect').value=variant.inventory_mode||'unlimited';
+      $('inventoryQuantityPanel').classList.toggle('hidden',variant.inventory_mode!=='quantity');
+      $('inventoryCodesPanel').classList.toggle('hidden',variant.inventory_mode!=='codes');
+      const [codesResult,itemsResult,movesResult,availableCount,reservedCount,soldCount]=await Promise.all([
+        supabase.from('inventory_codes').select('id,code_value,status,order_item_id,reserved_at,sold_at,delivered_at,order_items(order_id,product_title,variant_title,orders(order_number,status))').eq('variant_id',id).order('created_at',{ascending:false}).limit(1000),
+        supabase.from('order_items').select('quantity,stock_reserved,orders(status)').eq('variant_id',id).eq('inventory_mode','quantity').eq('stock_reserved',true),
+        supabase.from('inventory_movements').select('movement_type,quantity_delta,quantity_before,quantity_after,note,created_at,order_id').eq('variant_id',id).order('created_at',{ascending:false}).limit(100),
+        supabase.from('inventory_codes').select('id',{count:'exact',head:true}).eq('variant_id',id).eq('status','available'),
+        supabase.from('inventory_codes').select('id',{count:'exact',head:true}).eq('variant_id',id).eq('status','reserved'),
+        supabase.from('inventory_codes').select('id',{count:'exact',head:true}).eq('variant_id',id).eq('status','sold')
+      ]);
+      if(codesResult.error){toast('تعذر تحميل الأكواد: '+codesResult.error.message,'error');return;}
+      if(itemsResult.error)console.warn('inventory reservations',itemsResult.error);
+      if(movesResult.error)console.warn('inventory movements',movesResult.error);
+      const codes=codesResult.data||[];
+      const count=status=>status==='available'?(availableCount.count??0):status==='reserved'?(reservedCount.count??0):(soldCount.count??0);
+      const reservedQuantity=(itemsResult.data||[]).filter(x=>['pending','awaiting_payment','processing'].includes(x.orders?.status)).reduce((n,x)=>n+Number(x.quantity||0),0);
+      const available=variant.inventory_mode==='codes'?count('available'):variant.inventory_mode==='quantity'?(variant.stock_quantity??0):'∞';
+      const reserved=variant.inventory_mode==='codes'?count('reserved'):variant.inventory_mode==='quantity'?reservedQuantity:0;
+      $('inventoryStats').innerHTML=[['المتاح',available],['المحجوز',reserved],['المباع',variant.inventory_mode==='codes'?count('sold'):'—'],['المسلّم يدوياً',codes.filter(c=>!!c.delivered_at).length]].map(([label,value])=>`<div class="stat"><span>${label}</span><strong>${value}</strong></div>`).join('');
+      renderInventoryCodes(codes);
+      const moves=movesResult.data||[];
+      $('inventoryMovementsRows').innerHTML=moves.length?moves.map(m=>`<tr><td>${new Date(m.created_at).toLocaleString('ar-SY')}</td><td>${escapeHTML(inventoryMovementNames[m.movement_type]||m.movement_type)}</td><td>${Number(m.quantity_delta)>0?'+':''}${Number(m.quantity_delta||0)}</td><td>${m.quantity_before??'—'}</td><td>${m.quantity_after??'—'}</td><td>${escapeHTML(m.note||'—')}</td></tr>`).join(''):'<tr><td colspan="6" class="muted">لا توجد حركات مسجلة لهذه الباقة</td></tr>';
+    }
+    function renderInventoryCodes(codes){
+      const root=$('inventoryCodesRows');
+      const grouped=new Map();
+      for(const c of codes){const key=c.order_item_id||('single:'+c.id);if(!grouped.has(key))grouped.set(key,[]);grouped.get(key).push(c);}
+      if(!grouped.size){root.innerHTML='<tr><td colspan="5" class="muted">لا توجد أكواد لهذه الباقة حتى الآن</td></tr>';return;}
+      root.innerHTML=[...grouped.entries()].map(([key,items])=>{
+        const first=items[0],order=first.order_items?.orders||{};
+        const status=items.every(x=>x.status==='available')?'متاح':items.every(x=>x.status==='sold')?'مباع':items.every(x=>x.status==='disabled')?'معطّل':'محجوز / مختلط';
+        const codesText=items.map(x=>x.code_value).join('\n');
+        const delivered=items.every(x=>!!x.delivered_at);
+        const orderNo=order.order_number||first.order_items?.order_id||'—';
+        const itemId=first.order_item_id||'';
+        const copyButton=`<button class="text-link" data-copy-inventory="${escapeHTML(key)}">نسخ</button>`;
+        const deliverButton=itemId&&!delivered&&items.some(x=>['reserved','sold'].includes(x.status))?`<button class="text-link" data-deliver-inventory="${itemId}">تأكيد التسليم</button>`:'';
+        return `<tr><td><code style="white-space:pre-wrap;word-break:break-word">${escapeHTML(codesText)}</code></td><td>${escapeHTML(status)}</td><td>${escapeHTML(orderNo)}${order.status?`<br><small class="muted">${escapeHTML(statusNames[order.status]||order.status)}</small>`:''}</td><td>${delivered?'تم التسليم':itemId?'لم يُسلّم بعد':'—'}</td><td>${copyButton}${deliverButton?' · '+deliverButton:''}</td></tr>`;
+      }).join('');
+      root.querySelectorAll('[data-copy-inventory]').forEach(btn=>btn.onclick=async()=>{const key=btn.dataset.copyInventory;const items=key.startsWith('single:')?codes.filter(c=>'single:'+c.id===key):codes.filter(c=>(c.order_item_id||'')===key);try{await navigator.clipboard.writeText(items.map(x=>x.code_value).join('\n'));toast('تم نسخ الأكواد','success');}catch(e){toast('تعذر النسخ التلقائي؛ حدد الأكواد وانسخها يدوياً','error');}});
+      root.querySelectorAll('[data-deliver-inventory]').forEach(btn=>btn.onclick=async()=>{if(!confirm('هل أرسلت الأكواد للعميل بالفعل؟ سيتم تسجيلها كمُسلّمة.'))return;btn.disabled=true;const {data,error}=await supabase.rpc('admin_mark_inventory_codes_delivered',{p_order_item_id:btn.dataset.deliverInventory});if(error){toast(error.message,'error');btn.disabled=false;return;}toast(`تم تسجيل تسليم ${data?.delivered_count||0} كود`,'success');await loadSelectedInventory();});
+    }
+    $('saveInventoryModeBtn').onclick=async()=>{
+      if(!adminOnly())return;const id=$('inventoryVariantSelect').value,mode=$('inventoryModeSelect').value;
+      if(!id)return toast('اختر باقة أولاً','error');
+      const current=inventoryVariants.find(v=>v.id===id);if(!current)return;
+      if(mode!==current.inventory_mode&&current.inventory_mode==='quantity'&&Number(current.stock_quantity||0)>0){
+        if(!confirm(`تغيير نوع المخزون سيزيل رصيد الكمية الحالي (${current.stock_quantity}) من هذا النوع. لا يتم تحويله تلقائياً إلى أكواد. هل تريد المتابعة؟`))return;
+      }
+      const payload={inventory_mode:mode,stock_quantity:mode==='quantity'?(current.inventory_mode==='quantity'?(current.stock_quantity??0):0):null,updated_at:new Date().toISOString()};
+      const {error}=await supabase.from('product_variants').update(payload).eq('id',id);
+      if(error){toast(error.message,'error');return;}
+      toast('تم تحديث نوع المخزون','success');await loadAdminInventory();
+    };
+    $('adjustInventoryQuantityBtn').onclick=async()=>{
+      if(!adminOnly())return;const id=$('inventoryVariantSelect').value,delta=Number($('inventoryQuantityDelta').value),note=$('inventoryQuantityNote').value.trim();
+      if(!id||!Number.isInteger(delta)||delta===0)return toast('أدخل كمية صحيحة موجبة أو سالبة','error');
+      const {data,error}=await supabase.rpc('admin_adjust_variant_stock',{p_variant_id:id,p_delta:delta,p_note:note});
+      if(error){toast(error.message,'error');return;}
+      $('inventoryQuantityDelta').value='';$('inventoryQuantityNote').value='';toast(`تم تحديث المخزون. الكمية المتاحة الآن: ${data}`,'success');await loadAdminInventory();await loadAdminVariants();
+    };
+    $('importInventoryCodesBtn').onclick=async()=>{
+      if(!adminOnly())return;const id=$('inventoryVariantSelect').value,note=$('inventoryCodesNote').value.trim();
+      const codes=$('inventoryCodesInput').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+      if(!id||!codes.length)return toast('اختر باقة وأدخل الأكواد أولاً','error');
+      if(new Set(codes).size!==codes.length)return toast('توجد أكواد مكررة داخل النص؛ لم يتم الاستيراد','error');
+      if(!confirm(`سيتم استيراد ${codes.length} كود إلى الباقة المحددة. هل تريد المتابعة؟`))return;
+      const btn=$('importInventoryCodesBtn');setBusy(btn,true,'جارٍ استيراد الأكواد');
+      try{const {data,error}=await supabase.rpc('admin_import_inventory_codes',{p_variant_id:id,p_codes:codes,p_note:note});if(error)throw error;$('inventoryCodesInput').value='';$('inventoryCodesNote').value='';toast(`تم استيراد ${data?.inserted||0} كود بنجاح`,'success');await loadAdminInventory();}catch(err){toast(err.message||'تعذر استيراد الأكواد','error');}finally{setBusy(btn,false);}
+    };
+
     async function loadAdminProducts(){const {data,error}=await supabase.from('products').select('*,categories(name),product_variants(*)').order('created_at',{ascending:false});if(error){$('adminProductsRows').innerHTML='<tr><td colspan="5">تعذر التحميل</td></tr>';return;}products=data||[];$('adminProductsRows').innerHTML=products.length?products.map(p=>`<tr><td><strong>${escapeHTML(p.title)}</strong></td><td>${escapeHTML(p.categories?.name||'—')}</td><td>${typeNames[p.product_type]||p.product_type}</td><td><span class="status ${p.is_active?'completed':'rejected'}">${p.is_active?'ظاهر':'مخفي'}</span></td><td><button class="text-link" data-edit-product="${p.id}">تعديل</button> · <button class="text-link" data-product-toggle="${p.id}">${p.is_active?'إخفاء':'إظهار'}</button> · <button class="text-link" data-product-delete="${p.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="5" class="muted">لا توجد منتجات بعد. أضف أول منتج.</td></tr>';
       $('adminProductsRows').querySelectorAll('[data-edit-product]').forEach(b=>b.onclick=()=>editProduct(b.dataset.editProduct));$('adminProductsRows').querySelectorAll('[data-product-toggle]').forEach(b=>b.onclick=()=>toggleProduct(b.dataset.productToggle));$('adminProductsRows').querySelectorAll('[data-product-delete]').forEach(b=>b.onclick=()=>deleteProduct(b.dataset.productDelete));
       $('variantProduct').innerHTML=products.map(p=>`<option value="${p.id}">${escapeHTML(p.title)}</option>`).join('');$('adminProductCategory').innerHTML=categories.map(c=>`<option value="${c.id}">${escapeHTML(c.name)}</option>`).join('');if(products.length)loadAdminVariants();}
@@ -745,7 +890,7 @@ openModal('productModal');
     async function toggleProduct(id){const p=products.find(x=>x.id===id);if(!p)return;const {error}=await supabase.from('products').update({is_active:!p.is_active,updated_at:new Date().toISOString()}).eq('id',id);if(error)toast(error.message,'error');else{toast('تم تحديث حالة المنتج','success');await loadAdminProducts();await loadStoreData();}}
     async function deleteProduct(id){if(!confirm('حذف المنتج؟ لن يتم الحذف إذا كانت له طلبات مرتبطة.'))return;const {error}=await supabase.from('products').delete().eq('id',id);if(error)toast(error.message,'error');else{toast('تم حذف المنتج','success');await loadAdminProducts();await loadStoreData();}}
     $('variantProduct').onchange=loadAdminVariants;
-    async function loadAdminVariants(){const id=$('variantProduct').value;if(!id){$('adminVariantsRows').innerHTML='';return;}const {data,error}=await supabase.from('product_variants').select('*').eq('product_id',id).order('sort_order');if(error){$('adminVariantsRows').innerHTML='<tr><td colspan="6">تعذر التحميل</td></tr>';return;}$('adminVariantsRows').innerHTML=data?.length?data.map(v=>`<tr><td>${escapeHTML(v.title)}</td><td>${v.price_syp?money(v.price_syp):'—'}</td><td>${v.price_usd?money(v.price_usd,'$'):'—'}</td><td>${v.stock_quantity===null?'غير محدود':v.stock_quantity}</td><td><span class="status ${v.is_active?'completed':'rejected'}">${v.is_active?'مفعّلة':'مخفية'}</span></td><td><button class="text-link" data-variant-edit="${v.id}">تعديل</button> · <button class="text-link" data-variant-toggle="${v.id}" data-active="${v.is_active}">${v.is_active?'إخفاء':'تفعيل'}</button> · <button class="text-link" data-variant-delete="${v.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="6" class="muted">لا توجد باقات لهذا المنتج</td></tr>';$('adminVariantsRows').querySelectorAll('[data-variant-edit]').forEach(b=>b.onclick=()=>{const v=data.find(x=>x.id===b.dataset.variantEdit);if(!v)return;editingVariantId=v.id;$('variantTitle').value=v.title;$('variantSyp').value=v.price_syp??'';$('variantUsd').value=v.price_usd??'';$('variantStock').value=v.stock_quantity??'';$('variantDescription').value=v.description||'';$('saveVariantBtn').textContent='تحديث الباقة';$('variantTitle').focus();});$('adminVariantsRows').querySelectorAll('[data-variant-toggle]').forEach(b=>b.onclick=async()=>{const {error}=await supabase.from('product_variants').update({is_active:b.dataset.active!=='true',updated_at:new Date().toISOString()}).eq('id',b.dataset.variantToggle);if(error)toast(error.message,'error');else loadAdminVariants();});$('adminVariantsRows').querySelectorAll('[data-variant-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('حذف هذه الباقة؟'))return;const {error}=await supabase.from('product_variants').delete().eq('id',b.dataset.variantDelete);if(error)toast(error.message,'error');else loadAdminVariants();});}
+    async function loadAdminVariants(){const id=$('variantProduct').value;if(!id){$('adminVariantsRows').innerHTML='';return;}const {data,error}=await supabase.from('product_variants').select('*').eq('product_id',id).order('sort_order');if(error){$('adminVariantsRows').innerHTML='<tr><td colspan="6">تعذر التحميل</td></tr>';return;}$('adminVariantsRows').innerHTML=data?.length?data.map(v=>`<tr><td>${escapeHTML(v.title)}</td><td>${v.price_syp?money(v.price_syp):'—'}</td><td>${v.price_usd?money(v.price_usd,'$'):'—'}</td><td>${v.inventory_mode==='codes'?'أكواد':v.inventory_mode==='quantity'?(v.stock_quantity??0):'غير محدود'}</td><td><span class="status ${v.is_active?'completed':'rejected'}">${v.is_active?'مفعّلة':'مخفية'}</span></td><td><button class="text-link" data-variant-edit="${v.id}">تعديل</button> · <button class="text-link" data-variant-toggle="${v.id}" data-active="${v.is_active}">${v.is_active?'إخفاء':'تفعيل'}</button> · <button class="text-link" data-variant-delete="${v.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="6" class="muted">لا توجد باقات لهذا المنتج</td></tr>';$('adminVariantsRows').querySelectorAll('[data-variant-edit]').forEach(b=>b.onclick=()=>{const v=data.find(x=>x.id===b.dataset.variantEdit);if(!v)return;editingVariantId=v.id;$('variantTitle').value=v.title;$('variantSyp').value=v.price_syp??'';$('variantUsd').value=v.price_usd??'';$('variantStock').value=v.stock_quantity??'';$('variantDescription').value=v.description||'';$('saveVariantBtn').textContent='تحديث الباقة';$('variantTitle').focus();});$('adminVariantsRows').querySelectorAll('[data-variant-toggle]').forEach(b=>b.onclick=async()=>{const {error}=await supabase.from('product_variants').update({is_active:b.dataset.active!=='true',updated_at:new Date().toISOString()}).eq('id',b.dataset.variantToggle);if(error)toast(error.message,'error');else loadAdminVariants();});$('adminVariantsRows').querySelectorAll('[data-variant-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('حذف هذه الباقة؟'))return;const {error}=await supabase.from('product_variants').delete().eq('id',b.dataset.variantDelete);if(error)toast(error.message,'error');else loadAdminVariants();});}
     $('saveVariantBtn').onclick=async()=>{if(!adminOnly())return;const product_id=$('variantProduct').value,title=$('variantTitle').value.trim(),price_syp=$('variantSyp').value,price_usd=$('variantUsd').value,stock=$('variantStock').value;if(!product_id||!title||!price_syp||Number(price_syp)<=0)return toast('أدخل المنتج واسم الباقة وسعراً صحيحاً بالليرة','error');const payload={product_id,title,description:$('variantDescription').value.trim(),price_syp:Number(price_syp),price_usd:price_usd?Number(price_usd):null,stock_quantity:stock===''?null:Number(stock),updated_at:new Date().toISOString()};const q=editingVariantId?supabase.from('product_variants').update(payload).eq('id',editingVariantId):supabase.from('product_variants').insert({...payload,is_active:true});const {error}=await q;if(error)toast(error.message,'error');else{$('variantTitle').value='';$('variantSyp').value='';$('variantUsd').value='';$('variantStock').value='';$('variantDescription').value='';editingVariantId=null;$('saveVariantBtn').textContent='إضافة الباقة';toast('تم حفظ الباقة','success');await loadAdminVariants();await loadStoreData();}};
     async function loadAdminOrders(){
       const {data,error}=await supabase.from('orders')
@@ -933,7 +1078,7 @@ openModal('productModal');
     // Lightweight filtering for each catalogue view.
     [['gamesSearch','gamesGrid','game'],['appsSearch','applicationsGrid','application'],['cardsSearch','giftCardsGrid','gift_card'],['allSearch','allGrid','all']].forEach(([input,grid,type])=>$(input).addEventListener('input',()=>{const q=$(input).value.trim().toLowerCase();const list=products.filter(p=>p.is_active&&(type==='all'||p.product_type===type)&&(`${p.title} ${p.description||''}`).toLowerCase().includes(q));renderGrid(grid,list);}));
     [['gamesSort','gamesGrid','game'],['appsSort','applicationsGrid','application']].forEach(([id,grid,type])=>$(id).addEventListener('change',()=>{let list=[...productsForType(type)];if($(id).value==='name')list.sort((a,b)=>a.title.localeCompare(b.title,'ar'));if($(id).value==='price')list.sort((a,b)=>(productPrice(a)?.price_syp??Infinity)-(productPrice(b)?.price_syp??Infinity));renderGrid(grid,list);}));
-    $('footerSupport').onclick=()=>{const phone=settings.support_whatsapp;if(!phone){toast('لم يحدد المتجر رقم دعم واتساب بعد');return;}window.open(`https://wa.me/${String(phone).replace(/\D/g,'')}`,'_blank','noopener');};
+    // روابط التواصل المباشرة موجودة في أيقونات التذييل.
     $('year').textContent=new Date().getFullYear();updateCartCount();
 
     async function init(){
@@ -942,45 +1087,55 @@ openModal('productModal');
     }
     init();
   </script>
-  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b4a7ab8460624e14abf92f96af96729a"}'></script><!-- End Cloudflare Web Analytics -->
-  <button id="jakoInstallApp" type="button" aria-label="Install JAKO STORE" style="display:none;position:fixed;left:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:45;border:1px solid rgba(255,255,255,.15);border-radius:15px;padding:12px 17px;background:linear-gradient(135deg,#ffbd68,#ff8a18);color:#17110b;font-family:inherit;font-size:13px;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4);align-items:center;gap:8px;cursor:pointer">📲 تثبيت التطبيق</button>
-  <script>
-    (() => {
-      const installButton = document.getElementById('jakoInstallApp');
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-      let deferredInstallPrompt = null;
-      if (isStandalone) return;
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js', { scope: './' })
-            .catch(error => console.warn('JAKO STORE service worker registration failed:', error));
-        });
-      }
-      if (isIOS) {
-        installButton.style.display = 'inline-flex';
-        installButton.addEventListener('click', () => {
-          alert('لتثبيت JAKO STORE على iPhone أو iPad: افتح قائمة المشاركة في Safari، ثم اختر «إضافة إلى الشاشة الرئيسية».');
-        });
-        return;
-      }
-      window.addEventListener('beforeinstallprompt', event => {
-        event.preventDefault();
-        deferredInstallPrompt = event;
-        installButton.style.display = 'inline-flex';
+<!-- Cloudflare Web Analytics -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "160d7043c82f46fb8220a71460958232"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
+<button id="jakoInstallApp" type="button" aria-label="Install JAKO STORE" style="display:none;position:fixed;left:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:45;border:1px solid rgba(255,255,255,.15);border-radius:15px;padding:12px 17px;background:linear-gradient(135deg,#ffbd68,#ff8a18);color:#17110b;font-family:inherit;font-size:13px;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4);align-items:center;gap:8px;cursor:pointer">📲 تثبيت التطبيق</button>
+
+<script>
+  (() => {
+    const installButton = document.getElementById('jakoInstallApp');
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    let deferredInstallPrompt = null;
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+          .catch(error => console.warn('JAKO STORE service worker registration failed:', error));
       });
-      installButton.addEventListener('click', async () => {
-        if (!deferredInstallPrompt) return;
-        deferredInstallPrompt.prompt();
-        await deferredInstallPrompt.userChoice;
-        deferredInstallPrompt = null;
-        installButton.style.display = 'none';
+    }
+
+    if (isStandalone) return;
+
+    if (isIOS) {
+      installButton.style.display = 'inline-flex';
+      installButton.addEventListener('click', () => {
+        alert('لتثبيت JAKO STORE على iPhone أو iPad: افتح قائمة المشاركة في Safari، ثم اختر «إضافة إلى الشاشة الرئيسية».');
       });
-      window.addEventListener('appinstalled', () => {
-        installButton.style.display = 'none';
-        deferredInstallPrompt = null;
-      });
-    })();
-  </script>
+      return;
+    }
+
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      installButton.style.display = 'inline-flex';
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installButton.style.display = 'none';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installButton.style.display = 'none';
+      deferredInstallPrompt = null;
+    });
+  })();
+</script>
 </body>
 </html>
