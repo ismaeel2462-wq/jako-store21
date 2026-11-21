@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
@@ -517,7 +517,7 @@ window.addEventListener('popstate',()=>{
         const valid=raw!==''&&Number.isFinite(amount)&&amount>0&&Number.isFinite(min)&&Number.isFinite(max)&&amount>=min&&amount<=max&&stepValid;
         if(!valid){output.textContent=`أدخل كمية بين ${pricingField.min} و${pricingField.max}`;if(button)button.disabled=true;return;}
         total=/^(?:msg|msa)-/.test(String(currentProduct?.slug||''))
-          ?Math.ceil(Number(selectedVariant.price_syp||0)*amount)
+          ?Math.max(Math.ceil(Number(selectedVariant.price_syp||0)*amount*100-1e-9)/100,0.01)
           :Math.round(Number(selectedVariant.price_syp||0)*amount*100)/100;
       }
       output.textContent=money(total);if(button)button.disabled=!(Number.isFinite(total)&&total>0);
@@ -536,7 +536,7 @@ window.addEventListener('popstate',()=>{
         const raw=String(fields[pricingField.name]||'').trim();const amount=Number(raw);const min=Number(pricingField.min),max=Number(pricingField.max),step=Number(pricingField.step);
         const stepValid=pricingField.step===undefined||pricingField.step===null||pricingField.step==='any'||(Number.isFinite(step)&&step>0&&Math.abs((amount-min)/step-Math.round((amount-min)/step))<1e-7);
         if(!raw||!Number.isFinite(amount)||amount<=0||!Number.isFinite(min)||!Number.isFinite(max)||amount<min||amount>max||!stepValid){const input=Array.from(document.querySelectorAll('.customer-input')).find(el=>el.dataset.field===pricingField.name);input?.focus();return toast('أدخل كمية صحيحة ضمن الحدود الموضحة.','error');}
-        if(/^(?:msg|msa)-/.test(String(currentProduct.slug||'')))linePriceSyp=Math.ceil(linePriceSyp*amount);
+        if(/^(?:msg|msa)-/.test(String(currentProduct.slug||'')))linePriceSyp=Math.max(Math.ceil(linePriceSyp*amount*100-1e-9)/100,0.01);
         else linePriceSyp=Math.round(linePriceSyp*amount*100)/100;
         if(linePriceUsd!==null)linePriceUsd=Math.round(linePriceUsd*amount*100)/100;
         variantTitle=selectedVariant.title+' × '+raw;
