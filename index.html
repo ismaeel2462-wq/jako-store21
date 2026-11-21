@@ -156,17 +156,29 @@
         </div>
 
         <div class="panel" style="margin-top:14px">
-          <div class="section-head">
-            <div><h3>كتالوج MediaStore</h3><p>اعرض معرّفات المنتجات والحقول المطلوبة قبل إنشاء أي ربط يدوي.</p></div>
-            <button class="secondary" id="msLoadCatalog" type="button">تحميل الكتالوج</button>
+          <div class="section-head" style="gap:12px;flex-wrap:wrap">
+            <div><h3>كتالوج MediaStore</h3><p>ابحث عن منتجات التاجر وشاهد السعر والكمية والحقول المطلوبة ومعرّف كل منتج.</p></div>
+            <div class="form-actions" style="margin:0;gap:8px">
+              <button class="secondary" id="msLoadCompact" type="button">تحميل مختصر</button>
+              <button class="primary" id="msLoadCatalog" type="button">تحميل الكتالوج الكامل والأسعار</button>
+            </div>
           </div>
-          <div class="form-field" style="max-width:260px;margin-bottom:12px">
-            <label class="check-row"><input type="checkbox" id="msBaseOnly"> تحميل المنتجات الأساسية فقط</label>
+          <div class="notice" style="margin-bottom:12px">يعرض عمود السعر القيمة كما يرسلها MediaStore عبر API. عملة التكلفة لم يتم تأكيدها بعد؛ لا تعتمد هذه القيمة كسعر بيع قبل التأكد من العملة مع المورّد.</div>
+          <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:10px">
+            <div class="form-field"><label for="msCatalogSearch">البحث في الكتالوج</label><input class="field" id="msCatalogSearch" type="search" placeholder="SYRIATEL أو MTN أو اسم المنتج"></div>
+            <div class="form-field"><label for="msCatalogCategory">تصفية حسب الفئة</label><select class="field" id="msCatalogCategory"><option value="">كل الفئات</option></select></div>
+            <div class="form-field"><label for="msCatalogAvailability">حالة التوفر</label><select class="field" id="msCatalogAvailability"><option value="">كل الحالات</option><option value="available">المتاح فقط</option><option value="unavailable">غير المتاح فقط</option></select></div>
           </div>
+          <div class="form-actions" style="margin:0 0 10px;gap:8px">
+            <button class="secondary" id="msQuickSyriatel" type="button">عرض سيريتل</button>
+            <button class="secondary" id="msQuickMtn" type="button">عرض MTN</button>
+            <button class="secondary" id="msClearCatalogFilter" type="button">مسح التصفية</button>
+          </div>
+          <p class="muted small" id="msCatalogMeta" aria-live="polite">لم يتم تحميل الكتالوج بعد.</p>
           <div class="table-wrap">
-            <table style="min-width:760px">
-              <thead><tr><th>المعرّف</th><th>المنتج</th><th>الفئة</th><th>النوع</th><th>الكمية المسموحة</th><th>الحقول المطلوبة</th><th>التوفر</th></tr></thead>
-              <tbody id="msProductsRows"><tr><td colspan="7" class="muted">لم يتم تحميل الكتالوج بعد.</td></tr></tbody>
+            <table style="min-width:1080px">
+              <thead><tr><th>المعرّف</th><th>المنتج</th><th>الفئة</th><th>النوع</th><th>سعر المورّد كما ورد</th><th>الكمية المسموحة</th><th>الحقول المطلوبة</th><th>التوفر</th></tr></thead>
+              <tbody id="msProductsRows"><tr><td colspan="8" class="muted">لم يتم تحميل الكتالوج بعد.</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -831,6 +843,59 @@ openModal('productModal');
       if (q && typeof q === 'object') return `${q.min ?? '؟'} إلى ${q.max ?? '؟'}`;
       return String(q);
     }
+    function mediaStoreProductQtyCell(product) {
+      const q = product?.qty_values;
+      if (Array.isArray(q) && q.length > 6) {
+        return `<details><summary>${q.length} قيمة مسموحة</summary><div class="muted small" style="max-width:260px;white-space:normal;line-height:1.8;margin-top:6px">${escapeHTML(q.join('، '))}</div></details>`;
+      }
+      return escapeHTML(mediaStoreProductQty(product));
+    }
+    function renderMediaStoreCatalogFilters() {
+      const select = $('msCatalogCategory');
+      const selected = select.value;
+      const categories = [...new Set(mediaStoreProducts.map(p => String(p.category_name || '').trim()).filter(Boolean))]
+        .sort((a,b) => a.localeCompare(b,'ar'));
+      select.innerHTML = '<option value="">كل الفئات</option>' +
+        categories.map(name => `<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`).join('');
+      if (categories.includes(selected)) select.value = selected;
+    }
+    function renderMediaStoreCatalogTable() {
+      const search = String($('msCatalogSearch').value || '').trim().toLocaleLowerCase();
+      const category = $('msCatalogCategory').value;
+      const availability = $('msCatalogAvailability').value;
+      const filtered = mediaStoreProducts.filter(product => {
+        const searchable = [product.id, product.name, product.category_name, product.product_type, product.price, ...mediaStoreProductParams(product)]
+          .map(value => String(value ?? '').toLocaleLowerCase()).join(' ');
+        if (search && !searchable.includes(search)) return false;
+        if (category && String(product.category_name || '') !== category) return false;
+        if (availability === 'available' && product.available === false) return false;
+        if (availability === 'unavailable' && product.available !== false) return false;
+        return true;
+      }).sort((a,b) => {
+        const ap = /syriatel|mtn/i.test(String(a.name || '')) ? 0 : 1;
+        const bp = /syriatel|mtn/i.test(String(b.name || '')) ? 0 : 1;
+        return ap - bp || String(a.name || '').localeCompare(String(b.name || ''),'ar');
+      });
+      const withPrice = filtered.filter(p => p.price !== null && p.price !== undefined && p.price !== '').length;
+      $('msCatalogMeta').textContent = `المعروض ${filtered.length} من أصل ${mediaStoreProducts.length} منتج · الأسعار الظاهرة: ${withPrice} · ${withPrice ? 'العملة تحتاج تأكيداً من المورّد' : 'لا توجد أسعار في البيانات الحالية؛ تأكد من تحميل الكتالوج الكامل وليس المختصر'}`;
+      $('msProductsRows').innerHTML = filtered.length ? filtered.map(product => {
+        const params = mediaStoreProductParams(product);
+        const telco = /syriatel|mtn/i.test(String(product.name || ''));
+        const price = product.price === null || product.price === undefined || product.price === ''
+          ? '<span class="muted">غير مدرج</span>'
+          : `<strong dir="ltr">${escapeHTML(String(product.price))}</strong>`;
+        return `<tr${telco ? ' style="background:rgba(255,152,0,.07)"' : ''}>
+          <td><code dir="ltr">${escapeHTML(product.id)}</code></td>
+          <td><strong>${escapeHTML(product.name || '—')}</strong>${telco ? '<div class="muted small">خدمة اتصالات</div>' : ''}</td>
+          <td>${escapeHTML(product.category_name || '—')}</td>
+          <td>${escapeHTML(product.product_type || '—')}</td>
+          <td>${price}</td>
+          <td>${mediaStoreProductQtyCell(product)}</td>
+          <td>${params.length ? `<code dir="ltr">${escapeHTML(params.join(', '))}</code>` : 'لا توجد حقول'}</td>
+          <td>${product.available === false ? '<span class="status rejected">غير متاح</span>' : '<span class="status completed">متاح</span>'}</td>
+        </tr>`;
+      }).join('') : '<tr><td colspan="8" class="muted">لا توجد نتائج مطابقة. جرّب تغيير البحث أو التصفية.</td></tr>';
+    }
     function mediaStoreVariantProduct(variant) {
       return Array.isArray(variant?.products) ? (variant.products[0] || {}) : (variant?.products || {});
     }
@@ -864,21 +929,11 @@ openModal('productModal');
       if (!eligible.length) $('msLocalVariant').innerHTML = '<option value="">لا توجد باقات غير محدودة مفعّلة حالياً</option>';
       updateMediaStoreMappingHints();
     }
-    async function loadMediaStoreCatalog() {
-      const data = await callMediaStore('list_products', { base_only: $('msBaseOnly').checked });
+    async function loadMediaStoreCatalog(baseOnly = false) {
+      const data = await callMediaStore('list_products', { base_only: baseOnly });
       mediaStoreProducts = Array.isArray(data.products) ? data.products : [];
-      $('msProductsRows').innerHTML = mediaStoreProducts.length ? mediaStoreProducts.map(product => {
-        const params = mediaStoreProductParams(product);
-        return `<tr>
-          <td><code>${escapeHTML(product.id)}</code></td>
-          <td>${escapeHTML(product.name || '—')}</td>
-          <td>${escapeHTML(product.category_name || '—')}</td>
-          <td>${escapeHTML(product.product_type || '—')}</td>
-          <td>${escapeHTML(mediaStoreProductQty(product))}</td>
-          <td>${params.length ? `<code dir="ltr">${escapeHTML(params.join(', '))}</code>` : 'لا توجد حقول'}</td>
-          <td>${product.available === false ? 'غير متاح' : 'متاح'}</td>
-        </tr>`;
-      }).join('') : '<tr><td colspan="7" class="muted">لم يُرجع المورّد منتجات.</td></tr>';
+      renderMediaStoreCatalogFilters();
+      renderMediaStoreCatalogTable();
       $('msRemoteProduct').innerHTML = '<option value="">اختر منتجاً من الكتالوج...</option>' +
         mediaStoreProducts.map(product => `<option value="${escapeHTML(product.id)}">${escapeHTML(product.name || 'منتج')} · #${escapeHTML(product.id)}</option>`).join('');
       updateMediaStoreMappingHints();
@@ -949,11 +1004,27 @@ openModal('productModal');
         toast(error.message, 'error');
       } finally { setBusy(button, false); }
     };
-    $('msLoadCatalog').onclick = async () => {
-      const button = $('msLoadCatalog'); setBusy(button, true, 'جارٍ تحميل الكتالوج...');
-      try { await loadMediaStoreCatalog(); toast(`تم تحميل ${mediaStoreProducts.length} منتجاً.`, 'success'); }
-      catch (error) { toast(error.message, 'error'); }
+    async function runMediaStoreCatalogLoad(baseOnly, button) {
+      setBusy(button, true, baseOnly ? 'جارٍ التحميل المختصر...' : 'جارٍ تحميل الأسعار والتفاصيل...');
+      try {
+        await loadMediaStoreCatalog(baseOnly);
+        const prices = mediaStoreProducts.filter(p => p.price !== null && p.price !== undefined && p.price !== '').length;
+        toast(`تم تحميل ${mediaStoreProducts.length} منتجاً؛ ${baseOnly ? 'الوضع المختصر لا يعرض الأسعار' : `ظهرت أسعار ${prices} منتجاً`}.`, 'success');
+      } catch (error) { toast(error.message, 'error'); }
       finally { setBusy(button, false); }
+    }
+    $('msLoadCatalog').onclick = () => runMediaStoreCatalogLoad(false, $('msLoadCatalog'));
+    $('msLoadCompact').onclick = () => runMediaStoreCatalogLoad(true, $('msLoadCompact'));
+    $('msCatalogSearch').addEventListener('input', renderMediaStoreCatalogTable);
+    $('msCatalogCategory').addEventListener('change', renderMediaStoreCatalogTable);
+    $('msCatalogAvailability').addEventListener('change', renderMediaStoreCatalogTable);
+    $('msQuickSyriatel').onclick = () => { $('msCatalogSearch').value = 'SYRIATEL'; renderMediaStoreCatalogTable(); };
+    $('msQuickMtn').onclick = () => { $('msCatalogSearch').value = 'MTN'; renderMediaStoreCatalogTable(); };
+    $('msClearCatalogFilter').onclick = () => {
+      $('msCatalogSearch').value = '';
+      $('msCatalogCategory').value = '';
+      $('msCatalogAvailability').value = '';
+      renderMediaStoreCatalogTable();
     };
     $('msLocalVariant').onchange = updateMediaStoreMappingHints;
     $('msRemoteProduct').onchange = updateMediaStoreMappingHints;
