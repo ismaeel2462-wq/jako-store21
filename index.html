@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
@@ -136,7 +136,7 @@
     <section id="page-account" class="page"><div class="container"><div class="page-title"><div><h1>حسابي</h1><p>إدارة معلوماتك الشخصية</p></div></div><div class="panel" id="accountContent"></div></div></section>
     <section id="page-admin" class="page"><div class="container"><div class="page-title"><div><h1>لوحة الإدارة ⚙</h1><p>إدارة المنتجات والباقات والطلبات وبيانات المتجر</p></div><span class="status completed">مدير موثّق</span></div>
       <div class="stats-grid" id="adminStats"><div class="stat"><span>المنتجات</span><strong>—</strong></div><div class="stat"><span>الطلبات</span><strong>—</strong></div><div class="stat"><span>المستخدمون</span><strong>—</strong></div><div class="stat"><span>بانتظار المعالجة</span><strong>—</strong></div></div>
-      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="inventory">المخزون</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button><button class="secondary" data-admin-tab="supplier">MediaStore</button></div>
+      <div class="toolbar"><button class="primary" data-admin-tab="products">المنتجات والباقات</button><button class="secondary" data-admin-tab="inventory">المخزون</button><button class="secondary" data-admin-tab="orders">الطلبات</button><button class="secondary" data-admin-tab="payments">طرق الدفع</button><button class="secondary" data-admin-tab="banners">البنرات</button><button class="secondary" data-admin-tab="settings">الإعدادات</button><button class="secondary" data-admin-tab="pubg">حسابات PUBG</button><button class="secondary" data-admin-tab="analytics">إحصاءات الزوار</button><button class="secondary" data-admin-tab="supplier">MediaStore</button><button class="secondary" data-admin-tab="supplierOrders">طلبات MediaStore</button></div>
 
       <div id="adminTab-supplier" class="admin-tab hidden">
         <div class="panel">
@@ -214,6 +214,25 @@
         </div>
       </div>
 
+      <div id="adminTab-supplierOrders" class="admin-tab hidden">
+        <div class="panel">
+          <div class="section-head"><div><h2>طلبات MediaStore</h2><p>متابعة الطلبات التي أرسلها المتجر إلى المورد، وحالة قبولها وردود المورد وتفاصيل كل عملية.</p></div><button class="secondary" id="msSupplierOrdersRefresh" type="button">تحديث الطلبات ↻</button></div>
+          <div class="stats-grid">
+            <div class="stat"><span>إجمالي الطلبات المرسلة</span><strong id="msFulfillmentsTotal">—</strong></div>
+            <div class="stat"><span>مقبولة</span><strong id="msFulfillmentsAccepted">—</strong></div>
+            <div class="stat"><span>قيد التنفيذ</span><strong id="msFulfillmentsProcessing">—</strong></div>
+            <div class="stat"><span>مكتملة</span><strong id="msFulfillmentsCompleted">—</strong></div>
+            <div class="stat"><span>فشل / مراجعة</span><strong id="msFulfillmentsIssues">—</strong></div>
+          </div>
+          <div class="form-grid" style="margin-bottom:14px">
+            <div class="form-field"><label for="msSupplierOrdersSearch">بحث</label><input class="field" id="msSupplierOrdersSearch" type="search" placeholder="رقم الطلب أو المنتج أو معرّف المورد"></div>
+            <div class="form-field"><label for="msSupplierOrdersStatus">تصفية حسب حالة المورد</label><select class="field" id="msSupplierOrdersStatus"><option value="all">جميع الحالات</option><option value="queued">في قائمة الانتظار</option><option value="submitting">جارٍ الإرسال</option><option value="accepted">مقبول</option><option value="processing">قيد التنفيذ</option><option value="completed">مكتمل</option><option value="failed">فشل</option><option value="needs_review">يحتاج مراجعة</option><option value="cancelled">ملغي</option></select></div>
+          </div>
+          <div class="notice">تظهر هنا عمليات MediaStore فقط. قبول المورد للطلب لا يعني بالضرورة اكتمال التسليم. يمكن فحص حالة الطلبات المقبولة أو قيد التنفيذ للحصول على آخر حالة مسجلة.</div>
+          <div class="table-wrap"><table style="min-width:1050px"><thead><tr><th>رقم طلب المتجر</th><th>المنتج / الباقة</th><th>الكمية</th><th>حالة المورد</th><th>معرّف الطلب الخارجي</th><th>وقت الإرسال</th><th>التفاصيل / الإجراء</th></tr></thead><tbody id="msSupplierOrdersRows"><tr><td colspan="7" class="muted">افتح هذا القسم لتحميل طلبات MediaStore.</td></tr></tbody></table></div>
+          <p class="muted small" id="msSupplierOrdersMeta" style="margin-top:12px">يعرض آخر 250 عملية إرسال محفوظة.</p>
+        </div>
+      </div>
       <div id="adminTab-analytics" class="admin-tab hidden">
         <div class="stats-grid analytics-stats-grid">
           <div class="stat"><span>مشاهدات اليوم</span><strong id="analyticsTodayValue">—</strong></div>
@@ -454,7 +473,7 @@ window.addEventListener('popstate',()=>{
       renderGrid('gamesGrid',productsForType('game'));renderGrid('applicationsGrid',productsForType('application'));renderGrid('giftCardsGrid',productsForType('gift_card'));renderGrid('telecomGrid',productsForCategory('telecom'));renderGrid('digitalServicesGrid',productsForCategory('digital-services'));renderGrid('allGrid',products.filter(p=>p.is_active));
     }
 
-  
+
     async function loadStoreData(){
       const [c,p,pay,b,s]=await Promise.all([
         supabase.from('categories').select('*').eq('is_active',true).order('sort_order'),
@@ -853,7 +872,7 @@ window.addEventListener('popstate',()=>{
     function adminOnly(){if(!isAdmin){toast('ليس لديك صلاحية الإدارة','error');return false;}return true;}
     async function loadAdmin(){if(!adminOnly())return;await Promise.all([loadAdminStats(),loadAdminProducts(),loadAdminOrders(),loadAdminPayments(),loadAdminBanners(),loadAdminSettings(),loadAdminPubgAccounts()]);}
     async function loadAdminStats(){const [p,o,u,pending]=await Promise.all([supabase.from('products').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}),supabase.from('profiles').select('id',{count:'exact',head:true}),supabase.from('orders').select('id',{count:'exact',head:true}).in('status',['pending','awaiting_payment'])]);$('adminStats').innerHTML=[['المنتجات',p.count],['الطلبات',o.count],['المستخدمون',u.count],['بانتظار المعالجة',pending.count]].map(([a,b])=>`<div class="stat"><span>${a}</span><strong>${b??'—'}</strong></div>`).join('');}
-    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();if(tab==='inventory')loadAdminInventory();if(tab==='supplier')loadMediaStorePanel();}
+    function setAdminTab(tab){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.add('hidden'));const target=$(`adminTab-${tab}`);if(target)target.classList.remove('hidden');document.querySelectorAll('[data-admin-tab]').forEach(b=>{b.className=b.dataset.adminTab===tab?'primary':'secondary';});if(tab==='analytics')loadAdminAnalytics();if(tab==='inventory')loadAdminInventory();if(tab==='supplier')loadMediaStorePanel();if(tab==='supplierOrders')loadMediaStoreOrdersPanel();}
     document.querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>setAdminTab(b.dataset.adminTab));
 
     // JAKO_MEDIASTORE_ADMIN_UI_V1
@@ -862,6 +881,7 @@ window.addEventListener('popstate',()=>{
     let mediaStoreProducts = [];
     let mediaStoreVariants = [];
     let mediaStoreMappings = [];
+    let mediaStoreFulfillments = [];
 
     async function callMediaStore(action, payload = {}) {
       if (!adminOnly()) throw new Error('صلاحيات الإدارة مطلوبة.');
@@ -1108,6 +1128,51 @@ window.addEventListener('popstate',()=>{
         toast(error.message, 'error');
       }
     }
+    const mediaStoreFulfillmentStatusNames = {queued:'في قائمة الانتظار',submitting:'جارٍ الإرسال',accepted:'مقبول من المورد',processing:'قيد التنفيذ لدى المورد',completed:'مكتمل لدى المورد',failed:'فشل الإرسال',needs_review:'يحتاج مراجعة',cancelled:'ملغي'};
+    function mediaStoreFulfillmentStatusClass(status){if(status==='completed')return 'completed';if(status==='failed'||status==='cancelled')return 'rejected';if(status==='processing')return 'processing';return '';}
+    function mediaStoreFulfillmentDate(value){if(!value)return '—';const date=new Date(value);return Number.isNaN(date.getTime())?'—':date.toLocaleString('ar');}
+    function mediaStoreFulfillmentJson(value){if(value===null||typeof value==='undefined'||value==='')return '—';try{return JSON.stringify(value,null,2);}catch{return String(value);}}
+    function renderMediaStoreFulfillments(){
+      const search=($('msSupplierOrdersSearch')?.value||'').trim().toLowerCase();
+      const selectedStatus=$('msSupplierOrdersStatus')?.value||'all';
+      const all=Array.isArray(mediaStoreFulfillments)?mediaStoreFulfillments:[];
+      const counts={total:all.length,accepted:all.filter(x=>x.status==='accepted').length,processing:all.filter(x=>x.status==='processing').length,completed:all.filter(x=>x.status==='completed').length,issues:all.filter(x=>['failed','needs_review'].includes(x.status)).length};
+      $('msFulfillmentsTotal').textContent=counts.total;$('msFulfillmentsAccepted').textContent=counts.accepted;$('msFulfillmentsProcessing').textContent=counts.processing;$('msFulfillmentsCompleted').textContent=counts.completed;$('msFulfillmentsIssues').textContent=counts.issues;
+      const filtered=all.filter(entry=>{if(selectedStatus!=='all'&&entry.status!==selectedStatus)return false;if(!search)return true;const item=entry.item||{},order=entry.order||{},request=entry.request_summary||{},response=entry.response_summary||{};const haystack=[order.order_number,order.id,item.product_title,item.variant_title,entry.external_order_id,entry.idempotency_key,request.remote_product_id,JSON.stringify(request),JSON.stringify(response)].filter(Boolean).join(' ').toLowerCase();return haystack.includes(search);});
+      $('msSupplierOrdersRows').innerHTML=filtered.length?filtered.map(entry=>{
+        const order=entry.order||{},item=entry.item||{},request=entry.request_summary||{},response=entry.response_summary||{};
+        const status=String(entry.status||'unknown'),statusText=mediaStoreFulfillmentStatusNames[status]||status,statusClass=mediaStoreFulfillmentStatusClass(status);
+        const orderLabel=order.order_number||order.id||entry.order_id||'—';
+        const productLabel=[item.product_title,item.variant_title].filter(Boolean).join(' — ')||'منتج غير معروف';
+        const quantity=item.quantity??request.qty??'—';
+        const remoteId=entry.external_order_id||response.external_order_id||response.order_id||'—';
+        const canCheck=['accepted','processing'].includes(status)&&entry.order_id;
+        const details=`<details style="min-width:250px"><summary style="cursor:pointer;color:var(--orange2);font-weight:700">عرض التفاصيل الكاملة</summary><div style="padding:12px 0;max-width:620px;white-space:normal">
+          <p><strong>حالة طلب المتجر:</strong> ${escapeHTML(statusNames[order.status]||order.status||'—')}</p>
+          <p><strong>معرّف المنتج لدى المورد:</strong> <code>${escapeHTML(request.remote_product_id||'—')}</code></p>
+          <p><strong>عدد المحاولات:</strong> ${escapeHTML(entry.attempt_count??'—')} · <strong>آخر تحديث:</strong> ${escapeHTML(mediaStoreFulfillmentDate(entry.updated_at))}</p>
+          <p><strong>وقت الإكمال:</strong> ${escapeHTML(mediaStoreFulfillmentDate(entry.completed_at))}</p>
+          <p><strong>حقول العميل المرسلة (للطلبات الجديدة بعد الإصدار 31):</strong></p><pre dir="auto" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto;background:#101016;border:1px solid var(--line);border-radius:10px;padding:10px">${escapeHTML(mediaStoreFulfillmentJson(request.parameters||item.customer_fields))}</pre>
+          <p><strong>ملخص الطلب المرسل:</strong></p><pre dir="auto" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;background:#101016;border:1px solid var(--line);border-radius:10px;padding:10px">${escapeHTML(mediaStoreFulfillmentJson(request))}</pre>
+          <p><strong>رد MediaStore:</strong></p><pre dir="auto" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto;background:#101016;border:1px solid var(--line);border-radius:10px;padding:10px">${escapeHTML(mediaStoreFulfillmentJson(response))}</pre>
+          ${entry.last_error?`<p style="color:#ff8c93"><strong>آخر خطأ:</strong> ${escapeHTML(entry.last_error)}</p>`:''}</div></details>`;
+        const checkButton=canCheck?`<button class="text-link" type="button" data-ms-refresh-fulfillment="${escapeHTML(entry.order_id)}">فحص الحالة الآن</button>`:'';
+        return `<tr><td><strong>${escapeHTML(orderLabel)}</strong><br><small class="muted">${escapeHTML(mediaStoreFulfillmentDate(order.created_at))}</small></td><td>${escapeHTML(productLabel)}</td><td>${escapeHTML(quantity)}</td><td><span class="status ${statusClass}">${escapeHTML(statusText)}</span></td><td><code>${escapeHTML(remoteId)}</code></td><td>${escapeHTML(mediaStoreFulfillmentDate(entry.submitted_at||entry.created_at))}</td><td>${details}${checkButton?`<div style="margin-top:8px">${checkButton}</div>`:''}</td></tr>`;
+      }).join(''):`<tr><td colspan="7" class="muted">${all.length?'لا توجد نتائج تطابق البحث أو التصفية.':'لا توجد طلبات مُرسلة إلى MediaStore حتى الآن.'}</td></tr>`;
+      $('msSupplierOrdersMeta').textContent=`يعرض آخر ${all.length} عملية إرسال محفوظة. النتائج الظاهرة: ${filtered.length}.`;
+      $('msSupplierOrdersRows').querySelectorAll('[data-ms-refresh-fulfillment]').forEach(button=>{button.onclick=async()=>{const orderId=button.dataset.msRefreshFulfillment;setBusy(button,true,'جارٍ الفحص...');try{const result=await callMediaStore('check_order_status',{order_id:orderId});const statuses=(result.results||[]).map(item=>mediaStoreFulfillmentStatusNames[item.status]||item.status).join('، ')||'لم يُرجع المورد حالة جديدة';toast(`نتيجة فحص MediaStore: ${statuses}`,'success');await loadMediaStoreOrdersPanel();}catch(error){toast(error.message||'تعذر فحص حالة الطلب.','error');}finally{setBusy(button,false);}};});
+    }
+    async function loadMediaStoreOrdersPanel(){
+      if(!adminOnly())return;
+      $('msSupplierOrdersRows').innerHTML='<tr><td colspan="7" class="muted">جارٍ تحميل طلبات MediaStore...</td></tr>';
+      const button=$('msSupplierOrdersRefresh');if(button)setBusy(button,true,'جارٍ التحديث...');
+      try{const result=await callMediaStore('list_supplier_fulfillments',{limit:250});mediaStoreFulfillments=Array.isArray(result.fulfillments)?result.fulfillments:[];renderMediaStoreFulfillments();}
+      catch(error){$('msSupplierOrdersRows').innerHTML=`<tr><td colspan="7" class="muted">${escapeHTML(error.message||'تعذر تحميل طلبات MediaStore.')}</td></tr>`;$('msSupplierOrdersMeta').textContent='تعذر تحميل البيانات. تحقق من صلاحيات المدير واتصال Supabase.';toast(error.message||'تعذر تحميل طلبات MediaStore.','error');}
+      finally{if(button)setBusy(button,false);}
+    }
+    $('msSupplierOrdersRefresh').onclick=loadMediaStoreOrdersPanel;
+    $('msSupplierOrdersSearch').addEventListener('input',renderMediaStoreFulfillments);
+    $('msSupplierOrdersStatus').addEventListener('change',renderMediaStoreFulfillments);
     $('msRefreshState').onclick = async () => {
       try { await loadMediaStoreState(); toast('تم تحديث حالة MediaStore.', 'success'); }
       catch (error) { toast(error.message, 'error'); }
@@ -1419,18 +1484,6 @@ window.addEventListener('popstate',()=>{
         .limit(100);
       if(error){$('adminOrdersRows').innerHTML='<tr><td colspan="7">تعذر تحميل الطلبات</td></tr>';return;}
 
-      // Only show the MediaStore check action when a real supplier submission exists.
-      const orderIds=[...new Set((data||[]).map(o=>o.id).filter(Boolean))];
-      let checkableOrderIds=new Set();
-      if(orderIds.length){
-        try{
-          const result=await callMediaStore('get_orders_with_supplier_fulfillments',{order_ids:orderIds});
-          checkableOrderIds=new Set(Array.isArray(result.order_ids)?result.order_ids:[]);
-        }catch(error){
-          // Fail closed: hide the button if supplier status cannot be verified.
-          console.warn('Could not verify MediaStore submissions; check buttons are hidden.',error);
-        }
-      }
       const ids=[...new Set((data||[]).map(o=>o.user_id).filter(Boolean))];
       const prof=ids.length
         ?await supabase.from('profiles').select('id,full_name,phone').in('id',ids)
@@ -1439,19 +1492,9 @@ window.addEventListener('popstate',()=>{
       $('adminOrdersRows').innerHTML=data?.length?data.map(o=>{
         const items=(o.order_items||[]).map(i=>`${escapeHTML(i.product_title)} — ${escapeHTML(i.variant_title)} × ${i.quantity}`).join('<br>');
         const note=o.customer_note?`<div class="muted small" style="white-space:pre-wrap;margin-top:6px"><strong>ملاحظة العميل:</strong> ${escapeHTML(o.customer_note)}</div>`:'';
-        return `<tr><td>${escapeHTML(o.order_number||o.id)}</td><td>${escapeHTML(profiles[o.user_id]?.full_name||String(o.user_id||'').slice(0,8)||'عميل')}<br><small class="muted">${escapeHTML(profiles[o.user_id]?.phone||'')}</small></td><td>${items||'—'}${note}</td><td>${money(o.total_syp)}</td><td><span class="status ${escapeHTML(o.status)}">${escapeHTML(statusNames[o.status]||o.status)}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td><td><select class="field" style="min-width:130px" data-order-status="${o.id}" data-current-status="${escapeHTML(o.status)}">${Object.entries(statusNames).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select>${checkableOrderIds.has(o.id)?`<div style="margin-top:6px"><button class="text-link" type="button" data-ms-check-order="${o.id}">فحص حالة MediaStore</button></div>`:''}</td></tr>`;
+        return `<tr><td>${escapeHTML(o.order_number||o.id)}</td><td>${escapeHTML(profiles[o.user_id]?.full_name||String(o.user_id||'').slice(0,8)||'عميل')}<br><small class="muted">${escapeHTML(profiles[o.user_id]?.phone||'')}</small></td><td>${items||'—'}${note}</td><td>${money(o.total_syp)}</td><td><span class="status ${escapeHTML(o.status)}">${escapeHTML(statusNames[o.status]||o.status)}</span></td><td>${new Date(o.created_at).toLocaleDateString('ar')}</td><td><select class="field" style="min-width:130px" data-order-status="${o.id}" data-current-status="${escapeHTML(o.status)}">${Object.entries(statusNames).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select></td></tr>`;
       }).join(''):'<tr><td colspan="7" class="muted">لا توجد طلبات حتى الآن</td></tr>';
-      $('adminOrdersRows').querySelectorAll('[data-ms-check-order]').forEach(button=>button.onclick=async()=>{
-        const orderId=button.dataset.msCheckOrder;
-        setBusy(button,true,'جارٍ الفحص...');
-        try{
-          const result=await callMediaStore('check_order_status',{order_id:orderId});
-          const statuses=(result.results||[]).map(item=>item.status).join('، ')||'لا توجد طلبات خارجية مسجلة';
-          toast(`نتيجة فحص MediaStore: ${statuses}. حالة القبول لا تعني اكتمال التسليم.`, 'success');
-          await loadAdminOrders();
-        }catch(error){toast(error.message,'error');}
-        finally{setBusy(button,false);}
-      });
+
     }
         async function loadAdminPayments(){const {data,error}=await supabase.from('payment_methods').select('*').order('sort_order');if(error)return;adminPaymentMethods=data||[];renderProductPaymentOptions();$('adminPaymentsRows').innerHTML=data?.length?data.map(p=>`<tr><td>${escapeHTML(p.name)}</td><td>${p.name==='الطلب عبر واتساب'?`رقم الدعم: ${escapeHTML(p.account_number||'—')}`:escapeHTML(p.account_number||'—')}</td><td><span class="status ${p.is_active?'completed':'rejected'}">${p.is_active?'مفعّلة':'مخفية'}</span></td><td><button class="text-link" data-pay-edit="${p.id}">تعديل</button> · <button class="text-link" data-pay-toggle="${p.id}" data-active="${p.is_active}">${p.is_active?'إخفاء':'تفعيل'}</button> · <button class="text-link" data-pay-delete="${p.id}">حذف</button></td></tr>`).join(''):'<tr><td colspan="4" class="muted">لم تتم إضافة طرق دفع بعد</td></tr>';$('adminPaymentsRows').querySelectorAll('[data-pay-edit]').forEach(b=>b.onclick=()=>{const p=data.find(x=>x.id===b.dataset.payEdit);if(!p)return;editingPaymentId=p.id;$('payName').value=p.name;$('payAccountName').value=p.account_name||'';$('payAccountNumber').value=p.account_number||'';$('payImage').value=p.image_url||'';$('payInstructions').value=p.instructions||'';$('payActive').checked=p.is_active;$('savePaymentBtn').textContent='تحديث طريقة الدفع';$('payName').focus();});$('adminPaymentsRows').querySelectorAll('[data-pay-toggle]').forEach(b=>b.onclick=async()=>{const {error}=await supabase.from('payment_methods').update({is_active:b.dataset.active!=='true',updated_at:new Date().toISOString()}).eq('id',b.dataset.payToggle);if(error)toast(error.message,'error');else loadAdminPayments();});$('adminPaymentsRows').querySelectorAll('[data-pay-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('حذف طريقة الدفع؟'))return;const {error}=await supabase.from('payment_methods').delete().eq('id',b.dataset.payDelete);if(error)toast(error.message,'error');else loadAdminPayments();});}
     $('savePaymentBtn').onclick=async()=>{const name=$('payName').value.trim();if(!name)return toast('أدخل اسم طريقة الدفع','error');const payload={name,account_name:$('payAccountName').value.trim(),account_number:$('payAccountNumber').value.trim(),image_url:$('payImage').value.trim()||null,instructions:$('payInstructions').value.trim(),is_active:$('payActive').checked,updated_at:new Date().toISOString()};const q=editingPaymentId?supabase.from('payment_methods').update(payload).eq('id',editingPaymentId):supabase.from('payment_methods').insert(payload);const {error}=await q;if(error)toast(error.message,'error');else{$('payName').value=$('payAccountName').value=$('payAccountNumber').value=$('payImage').value=$('payInstructions').value='';editingPaymentId=null;$('savePaymentBtn').textContent='إضافة طريقة الدفع';toast('تم حفظ طريقة الدفع','success');await loadAdminPayments();await loadStoreData();}};
