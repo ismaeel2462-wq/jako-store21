@@ -1674,8 +1674,12 @@ window.addEventListener('popstate',()=>{
 <script>
   (() => {
     const installButton = document.getElementById('jakoInstallApp');
+    if (!installButton) return;
+
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isAndroid = /android/i.test(navigator.userAgent);
+    const apkDownloadUrl = './downloads/JAKO-STORE.apk';
     let deferredInstallPrompt = null;
 
     if ('serviceWorker' in navigator) {
@@ -1687,10 +1691,25 @@ window.addEventListener('popstate',()=>{
 
     if (isStandalone) return;
 
+    if (isAndroid) {
+      installButton.textContent = '\u{1F4F2} \u062a\u062d\u0645\u064a\u0644 \u062a\u0637\u0628\u064a\u0642 JAKO STORE';
+      installButton.setAttribute('aria-label', '\u062a\u062d\u0645\u064a\u0644 \u062a\u0637\u0628\u064a\u0642 JAKO STORE \u0644\u0644\u0623\u0646\u062f\u0631\u0648\u064a\u062f');
+      installButton.style.display = 'inline-flex';
+      installButton.addEventListener('click', () => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = apkDownloadUrl;
+        downloadLink.download = 'JAKO-STORE.apk';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+      });
+      return;
+    }
+
     if (isIOS) {
       installButton.style.display = 'inline-flex';
       installButton.addEventListener('click', () => {
-        alert('لتثبيت JAKO STORE على iPhone أو iPad: افتح قائمة المشاركة في Safari، ثم اختر «إضافة إلى الشاشة الرئيسية».');
+        alert('\u0644\u062a\u062b\u0628\u064a\u062a JAKO STORE \u0639\u0644\u0649 iPhone \u0623\u0648 iPad: \u0627\u0641\u062a\u062d \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0645\u0634\u0627\u0631\u0643\u0629 \u0641\u064a Safari\u060c \u062b\u0645 \u0627\u062e\u062a\u0631 \u00ab\u0625\u0636\u0627\u0641\u0629 \u0625\u0644\u0649 \u0627\u0644\u0634\u0627\u0634\u0629 \u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629\u00bb.');
       });
       return;
     }
