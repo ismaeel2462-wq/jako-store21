@@ -1,0 +1,15 @@
+
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.jako.store",
+      "sha256_cert_fingerprints": [
+        "99:59:B9:AE:FC:54:DD:F0:A1:43:B0:0A:88:A1:B4:85:C8:50:E6:9F:93:96:C2:0A:E3:A4:17:93:E7:BC:A7:46"
+      ]
+    }
+  }
+]
